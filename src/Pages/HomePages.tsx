@@ -2,7 +2,7 @@ import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Speciality from "./SpecialityPage";
 import TopDoctorsList from "./TopDoctorsList";
-
+import BookAppointment from "./BookAppointment";
 const HomePages: React.FC = () => {
   return (
     <div className="md:px-32 px-5 mt-5 mb-5">
@@ -40,6 +40,7 @@ const HomePages: React.FC = () => {
       </div>
       <Speciality />
       <TopDoctorsList />
+      <BookAppointment />
     </div>
   );
 };

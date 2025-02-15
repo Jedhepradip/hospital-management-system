@@ -10,6 +10,7 @@ import SigninPages from './Auto/SigninPages'
 import SignupPages from './Auto/SingupPages'
 import SpecialityPage from './Pages/SpecialityPage'
 import TopDoctorsList from './Pages/TopDoctorsList'
+import BookAppointment from './Pages/BookAppointment'
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
         <Route path='/SignupPages' element={<SignupPages />} />
         <Route path='/Speciality' element={<SpecialityPage />} />
         <Route path='/TopDoctors' element={<TopDoctorsList />} />
+        <Route path='/BookAppointment' element={<BookAppointment />} />
       </Routes>
       <Footer />
     </Router>
