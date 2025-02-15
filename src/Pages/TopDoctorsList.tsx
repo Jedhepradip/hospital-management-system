@@ -1,6 +1,6 @@
 import React from "react";
 import { doctors } from "../Data/DoctoreData";
-
+import { NavLink } from "react-router-dom";
 const TopDoctorsList: React.FC = () => {
     return (
         <div className="p-6  min-h-screen">
@@ -13,20 +13,22 @@ const TopDoctorsList: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
                 {doctors.map((doctor, index) => (
-                    <div
-                        key={index}
-                        className="bg-slate-100 p-5 rounded-2xl transition duration-300 border border-black"
-                    >
-                        <img
-                            src={doctor.profile_picture}
-                            alt={doctor.name}
-                            className="w-full h-[180px] object-cover rounded-xl mb-4"
-                        />
-                        <h3 className="text-lg font-semibold text-green-600">{doctor.name}</h3>
-                        <p className="text-gray-500">{doctor.specialization}</p>
-                        <p className="text-gray-700 font-medium">Experience: {doctor.experience}</p>
-                        <p className="text-gray-800 font-bold">Fee: {doctor.appointment_fee}</p>
-                    </div>
+                    <NavLink to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor.name)}`}>
+                        <div
+                            key={index}
+                            className="bg-slate-100 p-5 rounded-2xl transition duration-300 border border-black"
+                        >
+                            <img
+                                src={doctor.profile_picture}
+                                alt={doctor.name}
+                                className="w-full h-[180px] object-cover rounded-xl mb-4"
+                            />
+                            <h3 className="text-lg font-semibold text-green-600">{doctor.name}</h3>
+                            <p className="text-gray-500">{doctor.specialization}</p>
+                            <p className="text-gray-700 font-medium">Experience: {doctor.experience}</p>
+                            <p className="text-gray-800 font-bold">Fee: {doctor.appointment_fee}</p>
+                        </div>
+                    </NavLink>
                 ))}
             </div>
         </div>
