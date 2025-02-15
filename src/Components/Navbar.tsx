@@ -75,7 +75,7 @@ const Navbar = () => {
 
                         <li className="mt-2 md:mt-0 md:ml-4">
                             <Link
-                                to="/signup"
+                                to="/SignupPages"
                                 className="block bg-blue-500 text-white px-5 py-2 mt-1 rounded-lg hover:bg-blue-700 transition text-center"
                             >
                                 Created Account

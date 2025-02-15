@@ -42,39 +42,41 @@ const AboutPages: React.FC = () => {
                 </div>
             </div>
 
+
             <div className="container mx-auto px-4 md:px-20 py-12 text-gray-800">
-            {/* Title */}
-            <h1 className="text-4xl font-bold text-center text-blue-900 mb-8">
-                WHY <span className="text-blue-600">CHOOSE US</span>
-            </h1>
+                {/* Title */}
+                <h1 className="text-4xl font-bold text-center text-blue-900 mb-8">
+                    WHY <span className="text-blue-600">CHOOSE US</span>
+                </h1>
 
-            {/* Cards Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Card 1 - Efficiency */}
-                <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
-                    <h2 className="text-2xl font-semibold text-blue-900 mb-3">EFFICIENCY</h2>
-                    <p className="text-gray-700">
-                        Streamlined appointment scheduling that fits into your busy lifestyle.
-                    </p>
-                </div>
+                {/* Cards Section */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Card 1 - Efficiency */}
+                    <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 hover:bg-gradient-to-b from-blue-100 to-blue-400">
+                        <h2 className="text-2xl font-semibold text-blue-900 mb-3">EFFICIENCY</h2>
+                        <p className="text-gray-700">
+                            Streamlined appointment scheduling that fits into your busy lifestyle.
+                        </p>
+                    </div>
 
-                {/* Card 2 - Convenience */}
-                <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
-                    <h2 className="text-2xl font-semibold text-blue-900 mb-3">CONVENIENCE</h2>
-                    <p className="text-gray-700">
-                        Access to a network of trusted healthcare professionals in your area.
-                    </p>
-                </div>
+                    {/* Card 2 - Convenience */}
+                    <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 hover:bg-gradient-to-b from-blue-100 to-blue-400">
+                        <h2 className="text-2xl font-semibold text-blue-900 mb-3">CONVENIENCE</h2>
+                        <p className="text-gray-700">
+                            Access to a network of trusted healthcare professionals in your area.
+                        </p>
+                    </div>
 
-                {/* Card 3 - Personalization */}
-                <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
-                    <h2 className="text-2xl font-semibold text-blue-900 mb-3">PERSONALIZATION</h2>
-                    <p className="text-gray-700">
-                        Tailored recommendations and reminders to help you stay on top of your health.
-                    </p>
+                    {/* Card 3 - Personalization */}
+                    <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 hover:bg-gradient-to-b from-blue-100 to-blue-400">
+                        <h2 className="text-2xl font-semibold text-blue-900 mb-3">PERSONALIZATION</h2>
+                        <p className="text-gray-700">
+                            Tailored recommendations and reminders to help you stay on top of your health.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+
         </div>
     );
 };
