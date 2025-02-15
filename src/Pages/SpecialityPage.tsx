@@ -15,7 +15,7 @@ const SpecialityPage: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                 {/* General Physician */}
                 <a
-                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2 hover:shadow-lg p-4 bg-white rounded-lg"
+                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2  p-4 bg-white rounded-lg"
                     href="/doctors/General physician"
                 >
                     <img
@@ -27,7 +27,7 @@ const SpecialityPage: React.FC = () => {
 
                 {/* Gynecologist */}
                 <a
-                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2 hover:shadow-lg p-4 bg-white rounded-lg"
+                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2  p-4 bg-white rounded-lg"
                     href="/doctors/Gynecologist"
                 >
                     <img
@@ -39,7 +39,7 @@ const SpecialityPage: React.FC = () => {
 
                 {/* Dermatologist */}
                 <a
-                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2 hover:shadow-lg p-4 bg-white rounded-lg"
+                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2  p-4 bg-white rounded-lg"
                     href="/doctors/Dermatologist"
                 >
                     <img
@@ -51,7 +51,7 @@ const SpecialityPage: React.FC = () => {
 
                 {/* Pediatricians */}
                 <a
-                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2 hover:shadow-lg p-4 bg-white rounded-lg"
+                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2  p-4 bg-white rounded-lg"
                     href="/doctors/Pediatricians"
                 >
                     <img
@@ -63,7 +63,7 @@ const SpecialityPage: React.FC = () => {
 
                 {/* Neurologist */}
                 <a
-                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2 hover:shadow-lg p-4 bg-white rounded-lg"
+                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2  p-4 bg-white rounded-lg"
                     href="/doctors/Neurologist"
                 >
                     <img
@@ -75,7 +75,7 @@ const SpecialityPage: React.FC = () => {
 
                 {/* Gastroenterologist */}
                 <a
-                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2 hover:shadow-lg p-4 bg-white rounded-lg"
+                    className="flex flex-col items-center text-sm font-medium text-gray-800 cursor-pointer transition-all duration-500 transform hover:-translate-y-2  p-4 bg-white rounded-lg"
                     href="/doctors/Gastroenterologist"
                 >
                     <img

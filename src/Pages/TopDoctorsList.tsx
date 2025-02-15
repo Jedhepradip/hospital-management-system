@@ -15,7 +15,7 @@ const TopDoctorsList: React.FC = () => {
                 {doctors.map((doctor, index) => (
                     <div
                         key={index}
-                        className="bg-white p-5 rounded-2xl transition duration-300 border border-black"
+                        className="bg-slate-100 p-5 rounded-2xl transition duration-300 border border-black"
                     >
                         <img
                             src={doctor.profile_picture}
