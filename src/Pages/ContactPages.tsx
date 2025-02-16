@@ -33,7 +33,7 @@ const ContactPages: React.FC = () => {
                     {/* Careers Section */}
                     <h2 className="text-2xl font-semibold text-blue-900 mt-8 mb-4">CAREERS AT PRESCRIPTO</h2>
                     <p className="text-gray-700 mb-6">Learn more about our teams and job openings.</p>
-                    <button className="bg-black text-white px-6 py-3 rounded-lg shadow-md hover:bg-slate-700 transition duration-300">
+                    <button className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
                         Explore Jobs
                     </button>
                 </div>
