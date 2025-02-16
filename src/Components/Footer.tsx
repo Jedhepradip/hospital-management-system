@@ -9,7 +9,7 @@ const Footer = () => {
                         <h2 className="text-3xl font-bold text-white">Palwe Hospital</h2>
                         <p className="text-gray-300 mt-2 max-w-md">
                             Dedicated to providing quality healthcare with compassion and care.
-                        </p>
+                        </p>                        
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold mb-2 text-white">Quick Links</h3>
