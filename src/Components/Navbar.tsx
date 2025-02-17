@@ -71,9 +71,18 @@ const Navbar = () => {
                                     Contact
                                 </Link>
                             </li>
+
+                            <li className="mt-2 md:mt-0 md:ml-4 md:hidden block pb-5"> 
+                            <Link
+                                to="/SignupPages"
+                                className="block bg-blue-500 text-white px-5 ml-5 py-2 mt-2  rounded-lg hover:bg-blue-700 transition text-center"
+                            >
+                                Created Account
+                            </Link>
+                        </li>
                         </div>
 
-                        <li className="mt-2 md:mt-0 md:ml-4">
+                        <li className="mt-2 md:mt-0 md:ml-4 md:block hidden">
                             <Link
                                 to="/SignupPages"
                                 className="block bg-blue-500 text-white px-5 py-2 mt-1 rounded-lg hover:bg-blue-700 transition text-center"
