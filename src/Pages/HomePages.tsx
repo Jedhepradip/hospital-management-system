@@ -6,7 +6,7 @@ import BookAppointment from "./BookAppointment";
 const HomePages: React.FC = () => {
   return (
     <div className="md:px-32 px-5 mt-5 mb-5">
-      <div className="bg-blue-500 rounded-[20px] text-white min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-7">
+      <div className="bg-blue-500 rounded-[20px] text-white md:min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-7">
         {/* Left Section */}
         <div className="max-w-lg">
           <h1 className="text-3xl md:text-5xl font-bold leading-tight">
