@@ -3,13 +3,16 @@ import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useNavigate } from 'react-router-dom';
 interface FormData {
     email: string;
     otp: string;
 }
 
 const ForgetPassword: React.FC = () => {
+
+
+    const naviget = useNavigate()
     const {
         register,
         handleSubmit,
@@ -20,7 +23,9 @@ const ForgetPassword: React.FC = () => {
         console.log(data);
         setTimeout(() => {
             toast.success('Password reset email sent successfully!');
+            naviget("/SigninPages")
         }, 999);
+
         // Handle forget password logic here
     };
 

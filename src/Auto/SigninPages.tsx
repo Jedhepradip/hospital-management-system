@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 const SigninPages: React.FC = () => {
+
+  const naviget = useNavigate()
   const {
     register,
     handleSubmit,
@@ -16,7 +19,9 @@ const SigninPages: React.FC = () => {
     console.log("Login Data:", data);
     setTimeout(() => {
       toast.success('Login successfully!');
+      naviget("/")
     }, 999);
+
   };
 
   return (
