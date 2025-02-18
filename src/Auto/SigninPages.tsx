@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SigninPages: React.FC = () => {
   const {
@@ -12,10 +14,14 @@ const SigninPages: React.FC = () => {
 
   const onSubmit = (data: unknown) => {
     console.log("Login Data:", data);
+    setTimeout(() => {
+      toast.success('Login successfully!');
+    }, 999);
   };
 
   return (
     <div className="flex p-2 items-center justify-center mb-10">
+      <ToastContainer />
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -74,9 +80,9 @@ const SigninPages: React.FC = () => {
 
         {/* Extra Links */}
         <div className="mt-4 text-center">
-          <a href="#" className="text-blue-600 hover:underline">
+          <NavLink to={"/ForgetPassword"} className="text-blue-600 hover:underline">
             Forgot Password?
-          </a>
+          </NavLink>
           <p className="mt-2 text-gray-600">
             Don't have an account?{" "}
             <NavLink to={"/SignupPages"} className="text-blue-600 hover:underline font-semibold">

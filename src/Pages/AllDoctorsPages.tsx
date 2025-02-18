@@ -48,7 +48,7 @@ const AllDoctorsPages: React.FC = () => {
               <NavLink to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor.name)}`}>
                 <div
                   key={doctor.name}
-                  className="bg-slate-100 p-5 rounded-2xl transition duration-300 border border-black"
+                  className=" p-5 rounded-2xl transition duration-300 border border-black"
                 >
                   <img
                     src={doctor.profile_picture}

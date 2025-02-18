@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignupPages: React.FC = () => {
     const {
@@ -12,6 +14,9 @@ const SignupPages: React.FC = () => {
 
     const onSubmit = (data: unknown) => {
         console.log("Signup Data:", data);
+        setTimeout(() => {
+            toast.success('Registration successfully!');
+        }, 999);
     };
 
     return (
@@ -22,6 +27,8 @@ const SignupPages: React.FC = () => {
                 transition={{ duration: 0.5 }}
                 className="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-lg"
             >
+                <ToastContainer />
+
                 <h1 className="text-3xl font-bold text-center text-blue-900 mb-4">
                     Signup
                 </h1>

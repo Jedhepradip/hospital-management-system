@@ -12,6 +12,7 @@ import SpecialityPage from './Pages/SpecialityPage'
 import TopDoctorsList from './Pages/TopDoctorsList'
 import BookAppointment from './Pages/BookAppointment'
 import DoctoreAboutPage from './Pages/DoctoreAboutPage'
+import ForgetPassword from './Auto/FrogetPassword'
 
 const App: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const App: React.FC = () => {
         <Route path='/SignupPages' element={<SignupPages />} />
         <Route path='/Speciality' element={<SpecialityPage />} />
         <Route path='/TopDoctors' element={<TopDoctorsList />} />
+        <Route path='/ForgetPassword' element={<ForgetPassword />} />
         <Route path='/DoctoreAboutPage' element={<DoctoreAboutPage />} />
         <Route path='/BookAppointment' element={<BookAppointment />} />
       </Routes>
