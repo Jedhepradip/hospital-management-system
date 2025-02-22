@@ -11,7 +11,7 @@ const Navbar = () => {
                 <div className="container mx-auto flex justify-between items-center sticky top-0 bottom-0">
                     {/* Logo */}
 
-                    <Link to="/" className="text-2xl font-bold text-blue-900 flex items-center">                     
+                    <Link to="/" className="text-2xl font-bold text-blue-900 flex items-center">
                         Palwe Hospital
                     </Link>
                     {/* Mobile Menu Button */}
@@ -107,7 +107,7 @@ const Navbar = () => {
                         <li className="mt-2 md:mt-0 md:ml-4 md:block hidden">
                             <Link
                                 to="/SignupPages"
-                                className="block bg-blue-700 text-white px-5 py-2 mt-1 rounded-lg hover:bg-blue-700 transition text-center"
+                                className="block bg-blue-900 text-white px-5 py-2 mt-1 rounded-lg hover:bg-blue-700 transition text-center"
                             >
                                 Created Account
                             </Link>

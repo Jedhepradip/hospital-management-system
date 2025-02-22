@@ -90,7 +90,7 @@ const articles: Article[] = [
         readMoreLink: "https://example.com/infectious-diseases"
     },
     {
-        category: "Lifestyle",
+        category: "Life Style",
         date: "December 5, 2024",
         hospital: "Wellness & Nutrition Center",
         title: "Healthy Lifestyle Choices for a Better Tomorrow",
@@ -162,7 +162,7 @@ const articles: Article[] = [
         readMoreLink: "https://example.com/infectious-diseases"
     },
     {
-        category: "Lifestyle",
+        category: "Life Style",
         date: "December 5, 2024",
         hospital: "Wellness & Nutrition Center",
         title: "Healthy Lifestyle Choices for a Better Tomorrow",
