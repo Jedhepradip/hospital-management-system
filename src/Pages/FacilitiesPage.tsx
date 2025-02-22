@@ -139,6 +139,11 @@ const FacilitiesPage: React.FC = () => {
         ],
     };
 
+    const cardVariants = {
+        hidden: { opacity: 0, scale: 0.9, y: 30 },
+        visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.5 } }
+    };
+
     return (
         <div className="container mx-auto px-4 py-10">
             <motion.h2
@@ -162,17 +167,32 @@ const FacilitiesPage: React.FC = () => {
                     ))}
                 </Slider>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:px-32 gap-6 p-7">
                 {services.map((service, index) => (
-                    <div key={index} className="bg-white pb-10 p-2">
-                        <img src={service.image} alt={service.title} className="w-full h-72 object-cover " />
+                    <motion.div
+                        key={index}
+                        className="bg-white pb-10 p-2 shadow-lg rounded-lg"
+                        variants={cardVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }} // Animates when in view
+                    >
+                        <motion.img
+                            src={service.image}
+                            alt={service.title}
+                            className="w-full h-72 object-cover rounded-md"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.7 }}
+                        />
                         <h3 className="text-xl font-semibold mt-4">{service.title}</h3>
                         <ul className="list-disc list-inside mt-2">
                             {service.description.map((point, idx) => (
                                 <li key={idx} className="text-gray-600">{point}</li>
                             ))}
                         </ul>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
         </div>

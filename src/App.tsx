@@ -14,6 +14,7 @@ import BookAppointment from './Pages/BookAppointment'
 import DoctoreAboutPage from './Pages/DoctoreAboutPage'
 import ForgetPassword from './Auto/FrogetPassword'
 import FacilitiesPage from './Pages/FacilitiesPage'
+import BlogPage from './Pages/BlogPage'
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/About' element={<About />} />
+        <Route path='/BlogPage' element={<BlogPage />} />
         <Route path='/Contact' element={<Contact />} />
         <Route path='/Doctors' element={<Doctors />} />
         <Route path='/SigninPages' element={<SigninPages />} />
