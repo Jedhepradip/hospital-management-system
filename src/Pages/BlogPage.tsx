@@ -15,6 +15,12 @@ import SpineInjury2 from "../assets/Blog images/SpineInjury2.jpeg"
 import InfectiousInsights2 from "../assets/Blog images/InfectiousInsights2.jpeg"
 import Lifestyle2 from "../assets/Blog images/Lifestyle2.jpeg"
 import Oncology1 from "../assets/Blog images/Oncology1.jpeg"
+import Pediatrics1 from "../assets/Blog images/Pediatrics1.jpeg"
+import Dermatology1 from "../assets/Blog images/Dermatology1.jpeg"
+import Endocrinology1 from "../assets/Blog images/Endocrinology1.jpeg"
+import Nephrology1 from "../assets/Blog images/Nephrology1.jpeg"
+import Urology1 from "../assets/Blog images/Urology1.jpeg"
+
 interface Article {
     category: string;
     date: string;
@@ -176,7 +182,7 @@ const articles: Article[] = [
         hospital: "Children’s Hospital",
         title: "Comprehensive Pediatric Care for Your Child’s Health",
         description: `From newborn care to adolescent health, our pediatric specialists provide top-notch care. We offer immunizations, nutritional counseling, and treatments for childhood diseases and developmental disorders.`,
-        imageUrl: "https://example.com/pediatrics.jpg",
+        imageUrl: Pediatrics1,
         readMoreLink: "https://example.com/pediatrics-care"
     },
     {
@@ -185,7 +191,7 @@ const articles: Article[] = [
         hospital: "Skin Health Center",
         title: "Effective Treatments for Skin Disorders",
         description: `From acne and eczema to advanced cosmetic dermatology, our team specializes in diagnosing and treating various skin conditions using modern dermatological procedures.`,
-        imageUrl: "https://example.com/dermatology.jpg",
+        imageUrl: Dermatology1,
         readMoreLink: "https://example.com/dermatology-treatments"
     },
     {
@@ -194,7 +200,7 @@ const articles: Article[] = [
         hospital: "Diabetes & Hormone Clinic",
         title: "Managing Diabetes and Hormonal Disorders",
         description: `Our specialists focus on treating diabetes, thyroid disorders, and hormonal imbalances. With innovative therapies and personalized treatment plans, we help patients maintain optimal health.`,
-        imageUrl: "https://example.com/endocrinology.jpg",
+        imageUrl: Endocrinology1,
         readMoreLink: "https://example.com/endocrinology-treatment"
     },
     {
@@ -203,7 +209,7 @@ const articles: Article[] = [
         hospital: "Kidney Care Institute",
         title: "Advanced Kidney Disease Treatments",
         description: `We provide expert care for kidney disorders, including dialysis and kidney transplantation. Our nephrology team ensures comprehensive renal health management for patients at all stages of kidney disease.`,
-        imageUrl: "https://example.com/nephrology.jpg",
+        imageUrl: Nephrology1,
         readMoreLink: "https://example.com/nephrology-care"
     },
     {
@@ -212,7 +218,7 @@ const articles: Article[] = [
         hospital: "Urology Specialists Center",
         title: "Expert Urology Care for Urinary Health",
         description: `Our center provides cutting-edge treatments for urinary tract disorders, kidney stones, and prostate conditions. Minimally invasive procedures ensure faster recovery times and improved patient outcomes.`,
-        imageUrl: "https://example.com/urology.jpg",
+        imageUrl: Urology1,
         readMoreLink: "https://example.com/urology-treatment"
     }
 ];

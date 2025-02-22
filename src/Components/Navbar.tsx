@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-import logo from "../assets/Logo.jpeg"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,8 +11,7 @@ const Navbar = () => {
                 <div className="container mx-auto flex justify-between items-center sticky top-0 bottom-0">
                     {/* Logo */}
 
-                    <Link to="/" className="text-2xl font-bold text-blue-900 flex items-center">
-                        <img src={logo} alt="Palwe Hospital Logo" className="h-12 w-12" />
+                    <Link to="/" className="text-2xl font-bold text-blue-900 flex items-center">                     
                         Palwe Hospital
                     </Link>
                     {/* Mobile Menu Button */}
