@@ -21,6 +21,9 @@ import Endocrinology1 from "../assets/Blog images/Endocrinology1.jpeg"
 import Nephrology1 from "../assets/Blog images/Nephrology1.jpeg"
 import Urology1 from "../assets/Blog images/Urology1.jpeg"
 
+import MedicalBreakthroughs1 from "../assets/Blog images/MedicalBreakthroughs1.jpeg"
+import MedicalBreakthroughs2 from "../assets/Blog images/Medical2Breakthroughs.jpeg"
+
 interface Article {
     category: string;
     date: string;
@@ -78,7 +81,7 @@ const articles: Article[] = [
         readMoreLink: "https://example.com/spine-treatment"
     },
     {
-        category: "Infectious Insights",
+        category: "Infectious",
         date: "November 1, 2024",
         hospital: "Global Health Institute",
         title: "Fighting Infectious Diseases with Advanced Medicine",
@@ -150,7 +153,7 @@ const articles: Article[] = [
         readMoreLink: "https://example.com/spine-treatment"
     },
     {
-        category: "Infectious Insights",
+        category: "Infectious",
         date: "November 1, 2024",
         hospital: "Global Health Institute",
         title: "Fighting Infectious Diseases with Advanced Medicine",
@@ -220,10 +223,28 @@ const articles: Article[] = [
         description: `Our center provides cutting-edge treatments for urinary tract disorders, kidney stones, and prostate conditions. Minimally invasive procedures ensure faster recovery times and improved patient outcomes.`,
         imageUrl: Urology1,
         readMoreLink: "https://example.com/urology-treatment"
-    }
+    },
+    {
+        category: "Medical Breakthroughs",
+        title: "New Cancer Treatment Discovered",
+        description: "Scientists have found a groundbreaking method to target cancer cells more effectively...",
+        date: "October 5, 2024",
+        hospital: "Global Research Institute",
+        imageUrl: MedicalBreakthroughs2,
+        readMoreLink: "#"
+    },
+    {
+        category: "Medical Breakthroughs",
+        title: "5 Daily Habits for a Healthier Life",
+        description: "Simple changes in your daily routine can have a lasting impact on your overall health...",
+        date: "September 20, 2024",
+        hospital: "Healthy Living Center",
+        imageUrl: MedicalBreakthroughs1,
+        readMoreLink: "#"
+    },
 ];
 
-const categories = ["All", "Cardiology", "Gynecology", "Neurology", "Orthopedics", "Spine Injury", "Uncategorized", "Infectious", "Insights", "Life Style"];
+const categories = ["All", "Cardiology", "Gynecology", "Neurology", "Orthopedics", "Spine Injury", "Uncategorized", "Infectious", "Medical Breakthroughs", "Life Style"];
 
 const BlogPage: React.FC = () => {
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
