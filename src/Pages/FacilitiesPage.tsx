@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
@@ -11,12 +11,12 @@ interface Service {
 }
 
 
-const images = [
-    "https://media.istockphoto.com/id/1404179486/photo/anesthetist-working-in-operating-theatre-wearing-protecive-gear-checking-monitors-while.jpg?s=612x612&w=0&k=20&c=gecZ0b-nDIuMOvRIt8Qyam-eSx6RBdUzn5yDh0nNEvM=",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmcv_zwITMUd5b9CDGen3sc6X4a6mgJf8UaYSNhHXKEdJMS-dqk8Q0_gsHWW7v_Niq7EM&usqp=CAU",
-    "https://media.istockphoto.com/id/1364075546/photo/empty-corridor-in-modern-hospital-with-information-counter-and-hospital-bed-in-rooms-3d.jpg?s=612x612&w=0&k=20&c=xxFDmIVpH1wJaaiorpvfzec4RRggSb48PDb_dU9bTjo=",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-iQNJG1ZbbU6sBlgE8Bymps5IVbTMNZ18Wg&s"
-];
+// const images = [
+//     "https://media.istockphoto.com/id/1404179486/photo/anesthetist-working-in-operating-theatre-wearing-protecive-gear-checking-monitors-while.jpg?s=612x612&w=0&k=20&c=gecZ0b-nDIuMOvRIt8Qyam-eSx6RBdUzn5yDh0nNEvM=",
+//     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmcv_zwITMUd5b9CDGen3sc6X4a6mgJf8UaYSNhHXKEdJMS-dqk8Q0_gsHWW7v_Niq7EM&usqp=CAU",
+//     "https://media.istockphoto.com/id/1364075546/photo/empty-corridor-in-modern-hospital-with-information-counter-and-hospital-bed-in-rooms-3d.jpg?s=612x612&w=0&k=20&c=xxFDmIVpH1wJaaiorpvfzec4RRggSb48PDb_dU9bTjo=",
+//     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-iQNJG1ZbbU6sBlgE8Bymps5IVbTMNZ18Wg&s"
+// ];
 
 const services: Service[] = [
     {
@@ -117,27 +117,27 @@ const services: Service[] = [
 
 const FacilitiesPage: React.FC = () => {
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                },
-            },
-            {
-                breakpoint: 640,
-                settings: {
-                    slidesToShow: 1,
-                },
-            },
-        ],
-    };
+    // const settings = {
+    //     dots: true,
+    //     infinite: true,
+    //     speed: 500,
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1,
+    //     responsive: [
+    //         {
+    //             breakpoint: 1024,
+    //             settings: {
+    //                 slidesToShow: 2,
+    //             },
+    //         },
+    //         {
+    //             breakpoint: 640,
+    //             settings: {
+    //                 slidesToShow: 1,
+    //             },
+    //         },
+    //     ],
+    // };
 
     const cardVariants = {
         hidden: { opacity: 0, scale: 0.9, y: 30 },
@@ -145,8 +145,8 @@ const FacilitiesPage: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-10">
-            <motion.h2
+        <div className="container mx-auto px-1 py-5">
+            {/* <motion.h2
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
@@ -166,7 +166,27 @@ const FacilitiesPage: React.FC = () => {
                         </div>
                     ))}
                 </Slider>
+            </div> */}
+
+            <div
+                className="relative h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
+                style={{ backgroundImage: "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
+            >
+                <div className="absolute inset-0 bg-blue-950/90"></div>
+                <div className="relative text-center z-10 py-16 px-4">
+                    <h1 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-gray-200 drop-shadow-md">
+                        Discover Our Specialties
+                    </h1>
+                    <h1 className="text-4xl sm:text-5xl font-extrabold mt-2 text-white drop-shadow-lg">
+                        Explore Our Expertise
+                    </h1>
+                    <p className="mt-4 text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                        Learn more about our specialized services and medical expertise.
+                        We offer comprehensive care tailored to meet the unique needs of every patient.
+                    </p>
+                </div>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:px-32 gap-6 p-7">
                 {services.map((service, index) => (

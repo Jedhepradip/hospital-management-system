@@ -3,11 +3,11 @@ import { FaArrowRight } from "react-icons/fa";
 
 const BookAppointment: React.FC = () => {
   return (
-    <div className="px-4 md:px-20 py-6 bg-blue-400 rounded-[20px] text-white">
+    <div className="px-4 md:px-20 py-6 bg-blue-900 rounded-[20px] text-white">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         {/* Left Section */}
         <div className="text-center md:text-left md:w-1/2">
-          <h1 className="text-3xl md:text-5xl font-bold text-blue-900 leading-snug">
+          <h1 className="text-3xl md:text-5xl font-bold text-blue-700 leading-snug">
             Book Appointment <br />
             With <span className="text-blue-600">100+ Trusted Doctors</span>
           </h1>
