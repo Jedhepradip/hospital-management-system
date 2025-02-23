@@ -30,11 +30,11 @@ const DoctoreAboutPage: React.FC = () => {
                         <p className="text-gray-500">MBBS - {filterdoctore.specialization}</p>
                         <p className="text-gray-600 mt-2">{filterdoctore.experience} Years of Experience</p>
                         <p className="text-gray-700 mt-4 text-sm">{filterdoctore.about}</p>
-                        <p className="text-lg font-semibold text-blue-600 mt-4">Appointment Fee: ${filterdoctore.appointment_fee}</p>
+                        <p className="text-lg font-semibold text-blue-600 mt-4">Appointment Fee:{filterdoctore.appointment_fee}</p>
 
                         {/* Button to Open Modal */}
                         <motion.button
-                            className="mt-6 bg-blue-900 text-white px-6 py-3 w-[40%] text-sm rounded-lg hover:bg-blue-600 transition-all duration-300"
+                            className="mt-6 bg-blue-900 text-white px-2 py-3 w-[37%] text-sm rounded-lg hover:bg-blue-600 transition-all duration-300"
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setModalOpen(true)} // Open modal
                         >
@@ -51,7 +51,7 @@ const DoctoreAboutPage: React.FC = () => {
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {ReativeDoctore.map((doctor) => (
                         <NavLink to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor.name)}`} key={doctor.name}>
-                            <div className="bg-slate-100 p-5 rounded-2xl transition duration-300 border border-black">
+                            <div className="p-5 rounded-2xl transition duration-300 border border-black">
                                 <img src={doctor.profile_picture} alt={doctor.name} className="w-full h-[180px] object-cover rounded-xl mb-4" />
                                 <h3 className="text-lg font-semibold text-green-600">{doctor.name}</h3>
                                 <p className="text-gray-500">{doctor.specialization}</p>

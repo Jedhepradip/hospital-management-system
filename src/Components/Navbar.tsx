@@ -1,17 +1,22 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+// import logo from "../assets/Gemini_Generated_Image_27dtmb27dtmb27dt.jpeg"
+import logo from "../assets/Gemini_Generated_Image_jha65qjha65qjha6.jpeg"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="md:px-0">
-            <nav className="py-2 px-6 relative flex justify-between">
-                <div className="container mx-auto flex justify-around items-center">
-                    <Link to="/" className="text-2xl font-bold text-blue-900 flex items-center">
+        <div className="md:px-20">
+            <nav className="py-2 px-6 relative">
+                <div className="container mx-auto flex justify-between items-center sticky top-0 bottom-0">
+                    {/* Logo */}
+                    <img src={logo} alt="" className="h-20 w-16 object-cover"/>
+                    {/* <Link to="/" className="text-2xl font-bold text-blue-900 flex items-center">
                         Palwe Hospital
-                    </Link>
+                    </Link> */}
+                    {/* Mobile Menu Button */}
                     <button
                         className="md:hidden text-blue-900 focus:outline-none"
                         onClick={() => setIsOpen(!isOpen)}
@@ -21,7 +26,7 @@ const Navbar = () => {
 
                     {/* Navigation Links */}
                     <ul
-                        className={`absolute flex md:static top-16 left-0 w-full md:w-auto md:bg-transparent shadow-md md:shadow-none transition-transform duration-300 ease-in-out z-10 ${isOpen ? "block" : "hidden md:flex"
+                        className={`absolute flex md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none transition-transform duration-300 ease-in-out z-10 ${isOpen ? "block" : "hidden md:flex"
                             }`}>
 
                         <div className="flex flex-col md:flex-row items-center justify-center">
@@ -29,7 +34,7 @@ const Navbar = () => {
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/"
-                                    className="block py-3 px-6 text-blue-900 hover:text-white transition"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Home
@@ -40,7 +45,7 @@ const Navbar = () => {
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/doctors"
-                                    className="block py-3 px-6 text-blue-900 hover:text-white transition"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Doctors
@@ -52,7 +57,7 @@ const Navbar = () => {
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/about"
-                                    className="block py-3 px-6 text-blue-900 hover:text-white transition"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     About
@@ -62,7 +67,7 @@ const Navbar = () => {
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/FacilitiesPage"
-                                    className="block py-3 px-6 text-blue-900 hover:text-white transition"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Facilities
@@ -72,7 +77,7 @@ const Navbar = () => {
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/BlogPage"
-                                    className="block py-3 px-6 text-blue-900 hover:text-white transition"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Blog
@@ -84,7 +89,7 @@ const Navbar = () => {
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/contact"
-                                    className="block py-3 px-6 text-blue-900 hover:text-white transition"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Contact
@@ -101,7 +106,7 @@ const Navbar = () => {
                             </li>
                         </div>
 
-                        <li className="mt-2 md:mt-0 md:ml-0 md:block hidden">
+                        <li className="mt-2 md:mt-0 md:ml-4 md:block hidden">
                             <Link
                                 to="/SignupPages"
                                 className="block bg-blue-900 text-white px-5 py-2 mt-1 rounded-lg hover:bg-blue-700 transition text-center"
