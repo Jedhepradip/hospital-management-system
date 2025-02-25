@@ -33,7 +33,7 @@ const GalleryPages: React.FC = () => {
     return (
         <>
             <div
-                className="relative mt-20 h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
+                className="relative  h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
                 style={{ backgroundImage: `url(${images[0]})` }}
             >
                 <div className="absolute inset-0 bg-blue-950/90"></div>

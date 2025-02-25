@@ -272,7 +272,7 @@ const BlogPage: React.FC = () => {
     return (
         <>
             <div
-                className="relative mt-20 h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
+                className="relative h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
                 style={{ backgroundImage: "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
             >
                 <div className="absolute inset-0 bg-blue-950/90"></div>

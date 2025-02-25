@@ -7,8 +7,8 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="md:px-28 z-[100]">
-            <nav className="py-2 px-6 fixed top-0 left-0 w-full bg-white shadow-md z-[100]">
+        <div className="md:px-2 static z-[100]">
+            <nav className="py-2 px-6 sticky top-0 left-0 w-full bg-white shadow-md z-[100]">
                 <div className="container mx-auto flex justify-between items-center">
 
                     <img src={logo} alt="" className="h-20 w-16 object-cover" />

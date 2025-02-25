@@ -145,7 +145,7 @@ const FacilitiesPage: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto px-1 py-5 z-10 pt-24">
+        <div className="container mx-auto px-1 py-5 z-10">
             {/* Header Section */}
             <div
                 className="relative h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
