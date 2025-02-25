@@ -70,6 +70,17 @@ const Navbar = () => {
                                 </Link>
                             </li>
 
+
+                            <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
+                                <Link
+                                    to="/BlogPage"
+                                    className="block py-2.5 px-6 text-blue-900 hover:text-white transition"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Blog
+                                </Link>
+                            </li>
+
                             <li className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                 <Link
                                     to="/Gallerypages"
