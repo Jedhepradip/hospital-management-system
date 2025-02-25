@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
-// import logo from "../assets/Gemini_Generated_Image_27dtmb27dtmb27dt.jpeg"
 import logo from "../assets/Gemini_Generated_Image_jha65qjha65qjha6.jpeg"
 
 const Navbar = () => {
