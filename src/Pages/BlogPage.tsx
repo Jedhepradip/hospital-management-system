@@ -20,9 +20,15 @@ import Dermatology1 from "../assets/Blog images/Dermatology1.jpeg"
 import Endocrinology1 from "../assets/Blog images/Endocrinology1.jpeg"
 import Nephrology1 from "../assets/Blog images/Nephrology1.jpeg"
 import Urology1 from "../assets/Blog images/Urology1.jpeg"
-
+import { motion } from "framer-motion";
 import MedicalBreakthroughs1 from "../assets/Blog images/MedicalBreakthroughs1.jpeg"
 import MedicalBreakthroughs2 from "../assets/Blog images/Medical2Breakthroughs.jpeg"
+
+import { FaArrowRight } from "react-icons/fa";
+import { Tooltip } from "react-tooltip";
+import "aos/dist/aos.css";
+import AOS from "aos";
+
 
 interface Article {
     category: string;
@@ -260,12 +266,13 @@ const BlogPage: React.FC = () => {
         setSelectedCategory(category);
     };
 
-    console.log("Filtered Articles:", filteredArticles);
-
+    useEffect(() => {
+        AOS.init({ duration: 1000, easing: "ease-in-out" });
+    }, []);
     return (
         <>
             <div
-                className="relative mt-5 h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
+                className="relative mt-20 h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
                 style={{ backgroundImage: "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
             >
                 <div className="absolute inset-0 bg-blue-950/90"></div>
@@ -283,38 +290,75 @@ const BlogPage: React.FC = () => {
                 </div>
             </div>
 
-            <div>
-                <div className="p-6 min-h-screen">
-                    <h1 className="text-3xl font-bold text-center mb-6">Healthcare Articles</h1>
+            <div className="p-6 min-h-screen">
+                {/* Page Title with Animation */}
+                <motion.h1
+                    className="text-4xl font-bold text-center mb-6 text-blue-900"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    Healthcare Articles
+                </motion.h1>
 
-                    {/* Category Filter Buttons */}
-                    <div className="flex justify-center gap-4 mb-6">
-                        {categories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => handleCategoryChange(category)}
-                                className={`px-2 py-2 rounded-lg text-black transition ${selectedCategory === category ? "underline" : "text-black font-bold"
-                                    }`}
-                            >
-                                {category}
-                            </button>
-                        ))}
-                    </div>
+                {/* Category Filter Buttons with Tooltip */}
+                <div className="flex flex-wrap justify-center gap-4 mb-6">
+                    {categories.map((category) => (
+                        <motion.button
+                            key={category}
+                            onClick={() => handleCategoryChange(category)}
+                            className={`px-4 py-2 rounded-lg transition font-medium border border-blue-900
+                ${selectedCategory === category ? "bg-blue-900 text-white" : "text-blue-900 hover:bg-blue-700 hover:text-white"}
+                `}
+                            whileHover={{ scale: 1.1 }}
+                            data-tooltip-id={category}
+                        >
+                            {category}
+                        </motion.button>
+                    ))}
+                </div>
 
-                    {/* Articles Grid */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:px-20">
-                        {filteredArticles?.map((article, index) => (
-                            <div key={index} className="bg-white  rounded-lg p-2">
-                                <img src={article.imageUrl} alt={article.title} className="w-full h-60 object-cover rounded-md" />
-                                <h2 className="text-xl font-semibold mt-4">{article.title}</h2>
-                                <p className="text-gray-600 text-sm mt-1">{article.date} - {article.hospital}</p>
-                                <p className="text-gray-700 mt-2">{article.description.substring(0, 120)}...</p>
-                                <button className="mt-3 inline-block bg-blue-950 py-1.5 px-3 rounded-lg text-white font-medium">Read More →</button>
+                {/* Tooltips for each category */}
+                {categories.map((category) => (
+                    <Tooltip id={category} place="top">
+                        Click to filter {category} articles
+                    </Tooltip>
+                ))}
+
+                {/* Articles Grid with AOS Scroll Animation */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:px-16">
+                    {filteredArticles?.map((article, index) => (
+                        <motion.div
+                            key={index}
+                            className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ type: "spring", stiffness: 200 }}
+                            data-aos="fade-up"
+                        >
+                            {/* Article Image */}
+                            <img src={article.imageUrl} alt={article.title} className="w-full h-60 object-cover rounded-t-lg" />
+
+                            {/* Article Content */}
+                            <div className="p-4">
+                                <h2 className="text-xl font-semibold text-gray-800">{article.title}</h2>
+                                <p className="text-gray-600 text-sm mt-1">{article.date} • {article.hospital}</p>
+                                <p className="text-gray-700 mt-2 leading-relaxed">
+                                    {article.description.substring(0, 120)}...
+                                </p>
+
+                                {/* Read More Button with Icon */}
+                                <motion.button
+                                    className="mt-4 inline-flex items-center gap-2 bg-blue-900 hover:bg-blue-700 py-2 px-4 rounded-lg text-white font-medium transition"
+                                    whileHover={{ scale: 1.1 }}
+                                >
+                                    Read More <FaArrowRight />
+                                </motion.button>
                             </div>
-                        ))}
-                    </div>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
+
         </>
     );
 };
