@@ -64,10 +64,10 @@ const Appointment: React.FC = () => {
                         </div>
 
                         {/* Message Input */}
-                        <textarea placeholder="Your Message" className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 h-20"></textarea>
+                        <textarea placeholder="Your Message" rows={10} className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 h-20"></textarea>
 
                         {/* Submit Button */}
-                        <button className="w-full bg-blue-600 text-white font-bold py-3 hover:bg-blue-700 transition">
+                        <button className="w-[50%] bg-blue-900 text-white font-bold py-3 hover:bg-blue-700 transition">
                             Book Appointment
                         </button>
                     </form>
