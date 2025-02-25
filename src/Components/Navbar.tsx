@@ -35,6 +35,7 @@ const Navbar = () => {
                                 { name: "Facilities", path: "/FacilitiesPage" },
                                 { name: "Blog", path: "/BlogPage" },
                                 { name: "Contact", path: "/contact" },
+                                { name: "Gallery", path: "/GalleryPages" },
                             ].map((item, index) => (
                                 <li key={index} className="border-b md:border-none hover:bg-blue-700 hover:rounded-lg">
                                     <Link
