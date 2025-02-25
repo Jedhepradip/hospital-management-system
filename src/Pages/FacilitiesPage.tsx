@@ -145,34 +145,16 @@ const FacilitiesPage: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto px-1 py-5">
-            {/* <motion.h2
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-2xl font-extrabold text-center text-blue-600 mb-8"
-            >
-                Explore Our World-Class Medical Facilities
-            </motion.h2>
-            <div className="mb-20">
-                <Slider {...settings}>
-                    {images.map((image, index) => (
-                        <div key={index} className="bg-white shadow-lg rounded-lg mx-2">
-                            <img
-                                src={image}
-                                alt={`Facility ${index + 1}`}
-                                className="w-full md:h-[350px] object-cover rounded-lg"
-                            />
-                        </div>
-                    ))}
-                </Slider>
-            </div> */}
-
+        <div className="container mx-auto px-1 py-5 z-10 pt-24">
+            {/* Header Section */}
             <div
                 className="relative h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
-                style={{ backgroundImage: "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
+                style={{
+                    backgroundImage:
+                        "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
+                }}
             >
-                <div className="absolute inset-0 bg-blue-950/90"></div>
+                <div className="absolute inset-0 bg-blue-950/90 z-0"></div>
                 <div className="relative text-center z-10 py-16 px-4">
                     <h1 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-gray-200 drop-shadow-md">
                         Discover Our Specialties
@@ -181,13 +163,12 @@ const FacilitiesPage: React.FC = () => {
                         Explore Our Expertise
                     </h1>
                     <p className="mt-4 text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                        Learn more about our specialized services and medical expertise.
-                        We offer comprehensive care tailored to meet the unique needs of every patient.
+                        Learn more about our specialized services and medical expertise. We offer comprehensive care tailored to meet the unique needs of every patient.
                     </p>
                 </div>
             </div>
 
-
+            {/* Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:px-32 gap-6 p-7">
                 {services.map((service, index) => (
                     <motion.div
@@ -196,7 +177,7 @@ const FacilitiesPage: React.FC = () => {
                         variants={cardVariants}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }} // Animates when in view
+                        viewport={{ once: true, amount: 0.2 }}
                     >
                         <motion.img
                             src={service.image}
@@ -209,13 +190,16 @@ const FacilitiesPage: React.FC = () => {
                         <h3 className="text-xl font-semibold mt-4">{service.title}</h3>
                         <ul className="list-disc list-inside mt-2">
                             {service.description.map((point, idx) => (
-                                <li key={idx} className="text-gray-600">{point}</li>
+                                <li key={idx} className="text-gray-600">
+                                    {point}
+                                </li>
                             ))}
                         </ul>
                     </motion.div>
                 ))}
             </div>
         </div>
+
     );
 };
 
