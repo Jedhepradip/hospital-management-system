@@ -7,7 +7,7 @@ const Appointment: React.FC = () => {
                 className="relative h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
                 style={{ backgroundImage: "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
             >
-                <div className="absolute inset-0 bg-blue-950/60"></div>
+                <div className="absolute inset-0 bg-blue-950/80"></div>
                 <div className="relative text-center z-10 py-16 px-4">
                     <h1 className="text-lg sm:text-xl font-bold uppercase tracking-wide text-gray-200 drop-shadow-md">
                         Book Your Appointment
@@ -29,19 +29,21 @@ const Appointment: React.FC = () => {
                 </div>
 
                 {/* Right Side - Appointment Form */}
-                <div className="w-full md:w-1/2 bg-white p-6 shadow-md">
+                <div className="w-full md:w-1/0 bg-white p-6 ">
                     <h2 className="text-xl font-bold text-blue-900 text-center mb-4">Book an Appointment</h2>
-                    <form className="space-y-4">
+                   
+                   <span className='text-xl font-serif text-blue-900 text-center mb-4'>Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</span> 
+                    <form className="space-y-4 mt-10">
                         {/* Row 1: Department & Doctor Selection */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <select className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                            <select className="w-full p-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-100">
                                 <option>Choose Department</option>
                                 <option>Cardiology</option>
                                 <option>Dermatology</option>
                                 <option>Neurology</option>
                                 <option>Orthopedics</option>
                             </select>
-                            <select className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500">
+                            <select className="w-full p-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-100">
                                 <option>Select Doctor</option>
                                 <option>Dr. John Doe</option>
                                 <option>Dr. Lisa Smith</option>
@@ -51,21 +53,21 @@ const Appointment: React.FC = () => {
 
                         {/* Row 2: Date & Time Selection */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="date" className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500" />
-                            <input type="time" className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500" />
+                            <input type="date" className="w-full p-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-100" />
+                            <input type="time" className="w-full p-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-100" />
                         </div>
 
                         {/* Row 3: Full Name & Phone Number */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="text" placeholder="Full Name" className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500" />
-                            <input type="tel" placeholder="Phone Number" className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500" />
+                            <input type="text" placeholder="Full Name" className="w-full p-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-100" />
+                            <input type="tel" placeholder="Phone Number" className="w-full p-4 border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-100" />
                         </div>
 
                         {/* Message Input */}
-                        <textarea placeholder="Your Message" rows={10} className="w-full p-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 h-20"></textarea>
+                        <textarea placeholder="Your Message" rows={10} className="w-full p-4 h-20 bg-gray-100"></textarea>
 
                         {/* Submit Button */}
-                        <button className="w-[50%] bg-blue-900 text-white font-bold py-3 hover:bg-blue-700 transition">
+                        <button className="w-[50%] bg-blue-900 text-white font-bold py-4 hover:bg-blue-700 transition">
                             Book Appointment
                         </button>
                     </form>
