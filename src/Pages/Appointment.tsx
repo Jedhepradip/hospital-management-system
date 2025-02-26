@@ -2,9 +2,7 @@ import React from 'react'
 
 const Appointment: React.FC = () => {
     return (
-
         <>
-
             <div
                 className="relative h-[320px] bg-cover bg-center flex items-center justify-center text-white bg-blue-400"
                 style={{ backgroundImage: "url('https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')" }}
@@ -74,10 +72,6 @@ const Appointment: React.FC = () => {
                 </div>
             </div>
         </>
-
-
-
-
     )
 }
 
