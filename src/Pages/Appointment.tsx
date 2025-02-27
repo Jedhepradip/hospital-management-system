@@ -1,4 +1,6 @@
 import React from 'react'
+import { FaUser } from 'react-icons/fa'
+// import { motion } from "framer-motion"
 
 const Appointment: React.FC = () => {
     return (
@@ -24,15 +26,16 @@ const Appointment: React.FC = () => {
             <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 rounded-lg shadow-lg">
                 {/* Left Side - Emergency Contact Info */}
                 <div className="w-full md:w-1/2 text-center md:text-left mb-6 md:mb-0">
-                    <h2 className="text-2xl font-bold text-blue-900">Call for an Emergency Service!</h2>
+
+                    <h2 className="text-2xl font-bold text-blue-900 flex gap-2"> <FaUser /> Call for an Emergency Service!</h2>
                     <p className="text-3xl font-extrabold text-blue-700 mt-2">+84 789 1256</p>
                 </div>
 
                 {/* Right Side - Appointment Form */}
                 <div className="w-full md:w-1/0 bg-white p-6 ">
-                    <h2 className="text-xl font-bold text-blue-900 text-center mb-4">Book an Appointment</h2>
-                   
-                   <span className='text-xl font-serif text-blue-900 text-center mb-4'>Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</span> 
+                    <h2 className="text-xl font-bold text-blue-900 text-start mb-4">Book an Appointment</h2>
+
+                    <span className='text-xl font-serif text-blue-900 text-center mb-4'>Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</span>
                     <form className="space-y-4 mt-10">
                         {/* Row 1: Department & Doctor Selection */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -73,6 +76,9 @@ const Appointment: React.FC = () => {
                     </form>
                 </div>
             </div>
+
+            
+
         </>
     )
 }
