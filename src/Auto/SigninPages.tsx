@@ -17,15 +17,15 @@ const SigninPages: React.FC = () => {
 
   const onSubmit = (data: unknown) => {
     console.log("Login Data:", data);
+    toast.success('Login successfully!');
     setTimeout(() => {
-      toast.success('Login successfully!');
-      naviget("/")
+      naviget("/Admin")
     }, 999);
 
   };
 
   return (
-    <div className="flex p-2 items-center justify-center mb-10">
+    <div className="flex p-2 items-center justify-center mb-10 min-h-screen">
       <ToastContainer />
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}

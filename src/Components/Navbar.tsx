@@ -97,7 +97,7 @@ const Navbar = () => {
                                     >
                                         Gallery
                                     </Link>
-                                </li>
+                                </li>                            
 
                                 {/* Contact */}
                                 <li className="border-b md:border-none hover:rounded-lg">
