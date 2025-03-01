@@ -1,7 +1,27 @@
 import React from 'react';
 import { motion } from "framer-motion"
+import { useForm } from "react-hook-form";
+
+interface ContactFormInputs {
+    fullName: string;
+    email: string;
+    topic: string;
+    contactNumber: string;
+    message: string;
+}
 
 const ContactPages: React.FC = () => {
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<ContactFormInputs>();
+
+    const onSubmit = (data: ContactFormInputs) => {
+        console.log(data);
+    };
+
     return (
         <>
             <div className="container mx-auto px-4 md:px-16 py-12 text-gray-800">
@@ -44,31 +64,40 @@ const ContactPages: React.FC = () => {
 
             <div className="p-6 min-h-screen flex items-center justify-center">
                 <motion.div
-                    className="bg-white p-8 shadow-lg w-full max-w-8x5"
+                    className="bg-white p-8 shadow-lg w-full max-w-8xl"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
                 >
-
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                         {/* Two-column Layout for Full Name & Email */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-gray-700 font-medium">Full Name</label>
                                 <input
                                     type="text"
-                                    className="w-full p-4 bg-gray-100 "
+                                    {...register("fullName", { required: "Full Name is required" })}
+                                    className="w-full p-4 bg-gray-100"
                                     placeholder="Enter your full name"
                                 />
+                                {errors.fullName && <p className="text-red-500 text-sm">{errors.fullName.message}</p>}
                             </div>
 
                             <div>
                                 <label className="block text-gray-700 font-medium">Email</label>
                                 <input
                                     type="email"
-                                    className="w-full p-4 bg-gray-100 "
+                                    {...register("email", {
+                                        required: "Email is required",
+                                        pattern: {
+                                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                            message: "Enter a valid email",
+                                        },
+                                    })}
+                                    className="w-full p-4 bg-gray-100"
                                     placeholder="Enter your email"
                                 />
+                                {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                             </div>
                         </div>
 
@@ -77,6 +106,7 @@ const ContactPages: React.FC = () => {
                             <div>
                                 <label className="block text-gray-700 font-medium">Topic</label>
                                 <select
+                                    {...register("topic", { required: "Please select a topic" })}
                                     className="w-full p-4 bg-gray-100"
                                 >
                                     <option value="">Select a topic</option>
@@ -84,15 +114,24 @@ const ContactPages: React.FC = () => {
                                     <option value="feedback">Feedback</option>
                                     <option value="general">General Inquiry</option>
                                 </select>
+                                {errors.topic && <p className="text-red-500 text-sm">{errors.topic.message}</p>}
                             </div>
 
                             <div>
                                 <label className="block text-gray-700 font-medium">Contact Number</label>
                                 <input
                                     type="tel"
-                                    className="w-full p-4 bg-gray-100 "
+                                    {...register("contactNumber", {
+                                        required: "Contact number is required",
+                                        pattern: {
+                                            value: /^[0-9]{10}$/,
+                                            message: "Enter a valid 10-digit contact number",
+                                        },
+                                    })}
+                                    className="w-full p-4 bg-gray-100"
                                     placeholder="Enter your contact number"
                                 />
+                                {errors.contactNumber && <p className="text-red-500 text-sm">{errors.contactNumber.message}</p>}
                             </div>
                         </div>
 
@@ -100,17 +139,20 @@ const ContactPages: React.FC = () => {
                         <div>
                             <label className="block text-gray-700 font-medium">Message</label>
                             <textarea
-                                rows={8}
-                                className="w-full p-4 bg-gray-100 "
+                                rows={4}
+                                {...register("message", { required: "Message is required" })}
+                                className="w-full p-4 bg-gray-100"
                                 placeholder="Enter your message"
                             ></textarea>
+                            {errors.message && <p className="text-red-500 text-sm">{errors.message.message as string}</p>}
                         </div>
 
                         {/* Submit Button */}
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="w-[20%] bg-blue-950 text-white p-3 font-semibold hover:bg-green-700 transition"
+                            type="submit"
+                            className="w-[20%] bg-blue-950 text-white p-3 font-semibold hover:bg-blue-900 transition"
                         >
                             Send Message
                         </motion.button>
