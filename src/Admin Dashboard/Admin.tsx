@@ -112,7 +112,7 @@ const Admin: React.FC = () => {
     };
 
     const onSubmitDoctor: SubmitHandler<Doctor> = (data) => {
-        console.log(data);
+        console.log("data", data);
         const newDoctor = {
             ...data,
             _id: String(Math.random()),
@@ -360,29 +360,6 @@ const Admin: React.FC = () => {
                 );
             case 'Blog':
                 return (
-                    // <div className="p-6">
-                    //     <h3 className="text-lg font-semibold mb-4">Add Blog Post</h3>
-                    //     <form onSubmit={handleSubmit(onSubmitBlog)} className="mb-4">
-                    //         <input {...register('category')} placeholder="Category" className="border p-2 mr-2" />
-                    //         <input {...register('date')} placeholder="Date" className="border p-2 mr-2" />
-                    //         <input {...register('hospital')} placeholder="Hospital" className="border p-2 mr-2" />
-                    //         <input {...register('title')} placeholder="Title" className="border p-2 mr-2" />
-                    //         <textarea {...register('description')} placeholder="Description" className="border p-2 mr-2"></textarea>
-                    //         <input {...register('imageUrl')} placeholder="Image URL" className="border p-2 mr-2" />
-                    //         <input {...register('readMoreLink')} placeholder="Read More Link" className="border p-2 mr-2" />
-                    //         <button type="submit" className="bg-blue-500 text-white p-2">Add Blog</button>
-                    //     </form>
-                    //     <h3 className="text-lg font-semibold mb-4">Blog Posts List</h3>
-                    //     {blogs.map((blog) => (
-                    //         <div key={blog._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                    //             <span>{blog.title} - {blog.category}</span>
-                    //             <div className="space-x-2">
-                    //                 <button onClick={() => handleEdit('Blog', blog._id)}><FiEdit2 className="text-blue-500" /></button>
-                    //                 <button onClick={() => handleDelete('Blog', blog._id)}><FiTrash2 className="text-red-500" /></button>
-                    //             </div>
-                    //         </div>
-                    //     ))}
-                    // </div>
                     <div className="p-6 bg-gray-100 min-h-screen">
                         <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Blog Post</h3>
                         <form onSubmit={handleSubmit(onSubmitBlog)} className="bg-white shadow-md p-6 rounded-lg mb-6">

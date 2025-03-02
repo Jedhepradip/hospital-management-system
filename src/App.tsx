@@ -66,8 +66,7 @@ import FacilitiesPage from './Pages/FacilitiesPage'
 import BlogPage from './Pages/BlogPage'
 import GalleryPages from './Pages/GalleryPages'
 import Appointment from "./Pages/Appointment"
-import Admin from './Pages/Admin'
-
+import Admin from './Admin Dashboard/Admin'
 
 const Layout: React.FC = () => {
   const location = useLocation();
