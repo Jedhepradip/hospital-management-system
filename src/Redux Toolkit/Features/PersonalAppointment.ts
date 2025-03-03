@@ -38,7 +38,7 @@ export const FetchinPersonalAppointment = () => async (dispatch: AppDispatch) =>
 };
 
 const PersonalAppointmentSlice = createSlice({
-    name: "PersonalAppointment",
+    name: "Personal Appointment",
     initialState,
     reducers: {
         SetPersonalAppointment: (state, action: PayloadAction<PersonalAppointment[]>) => {

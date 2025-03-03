@@ -21,7 +21,7 @@ const initialState: AllUserStateState = {
     AllUser: []
 };
 
-export const DetchinAllSpecialAppointment = () => async (dispatch: AppDispatch) => {
+export const FetchinAllUserData = () => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
             headers: {
