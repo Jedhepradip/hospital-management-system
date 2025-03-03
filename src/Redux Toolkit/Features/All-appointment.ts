@@ -4,6 +4,7 @@ import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
 interface AllAppointment {
+    id: string,
     UserId: string;
     choosedepartment: string;
     selectDoctor: string;
@@ -17,6 +18,7 @@ interface AllAppointment {
 }
 
 const initialState: AllAppointment = {
+    id: "",
     UserId: "",
     choosedepartment: "",
     selectDoctor: "",
@@ -30,7 +32,7 @@ const initialState: AllAppointment = {
 }
 
 // export const FetchinBookDetails = () => async (dispatch: AppDispatch) => {
-export const PaymetAllData = () => async (dispatch: AppDispatch) => {
+export const FetchinAllAppointment = () => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-books-Payment/Send-All-Payment`, {
             headers: {
@@ -44,7 +46,7 @@ export const PaymetAllData = () => async (dispatch: AppDispatch) => {
 }
 
 const AllAppointment = createSlice({
-    name: "AllPamyentBooks",
+    name: "All Appointment",
     initialState,
     reducers: {
         SetAllAppointment: (state, action: PayloadAction<AllAppointment[]>) => {

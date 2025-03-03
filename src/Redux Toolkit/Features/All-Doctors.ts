@@ -1,59 +1,51 @@
 // All-Doctors
-
-// All-appointment
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface AllAppointment {
+interface AllDoctors {
+    id: string,
     UserId: string;
     choosedepartment: string;
     selectDoctor: string;
-    date: Date;
+    date: string;  // Changed to string
     time: string;
     fullname: string;
-    phonnumber: number;
+    phonnumber: string;  // Changed to string
     message: string;
     status: "Pending" | "Confirmed" | "Cancelled";
-    AllAppointmentdata: AllAppointment[];
 }
 
-const initialState: AllAppointment = {
-    UserId: "",
-    choosedepartment: "",
-    selectDoctor: "",
-    date: new Date(),
-    time: "",
-    fullname: "",
-    phonnumber: 0,
-    message: "",
-    status: "Pending",
-    AllAppointmentdata: []
+interface AllDoctorsState {
+    AllDoctors: AllDoctors[];
 }
 
-// export const FetchinBookDetails = () => async (dispatch: AppDispatch) => {
-export const PaymetAllData = () => async (dispatch: AppDispatch) => {
+const initialState: AllDoctorsState = {
+    AllDoctors: []
+};
+
+export const DetchinAllDoctors = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-books-Payment/Send-All-Payment`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
-        })
-        dispatch(SetAllAppointment(response.data))
+        });
+        dispatch(SetAllDoctors(response.data));
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching all appointments:", error);
     }
-}
+};
 
-const AllAppointment = createSlice({
-    name: "AllPamyentBooks",
+const AllDoctorsSlice = createSlice({
+    name: "All Doctors",
     initialState,
     reducers: {
-        SetAllAppointment: (state, action: PayloadAction<AllAppointment[]>) => {
-            state.AllAppointmentdata = action.payload
+        SetAllDoctors: (state, action: PayloadAction<AllDoctors[]>) => {
+            state.AllDoctors = action.payload;
         }
     }
-})
+});
 
-export const { SetAllAppointment } = AllAppointment.actions
-export default AllAppointment.reducer
+export const { SetAllDoctors } = AllDoctorsSlice.actions;
+export default AllDoctorsSlice.reducer;
