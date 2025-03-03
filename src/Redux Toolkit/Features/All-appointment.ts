@@ -1,15 +1,32 @@
 // All-appointment
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { Paymentinterfase } from "./PaymentBooks";
-// import { AppDispatch } from "../Store/store";
+import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface PaymentState {
-    AllPaymentData: Paymentinterfase[]
+interface AllAppointment {
+    UserId: string;
+    choosedepartment: string;
+    selectDoctor: string;
+    date: Date;
+    time: string;
+    fullname: string;
+    phonnumber: number;
+    message: string;
+    status: "Pending" | "Confirmed" | "Cancelled";
+    AllAppointmentdata: AllAppointment[];
 }
 
-const initialState: PaymentState = {
-    AllPaymentData: []
+const initialState: AllAppointment = {
+    UserId: "",
+    choosedepartment: "",
+    selectDoctor: "",
+    date: new Date(),
+    time: "",
+    fullname: "",
+    phonnumber: 0,
+    message: "",
+    status: "Pending",
+    AllAppointmentdata: []
 }
 
 // export const FetchinBookDetails = () => async (dispatch: AppDispatch) => {
@@ -20,21 +37,21 @@ export const PaymetAllData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         })
-        dispatch(SetAllPaymentData(response.data))
+        dispatch(SetAllAppointment(response.data))
     } catch (error) {
         console.log(error);
     }
 }
 
-const PaymentAllSlice = createSlice({
+const AllAppointment = createSlice({
     name: "AllPamyentBooks",
     initialState,
     reducers: {
-        SetAllPaymentData: (state, action: PayloadAction<Paymentinterfase[]>) => {
-            state.AllPaymentData = action.payload
+        SetAllAppointment: (state, action: PayloadAction<AllAppointment[]>) => {
+            state.AllAppointmentdata = action.payload
         }
     }
 })
 
-export const { SetAllPaymentData } = PaymentAllSlice.actions
-export default PaymentAllSlice.reducer
+export const { SetAllAppointment } = AllAppointment.actions
+export default AllAppointment.reducer

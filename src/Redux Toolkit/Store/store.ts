@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
-import counterReducer from "./counterSlice"; // Example slice
+import All_appointment from "../Features/All-appointment";
 
 export const store = configureStore({
     reducer: {
-        counter: counterReducer,
+        Allappointment: All_appointment,
     },
 });
 
