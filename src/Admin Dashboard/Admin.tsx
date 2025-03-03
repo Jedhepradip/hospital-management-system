@@ -4,7 +4,7 @@ import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCale
 import { useForm } from 'react-hook-form';
 import { motion } from "framer-motion";
 import { SubmitHandler } from 'react-hook-form';
-import { FcGallery } from 'react-icons/fc';
+import { RiGalleryFill } from 'react-icons/ri';
 
 interface Doctor {
     _id: string;
@@ -562,7 +562,7 @@ const Admin: React.FC = () => {
                         <FaBlog /> Blog
                     </li>
                     <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
-                        <FcGallery /> Gallery
+                        <RiGalleryFill /> Gallery
                     </li>
                 </ul>
             </div>
