@@ -4,6 +4,7 @@ import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCale
 import { useForm } from 'react-hook-form';
 import { motion } from "framer-motion";
 import { SubmitHandler } from 'react-hook-form';
+import { FcGallery } from 'react-icons/fc';
 
 interface Doctor {
     _id: string;
@@ -49,7 +50,11 @@ interface Blog {
     readMoreLink: string;
 }
 
-type FormData = Doctor & Facility & Blog & Appointment & User
+interface ImgComponents {
+    imageUrl: string,
+}
+
+type FormData = Doctor & Facility & Blog & Appointment & User & ImgComponents
 
 const Admin: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -60,6 +65,7 @@ const Admin: React.FC = () => {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [facilities, setFacilities] = useState<Facility[]>([]);
     const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [gallery, setGallery] = useState([]);
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
@@ -73,6 +79,7 @@ const Admin: React.FC = () => {
 
     useEffect(() => {
         fetchData();
+        setGallery([]);
     }, [fetchData]);
 
     const handlePageChange = (page: string) => {
@@ -110,6 +117,14 @@ const Admin: React.FC = () => {
                 break;
         }
     };
+
+    const onSubmitImage: SubmitHandler<ImgComponents> = (data) => {
+        console.log(data);
+    };
+
+    // const handleDeleteImage: SubmitHandler<ImgComponents> = (index) => {
+    //     console.log(index);
+    // };
 
     const onSubmitDoctor: SubmitHandler<Doctor> = (data) => {
         console.log("data", data);
@@ -457,6 +472,42 @@ const Admin: React.FC = () => {
                         </div>
                     </div>
                 );
+            case 'Gallery':
+                return (
+                    <div className="p-6 bg-gray-100 min-h-screen">
+                        <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Image to Gallery</h3>
+                        <form onSubmit={handleSubmit(onSubmitImage)} className="bg-white shadow-md p-6 rounded-lg mb-6">
+                            <input
+                                type='file'
+                                {...register("imageUrl", { required: true })}
+                                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+                            />
+                            {errors.imageUrl && <p className="text-red-500 text-sm">Image is required</p>}
+
+                            <button type="submit" className="bg-blue-950 text-white p-3 mt-4 w-full hover:bg-blue-900 transition">
+                                Upload Image
+                            </button>
+                        </form>
+
+                        <h3 className="text-xl font-semibold mb-4 text-gray-700">Gallery</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            {gallery.length > 0 ? (
+                                gallery.map((image, index) => (
+                                    <div key={index} className="relative bg-white p-2 shadow-md rounded-lg">
+                                        <img src={image} alt="Gallery" className="w-full h-32 object-cover rounded-lg" />
+                                        <button
+                                            // onClick={() => handleDeleteImage()}
+                                            className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition">
+                                            <FiTrash2 />
+                                        </button>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-500 text-center col-span-full">No images uploaded yet.</p>
+                            )}
+                        </div>
+                    </div>
+                );
             default:
                 return <div>Select a page from the sidebar.</div>;
         }
@@ -509,6 +560,9 @@ const Admin: React.FC = () => {
                     </li>
                     <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Blog" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Blog")}>
                         <FaBlog /> Blog
+                    </li>
+                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
+                        <FcGallery /> Gallery
                     </li>
                 </ul>
             </div>
