@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { FiMenu, FiUser, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCalendarCheck } from 'react-icons/fa';
@@ -5,6 +6,10 @@ import { useForm } from 'react-hook-form';
 import { motion } from "framer-motion";
 import { SubmitHandler } from 'react-hook-form';
 import { RiGalleryFill } from 'react-icons/ri';
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 interface Doctor {
     _id: string;
@@ -35,7 +40,7 @@ interface Appointment {
 interface Facility {
     _id: string;
     title: string;
-    description: string[];
+    description: string;
     image: string;
 }
 
@@ -54,6 +59,7 @@ interface ImgComponents {
     imageUrl: string,
 }
 
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
 type FormData = Doctor & Facility & Blog & Appointment & User & ImgComponents
 
 const Admin: React.FC = () => {
@@ -118,40 +124,177 @@ const Admin: React.FC = () => {
         }
     };
 
-    const onSubmitImage: SubmitHandler<ImgComponents> = (data) => {
-        console.log(data);
-    };
-
     // const handleDeleteImage: SubmitHandler<ImgComponents> = (index) => {
     //     console.log(index);
     // };
 
-    const onSubmitDoctor: SubmitHandler<Doctor> = (data) => {
-        console.log("data", data);
-        const newDoctor = {
-            ...data,
-            _id: String(Math.random()),
-        };
-        setDoctors([...doctors, newDoctor]);
-        reset();
+    const onSubmitDoctor: SubmitHandler<Doctor> = async (data) => {
+        // const token = localStorage.getItem("token")
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+        const formData = new FormData();
+        formData.append("name", data.name)
+        formData.append("specialization", data.specialization)
+        formData.append("about", data.about || "")
+        formData.append("appointment_fee", data.appointment_fee)
+        formData.append("experience", data.experience)
+        formData.append("profile_picture", data.profile_picture)
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Doctors/DoctorsRouter/register`, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success("Appointment booked successfully!", { position: "top-right", autoClose: 3000 });
+                reset(); // Clear form after submission
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
     };
 
-    const onSubmitFacility: SubmitHandler<Facility> = (data: Facility) => {
-        console.log(data);
-        const newFacility = {
-            ...data,
-        };
-        setFacilities([...facilities, newFacility]);
-        reset();
+    const onSubmitFacility: SubmitHandler<Facility> = async (data: Facility) => {
+        // const token = localStorage.getItem("token")
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+        const formData = new FormData();
+        formData.append("description", data.description)
+        formData.append("image", data.image)
+        formData.append("title", data.title)
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Facility/FacilityRouter/create`, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+                reset(); // Clear form after submission
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
     };
 
-    const onSubmitBlog: SubmitHandler<Blog> = (data: Blog) => {
-        const newBlog = {
-            ...data,
-            _id: String(Math.random()),
-        };
-        setBlogs([...blogs, newBlog]);
-        reset();
+    const onSubmitBlog: SubmitHandler<Blog> = async (data: Blog) => {
+        // const token = localStorage.getItem("token")
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+        const formData = new FormData();
+        formData.append("category", data.category)
+        formData.append("date", data.date)
+        formData.append("description", data.description)
+        formData.append("hospital", data.hospital)
+        formData.append("imageUrl", data.imageUrl)
+        formData.append("title", data.title)
+        formData.append("readMoreLink", data.readMoreLink)
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/create   `, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+                reset(); // Clear form after submission
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    };
+
+
+    const onSubmitImage: SubmitHandler<ImgComponents> = async (data) => {
+        // const token = localStorage.getItem("token")
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+        const formData = new FormData();
+        formData.append("GalleryImg", data.imageUrl)
+
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Gallery/Galleryrouter/create   `, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+                reset(); // Clear form after submission
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
     };
 
     const renderPageContent = () => {
@@ -217,7 +360,7 @@ const Admin: React.FC = () => {
 
                                 <div>
                                     <input
-                                        type="file"
+                                        type="URl"
                                         {...register("profile_picture", { required: "Profile picture URL is required" })}
                                         placeholder="Profile Picture URL"
                                         className="border p-3 w-full rounded"
@@ -325,7 +468,7 @@ const Admin: React.FC = () => {
                                 />
                                 {errors.title && <p className="text-red-500 text-sm">Title is required</p>}
 
-                                <input type='file'
+                                <input type='URL'
                                     {...register("image", { required: true })}
                                     placeholder="Image URL"
                                     className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-black"
@@ -354,7 +497,7 @@ const Admin: React.FC = () => {
                                             <h4 className="text-lg font-semibold text-gray-800">{facility.title}</h4>
                                             <p className="text-gray-600 text-sm">🖼️ <b>Image:</b> {facility.image}</p>
                                             <p className="text-gray-600 text-sm">
-                                                📝 <b>Description:</b> {facility.description.join(", ")}
+                                                📝 <b>Description:</b> {facility.description}
                                             </p>
                                         </div>
                                         <div className="space-x-2">
@@ -413,7 +556,7 @@ const Admin: React.FC = () => {
                                 {errors.title && <p className="text-red-500 text-sm">Title is required</p>}
 
                                 <input
-                                    type='file'
+                                    type='URL'
                                     {...register("imageUrl", { required: true })}
                                     placeholder="Image URL"
                                     className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
@@ -478,8 +621,9 @@ const Admin: React.FC = () => {
                         <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Image to Gallery</h3>
                         <form onSubmit={handleSubmit(onSubmitImage)} className="bg-white shadow-md p-6 rounded-lg mb-6">
                             <input
-                                type='file'
+                                type='URL'
                                 {...register("imageUrl", { required: true })}
+                                placeholder='Enter Img URL'
                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
                             />
                             {errors.imageUrl && <p className="text-red-500 text-sm">Image is required</p>}
@@ -529,8 +673,8 @@ const Admin: React.FC = () => {
     ];
 
     const dummyFacilities: Facility[] = [
-        { _id: '1', title: 'ICU', description: ['24/7 care', 'Advanced equipment'], image: 'https://via.placeholder.com/150' },
-        { _id: '2', title: 'Pharmacy', description: ['Wide range of medicines'], image: 'https://via.placeholder.com/150' },
+        { _id: '1', title: 'ICU', description: "description", image: 'https://via.placeholder.com/150' },
+        { _id: '2', title: 'Pharmacy', description: "description", image: 'https://via.placeholder.com/150' },
     ];
 
     const dummyBlogs: Blog[] = [
@@ -540,6 +684,7 @@ const Admin: React.FC = () => {
 
     return (
         <div className="flex h-screen">
+            <ToastContainer />
             <div className={`bg-blue-950 text-white w-64 p-5 ${isSidebarOpen ? "block" : "hidden"} md:block`}>
                 <h2 className="text-xl font-bold mb-6">Admin Dashboard</h2>
                 <ul>
