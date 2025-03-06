@@ -58,8 +58,6 @@ const Admin: React.FC = () => {
     const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility);
     const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
 
-    console.log("Appointments :", Appointments);
-
     useEffect(() => {
         if (alldcotors?.length > 0) {
             setalldoctors(alldcotors)
@@ -84,7 +82,6 @@ const Admin: React.FC = () => {
     const handlePageChange = (page: string) => {
         setActivePage(page);
     };
-    console.log("alluser", alluser);
 
     const onSubmitDoctor: SubmitHandler<AllDoctors> = async (data) => {
         const token = localStorage.getItem("token")
@@ -129,7 +126,6 @@ const Admin: React.FC = () => {
     };
 
     const onSubmitFacility: SubmitHandler<AllFacility> = async (data: AllFacility) => {
-        // const token = localStorage.getItem("token")
         if (!token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
@@ -264,146 +260,39 @@ const Admin: React.FC = () => {
     }, [dispatch])
 
 
-    const handleDeleteFacilities = async (id: string) => {
-
+    const handleDelete = async (id: string, apiPath: string) => {
         if (!token) {
-            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            toast.error("Failed to delete item. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
 
         try {
-            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-Facility/FacilityRouter/Facility/delete/${id}`, {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}${apiPath}/delete/${id}`, {
                 headers: {
-                    authorization: `Bearer ${token}`, // Send Bearer Token
+                    authorization: `Bearer ${token}`,
                 },
             });
 
-            const JobsResponses = await response.data;
+            const responseData = response.data;
 
-            if (response.status === 201 || response.status === 200) {
-                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+            if (response.status === 200 || response.status === 201) {
+                toast.success(responseData.message, { position: "top-right", autoClose: 3000 });
             }
 
         } catch (error: any) {
-            if (error.response) {
-                const errorMessage = error.response.data.message;
-                if (error.response.status === 409 || errorMessage === "User already exists") {
-                    console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-                }
-            } else {
-                console.log("Error: Network issue or server not responding", error);
-            }
+            const errorMessage = error.response?.data?.message || "Unexpected error occurred.";
+            console.error("Delete Error:", errorMessage);
+            toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
         }
-    }
+    };
 
-    const handleDeleteGallery = async (id: string) => {
-        if (!token) {
-            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
-            return;
-        }
-
-        try {
-            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-Gallery/Galleryrouter/delete/${id}`, {
-                headers: {
-                    authorization: `Bearer ${token}`, // Send Bearer Token
-                },
-            });
-
-            const JobsResponses = await response.data;
-
-            if (response.status === 201 || response.status === 200) {
-                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
-            }
-
-        } catch (error: any) {
-            if (error.response) {
-                const errorMessage = error.response.data.message;
-                if (error.response.status === 409 || errorMessage === "User already exists") {
-                    console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-                }
-            } else {
-                console.log("Error: Network issue or server not responding", error);
-            }
-        }
-    }
-
-    const handleDeleteBlog = async (id: string) => {
-        if (!token) {
-            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
-            return;
-        }
-
-        try {
-            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/delete/${id}`, {
-                headers: {
-                    authorization: `Bearer ${token}`, // Send Bearer Token
-                },
-            });
-
-            const JobsResponses = await response.data;
-
-            if (response.status === 201 || response.status === 200) {
-                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
-            }
-
-        } catch (error: any) {
-            if (error.response) {
-                const errorMessage = error.response.data.message;
-                if (error.response.status === 409 || errorMessage === "User already exists") {
-                    console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-                }
-            } else {
-                console.log("Error: Network issue or server not responding", error);
-            }
-        }
-    }
-
-    const handleDeleteDoctore = async (id: string) => {
-        if (!token) {
-            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
-            return;
-        }
-
-        try {
-            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-Doctors/DoctorsRouter/delete/${id}`, {
-                headers: {
-                    authorization: `Bearer ${token}`, // Send Bearer Token
-                },
-            });
-
-            const JobsResponses = await response.data;
-
-            if (response.status === 201 || response.status === 200) {
-                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
-            }
-
-        } catch (error: any) {
-            if (error.response) {
-                const errorMessage = error.response.data.message;
-                if (error.response.status === 409 || errorMessage === "User already exists") {
-                    console.log("Error: User already exists.");
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                } else {
-                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
-                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
-                }
-            } else {
-                console.log("Error: Network issue or server not responding", error);
-            }
-        }
-    }
+    const handleDeleteFacilities = (id: string) => handleDelete(id, "/api-Facility/FacilityRouter/Facility");
+    const handleDeleteGallery = (id: string) => handleDelete(id, "/api-Gallery/Galleryrouter");
+    const handleDeleteBlog = (id: string) => handleDelete(id, "/api-blog/Blogrouter");
+    const handleDeleteDoctor = (id: string) => handleDelete(id, "/api-Doctors/DoctorsRouter");
+    const handleDeleteUser = (id: string) => handleDelete(id, "/api-user/UserRouther");
+    const handleDeleteAppointment = (id: string) => handleDelete(id, "/api-appointments/appointmentsRouter");
+    const handleDeleteSpecialAppointment = (id: string) => handleDelete(id, "/api-Specile/SpecileAppointments");
 
     const renderPageContent = () => {
         switch (activePage) {
@@ -529,22 +418,22 @@ const Admin: React.FC = () => {
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5 }}
                         >
-                            {doctors.length === 0 ? (
+                            {doctors?.length === 0 ? (
                                 <p className="text-gray-500">No doctors added yet.</p>
                             ) : (
-                                doctors.map((doctor) => (
+                                doctors?.map((doctor) => (
                                     <motion.div
                                         key={doctor._id}
                                         className="flex justify-between items-center bg-white p-3 shadow-md rounded-lg mb-3"
                                         whileHover={{ scale: 1.02 }}
                                         transition={{ duration: 0.2 }}
                                     >
-                                        <span className="text-gray-700">{doctor.name} - {doctor.specialization}</span>
+                                        <span className="text-gray-700">{doctor?.name} - {doctor?.specialization}</span>
                                         <div className="space-x-2">
                                             <button>
                                                 <FiEdit2 className="text-blue-500 hover:text-blue-700 transition duration-200" />
                                             </button>
-                                            <button onClick={() => handleDeleteDoctore(doctor?._id)}>
+                                            <button onClick={() => handleDeleteDoctor(doctor?._id)}>
                                                 <FiTrash2 className="text-red-500 hover:text-red-700 transition duration-200" />
                                             </button>
                                         </div>
@@ -559,11 +448,11 @@ const Admin: React.FC = () => {
                     <div className="p-6">
                         <h3 className="text-lg font-semibold mb-4">Users List</h3>
                         {users.map((user) => (
-                            <div key={user._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{user.name} - {user.email} - {user.contact}</span>
+                            <div key={user?._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
+                                <span>{user?.fullname} - {user?.email} - {user?.contact}</span>
                                 <div className="space-x-2">
                                     <button><FiEdit2 className="text-blue-500" /></button>
-                                    <button><FiTrash2 className="text-red-500" /></button>
+                                    <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteUser(user?._id)} /></button>
                                 </div>
                             </div>
                         ))}
@@ -578,7 +467,7 @@ const Admin: React.FC = () => {
                                 <span>{appointment.fullname} - {appointment.selectDoctor} - {appointment.choosedepartment} - {appointment.status} - {appointment.phonnumber}</span>
                                 <div className="space-x-2">
                                     <button><FiEdit2 className="text-blue-500" /></button>
-                                    <button><FiTrash2 className="text-red-500" /></button>
+                                    <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteAppointment(appointment?._id)} /></button>
                                 </div>
                             </div>
                         ))}
@@ -590,10 +479,10 @@ const Admin: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-4">Special Appointments List</h3>
                         {appointments.map((appointment) => (
                             <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{appointment.userName} - {appointment.doctorName} - {appointment.department} - {appointment.status} - {appointment.contact}</span>
+                                <span>{appointment.fullname} - {appointment.selectDoctor} - {appointment.choosedepartment} - {appointment.status} - {appointment.phonnumber}</span>
                                 <div className="space-x-2">
                                     <button><FiEdit2 className="text-blue-500" /></button>
-                                    <button><FiTrash2 className="text-red-500" /></button>
+                                    <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteSpecialAppointment(appointment?._id)} /></button>
                                 </div>
                             </div>
                         ))}
