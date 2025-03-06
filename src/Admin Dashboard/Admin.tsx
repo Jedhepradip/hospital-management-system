@@ -15,13 +15,8 @@ import { Blog, FetchingBlogData } from '../Redux Toolkit/Features/Blog';
 import { DetchinAllDoctors, AllDoctors } from '../Redux Toolkit/Features/All-Doctors';
 import { FetchinGalleryAllData, Gallery } from '../Redux Toolkit/Features/gallery';
 import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
-
-interface User {
-    _id: string;
-    name: string;
-    email: string;
-    contact: string;
-}
+import { AllUser, FetchinAllUserData } from '../Redux Toolkit/Features/All-User';
+import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features/All-appointment';
 
 interface Appointment {
     _id: string;
@@ -37,36 +32,33 @@ interface ImgComponents {
 }
 
 const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
-type FormData = AllDoctors & AllFacility & Blog & Appointment & User & ImgComponents
+
+type FormData = AllDoctors & AllFacility & Blog & Appointment & AllUser & ImgComponents
 
 const Admin: React.FC = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [activePage, setActivePage] = useState('Dashboard');
-    const [users, setUsers] = useState<User[]>([]);
-    const [appointments, setAppointments] = useState<Appointment[]>([]);
-
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
-    useEffect(() => {
-        setUsers(dummyUsers);
-        setAppointments(dummyAppointments);
-    }, [users, appointments])
-
-
-    // const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [users, setUsers] = useState<AllUser[]>([]);
     const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [GalleryPage, SetGalleryData] = useState<Gallery[]>([]);
     const [facilities, setFacilities] = useState<AllFacility[]>([]);
+    const [appointments, setAppointments] = useState<AllAppointment[]>([]);
 
     const dispatch = useAppDispatch();
+    const allBlog = useSelector((state: RootState) => state.Blog.AllBlog);
+    const alluser = useSelector((state: RootState) => state.AllUser.AllUser);
+    const AllGallery = useSelector((state: RootState) => state.gallery.AllGallery);
     const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
-    const allBlog = useSelector((state: RootState) => state.Blog.AllBlog)
-    const AllGallery = useSelector((state: RootState) => state.gallery.AllGallery)
-    const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility)
+    const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility);
+    const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
+
+    console.log("Appointments :", Appointments);
 
     useEffect(() => {
         if (alldcotors?.length > 0) {
@@ -81,13 +73,18 @@ const Admin: React.FC = () => {
         if (Facilitya?.length > 0) {
             setFacilities(Facilitya)
         }
-    }, [alldcotors, allBlog, AllGallery, Facilitya])
-
+        if (alluser?.length > 0) {
+            setUsers(alluser)
+        }
+        if (Appointments?.length > 0) {
+            setAppointments(Appointments)
+        }
+    }, [alldcotors, allBlog, AllGallery, Facilitya, alluser, Appointments])
 
     const handlePageChange = (page: string) => {
         setActivePage(page);
     };
-
+    console.log("alluser", alluser);
 
     const onSubmitDoctor: SubmitHandler<AllDoctors> = async (data) => {
         const token = localStorage.getItem("token")
@@ -258,10 +255,12 @@ const Admin: React.FC = () => {
     };
 
     useEffect(() => {
-        dispatch(DetchinAllDoctors())
-        dispatch(FetchinGalleryAllData());
-        dispatch(DetchinAllFacility());
         dispatch(FetchingBlogData());
+        dispatch(DetchinAllDoctors())
+        dispatch(FetchinAllUserData())
+        dispatch(DetchinAllFacility());
+        dispatch(FetchinGalleryAllData());
+        dispatch(FetchinAllAppointment())
     }, [dispatch])
 
 
@@ -576,7 +575,7 @@ const Admin: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-4">Appointments List</h3>
                         {appointments.map((appointment) => (
                             <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{appointment.userName} - {appointment.doctorName} - {appointment.department} - {appointment.status} - {appointment.contact}</span>
+                                <span>{appointment.fullname} - {appointment.selectDoctor} - {appointment.choosedepartment} - {appointment.status} - {appointment.phonnumber}</span>
                                 <div className="space-x-2">
                                     <button><FiEdit2 className="text-blue-500" /></button>
                                     <button><FiTrash2 className="text-red-500" /></button>
@@ -796,7 +795,7 @@ const Admin: React.FC = () => {
                                     <div key={index} className="relative bg-white p-2 shadow-md rounded-lg">
                                         <img src={image?.GalleryImg} alt="Gallery" className="w-full h-32 object-cover rounded-lg" />
                                         <button
-                                            onClick={() => handleDeleteGallery(image._id)}
+                                            onClick={() => handleDeleteGallery(image?._id)}
                                             className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition">
                                             <FiTrash2 />
                                         </button>
@@ -812,16 +811,6 @@ const Admin: React.FC = () => {
                 return <div>Select a page from the sidebar.</div>;
         }
     };
-
-    const dummyUsers: User[] = [
-        { _id: '1', name: 'Alice Johnson', email: 'alice@example.com', contact: '123-456-7890' },
-        { _id: '2', name: 'Bob Williams', email: 'bob@example.com', contact: '987-654-3210' },
-    ];
-
-    const dummyAppointments: Appointment[] = [
-        { _id: '1', userName: 'Alice Johnson', contact: '123-456-7890', doctorName: 'Dr. John Doe', department: 'Cardiology', status: 'Scheduled' },
-        { _id: '2', userName: 'Bob Williams', contact: '987-654-3210', doctorName: 'Dr. Jane Smith', department: 'Dermatology', status: 'Confirmed' },
-    ];
 
     return (
         <div className="flex h-screen">

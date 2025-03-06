@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface AllAppointment {
-    id: string,
+export interface AllAppointment {
+    _id: string,
     UserId: string;
     choosedepartment: string;
     selectDoctor: string;
@@ -18,7 +18,7 @@ interface AllAppointment {
 }
 
 const initialState: AllAppointment = {
-    id: "",
+    _id: "",
     UserId: "",
     choosedepartment: "",
     selectDoctor: "",
@@ -31,10 +31,9 @@ const initialState: AllAppointment = {
     AllAppointmentdata: []
 }
 
-// export const FetchinBookDetails = () => async (dispatch: AppDispatch) => {
 export const FetchinAllAppointment = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-books-Payment/Send-All-Payment`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/appointmentsRouter/all`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }

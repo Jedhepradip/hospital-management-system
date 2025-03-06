@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface AllUser {
-    id: string,
+export interface AllUser {
+    _id: string,
     fullname: string,
     email: string,
     password: string,
@@ -23,7 +23,7 @@ const initialState: AllUserStateState = {
 
 export const FetchinAllUserData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/UserRouther/AllData/Send`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
