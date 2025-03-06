@@ -11,12 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 import { RootState, useAppDispatch } from '../Redux Toolkit/Store/store';
 import { useSelector } from 'react-redux';
-
 import { Blog, FetchingBlogData } from '../Redux Toolkit/Features/Blog';
 import { DetchinAllDoctors, AllDoctors } from '../Redux Toolkit/Features/All-Doctors';
 import { FetchinGalleryAllData, Gallery } from '../Redux Toolkit/Features/gallery';
 import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
-
 
 interface User {
     _id: string;
@@ -86,48 +84,10 @@ const Admin: React.FC = () => {
     }, [alldcotors, allBlog, AllGallery, Facilitya])
 
 
-    useEffect(() => {
-        dispatch(DetchinAllDoctors())
-        dispatch(FetchinGalleryAllData());
-        dispatch(DetchinAllFacility());
-        dispatch(FetchingBlogData());
-    }, [dispatch])
-
     const handlePageChange = (page: string) => {
         setActivePage(page);
     };
 
-    const handleEdit = (page: string, id: string) => {
-        console.log(`Edit ${page} item with id ${id}`);
-    };
-
-    const handleDelete = (page: string, id: string) => {
-        let updatedData;
-        switch (page) {
-            case 'Doctors':
-                updatedData = doctors.filter((doctor) => doctor._id !== id);
-                setalldoctors(updatedData);
-                break;
-            case 'Users':
-                updatedData = users.filter((user) => user._id !== id);
-                setUsers(updatedData);
-                break;
-            case 'Appointments':
-                updatedData = appointments.filter((appointment) => appointment._id !== id);
-                setAppointments(updatedData);
-                break;
-            case 'Facilities':
-                updatedData = facilities.filter((facility) => facility._id !== id);
-                setFacilities(updatedData);
-                break;
-            case 'Blog':
-                updatedData = blogs.filter((blog) => blog._id !== id);
-                setBlogs(updatedData);
-                break;
-            default:
-                break;
-        }
-    };
 
     const onSubmitDoctor: SubmitHandler<AllDoctors> = async (data) => {
         const token = localStorage.getItem("token")
@@ -297,6 +257,155 @@ const Admin: React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        dispatch(DetchinAllDoctors())
+        dispatch(FetchinGalleryAllData());
+        dispatch(DetchinAllFacility());
+        dispatch(FetchingBlogData());
+    }, [dispatch])
+
+
+    const handleDeleteFacilities = async (id: string) => {
+
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-Facility/FacilityRouter/Facility/delete/${id}`, {
+                headers: {
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+    const handleDeleteGallery = async (id: string) => {
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-Gallery/Galleryrouter/delete/${id}`, {
+                headers: {
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+    const handleDeleteBlog = async (id: string) => {
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/delete/${id}`, {
+                headers: {
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
+    const handleDeleteDoctore = async (id: string) => {
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api-Doctors/DoctorsRouter/delete/${id}`, {
+                headers: {
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
+    }
+
     const renderPageContent = () => {
         switch (activePage) {
             case 'Dashboard':
@@ -433,10 +542,10 @@ const Admin: React.FC = () => {
                                     >
                                         <span className="text-gray-700">{doctor.name} - {doctor.specialization}</span>
                                         <div className="space-x-2">
-                                            <button onClick={() => handleEdit("Doctors", doctor._id)}>
+                                            <button>
                                                 <FiEdit2 className="text-blue-500 hover:text-blue-700 transition duration-200" />
                                             </button>
-                                            <button onClick={() => handleDelete("Doctors", doctor._id)}>
+                                            <button onClick={() => handleDeleteDoctore(doctor?._id)}>
                                                 <FiTrash2 className="text-red-500 hover:text-red-700 transition duration-200" />
                                             </button>
                                         </div>
@@ -454,8 +563,8 @@ const Admin: React.FC = () => {
                             <div key={user._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
                                 <span>{user.name} - {user.email} - {user.contact}</span>
                                 <div className="space-x-2">
-                                    <button onClick={() => handleEdit('Users', user._id)}><FiEdit2 className="text-blue-500" /></button>
-                                    <button onClick={() => handleDelete('Users', user._id)}><FiTrash2 className="text-red-500" /></button>
+                                    <button><FiEdit2 className="text-blue-500" /></button>
+                                    <button><FiTrash2 className="text-red-500" /></button>
                                 </div>
                             </div>
                         ))}
@@ -469,8 +578,8 @@ const Admin: React.FC = () => {
                             <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
                                 <span>{appointment.userName} - {appointment.doctorName} - {appointment.department} - {appointment.status} - {appointment.contact}</span>
                                 <div className="space-x-2">
-                                    <button onClick={() => handleEdit('Appointments', appointment._id)}><FiEdit2 className="text-blue-500" /></button>
-                                    <button onClick={() => handleDelete('Appointments', appointment._id)}><FiTrash2 className="text-red-500" /></button>
+                                    <button><FiEdit2 className="text-blue-500" /></button>
+                                    <button><FiTrash2 className="text-red-500" /></button>
                                 </div>
                             </div>
                         ))}
@@ -484,8 +593,8 @@ const Admin: React.FC = () => {
                             <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
                                 <span>{appointment.userName} - {appointment.doctorName} - {appointment.department} - {appointment.status} - {appointment.contact}</span>
                                 <div className="space-x-2">
-                                    <button onClick={() => handleEdit('Appointments', appointment._id)}><FiEdit2 className="text-blue-500" /></button>
-                                    <button onClick={() => handleDelete('Appointments', appointment._id)}><FiTrash2 className="text-red-500" /></button>
+                                    <button><FiEdit2 className="text-blue-500" /></button>
+                                    <button><FiTrash2 className="text-red-500" /></button>
                                 </div>
                             </div>
                         ))}
@@ -493,54 +602,63 @@ const Admin: React.FC = () => {
                 );
             case 'Facilities':
                 return (
-                    <div className="p-6 w-[10%]">
-                        <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Facility</h3>
-                        <form onSubmit={handleSubmit(onSubmitFacility)} className="bg-white shadow-md p-6 rounded-lg mb-6">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <input type='text'
-                                    {...register("title", { required: true })}
-                                    placeholder="Title"
-                                    className="border p-4 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
-                                />
-                                {errors.title && <p className="text-red-500 text-sm">Title is required</p>}
+                    <div className="p-6 max-w-4xl">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Add New Facility</h2>
 
-                                <input type='URL'
-                                    {...register("image", { required: true })}
-                                    placeholder="Image URL"
-                                    className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-black"
-                                />
-                                {errors.image && <p className="text-red-500 text-sm">Image URL is required</p>}
-                            </div>
+                        <form onSubmit={handleSubmit(onSubmitFacility)} className="bg-white p-6 rounded-lg mb-6">
+                            <input
+                                type="text"
+                                {...register("title", { required: "Title is required" })}
+                                placeholder="Title"
+                                className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                            />
+                            {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+
+                            <input
+                                type="url"
+                                {...register("image", { required: "Image URL is required" })}
+                                placeholder="Image URL"
+                                className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                            />
+                            {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
 
                             <textarea
-                                {...register("description", { required: true })}
-                                placeholder="Description (comma-separated)"
-                                className="border p-4 rounded-lg w-full mt-4 focus:ring-2 focus:ring-blue-300"
+                                {...register("description", { required: "Description is required" })}
+                                placeholder="Description"
+                                className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
                             ></textarea>
-                            {errors.description && <p className="text-red-500 text-sm">Description is required</p>}
+                            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
 
-                            <button type="submit" className="bg-blue-950 text-white p-3 mt-4 w-full hover:bg-blue-900 transition">
+                            <button type="submit" className="bg-blue-950 text-white p-3 w-full rounded-md hover:bg-blue-900 transition">
                                 Add Facility
                             </button>
                         </form>
 
-                        <h3 className="text-xl font-semibold mb-4 text-gray-700">Facilities List</h3>
+
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Facilities List</h2>
                         <div className="space-y-4">
                             {facilities.length > 0 ? (
                                 facilities.map((facility) => (
                                     <div key={facility._id} className="flex justify-between items-center bg-white p-4 shadow-md rounded-lg">
-                                        <div>
-                                            <h4 className="text-lg font-semibold text-gray-800">{facility.title}</h4>
-                                            <p className="text-gray-600 text-sm">🖼️ <b>Image:</b> {facility.image}</p>
-                                            <p className="text-gray-600 text-sm">
-                                                📝 <b>Description:</b> {facility.description}
-                                            </p>
+
+                                        <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
+                                            <img src={facility.image} alt={facility.title} className="w-16 h-16 object-cover rounded-md" />
+
+                                            <div>
+                                                <h3 className="text-lg font-semibold text-gray-900">{facility.title}</h3>
+                                                <p className="text-gray-600 text-sm">
+                                                    📝 <b>Description:</b> {facility.description}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="space-x-2">
-                                            <button className="text-blue-500 hover:text-blue-700 transition">
+
+                                        <div className="flex space-x-3">
+                                            <button className="text-blue-600 hover:text-blue-800 transition">
                                                 <FiEdit2 />
                                             </button>
-                                            <button onClick={() => handleDelete("Facilities", facility._id)} className="text-red-500 hover:text-red-700 transition">
+                                            <button
+                                                onClick={() => handleDeleteFacilities(facility._id)}
+                                                className="text-red-600 hover:text-red-800 transition">
                                                 <FiTrash2 />
                                             </button>
                                         </div>
@@ -622,24 +740,25 @@ const Admin: React.FC = () => {
                         <div className="space-y-4">
                             {blogs.length > 0 ? (
                                 blogs.map((blog) => (
-                                    <div key={blog._id} className="flex justify-between items-center bg-white p-4 shadow-md rounded-lg">
-                                        <div>
+                                    <div key={blog._id} className="flex items-center bg-white p-4 shadow-md rounded-lg gap-4">
+                                        {/* Blog Image */}
+                                        {blog.imageUrl && (
+                                            <img src={blog.imageUrl} alt={blog.title} className="w-24 h-24 object-cover rounded-lg" />
+                                        )}
+                                        {/* Blog Content */}
+                                        <div className="flex-1">
                                             <h4 className="text-lg font-semibold text-gray-800">{blog.title}</h4>
                                             <p className="text-gray-600 text-sm">🏥 <b>Hospital:</b> {blog.hospital}</p>
                                             <p className="text-gray-600 text-sm">📅 <b>Date:</b> {blog.date}</p>
                                             <p className="text-gray-600 text-sm">📌 <b>Category:</b> {blog.category}</p>
                                             <p className="text-gray-600 text-sm truncate">📝 <b>Description:</b> {blog.description}</p>
-                                            {blog.readMoreLink && (
-                                                <a href={blog.readMoreLink} target="_blank" rel="noopener noreferrer" className="text-blue-500 text-sm underline">
-                                                    Read More
-                                                </a>
-                                            )}
                                         </div>
+                                        {/* Action Buttons */}
                                         <div className="space-x-2">
                                             <button className="text-blue-500 hover:text-blue-700 transition">
                                                 <FiEdit2 />
                                             </button>
-                                            <button onClick={() => handleDelete("Blog", blog._id)} className="text-red-500 hover:text-red-700 transition">
+                                            <button onClick={() => handleDeleteBlog(blog?._id)} className="text-red-500 hover:text-red-700 transition">
                                                 <FiTrash2 />
                                             </button>
                                         </div>
@@ -649,6 +768,7 @@ const Admin: React.FC = () => {
                                 <p className="text-gray-500 text-center">No blog posts added yet.</p>
                             )}
                         </div>
+
                     </div>
                 );
             case 'Gallery':
@@ -672,11 +792,11 @@ const Admin: React.FC = () => {
                         <h3 className="text-xl font-semibold mb-4 text-gray-700">Gallery</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                             {GalleryPage.length > 0 ? (
-                                GalleryPage.map((image, index) => (
+                                GalleryPage?.map((image, index) => (
                                     <div key={index} className="relative bg-white p-2 shadow-md rounded-lg">
                                         <img src={image?.GalleryImg} alt="Gallery" className="w-full h-32 object-cover rounded-lg" />
                                         <button
-                                            // onClick={() => handleDeleteImage()}
+                                            onClick={() => handleDeleteGallery(image._id)}
                                             className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition">
                                             <FiTrash2 />
                                         </button>
@@ -692,11 +812,6 @@ const Admin: React.FC = () => {
                 return <div>Select a page from the sidebar.</div>;
         }
     };
-
-    // const dummyDoctors: Doctor[] = [
-    //     { _id: '1', name: 'Dr. John Doe', specialization: 'Cardiologist', experience: '10 years', profile_picture: 'https://via.placeholder.com/150', about: 'Experienced cardiologist.', appointment_fee: '$100' },
-    //     { _id: '2', name: 'Dr. Jane Smith', specialization: 'Dermatologist', experience: '5 years', profile_picture: 'https://via.placeholder.com/150', about: 'Specializes in skin conditions.', appointment_fee: '$80' },
-    // ];
 
     const dummyUsers: User[] = [
         { _id: '1', name: 'Alice Johnson', email: 'alice@example.com', contact: '123-456-7890' },
@@ -738,8 +853,6 @@ const Admin: React.FC = () => {
                     <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
                         <RiGalleryFill /> Gallery
                     </li>
-
-
                 </ul>
             </div>
 

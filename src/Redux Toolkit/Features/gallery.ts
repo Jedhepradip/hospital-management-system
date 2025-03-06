@@ -5,6 +5,7 @@ import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
 export interface Gallery {
+    _id: string,
     GalleryImg: string;
 }
 
@@ -19,7 +20,7 @@ const initialState: GalleryState = {
 export const FetchinGalleryAllData = () => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Gallery/Galleryrouter/all`, {
-         
+
         });
         dispatch(SetGalleryAllData(response.data));
     } catch (error) {
