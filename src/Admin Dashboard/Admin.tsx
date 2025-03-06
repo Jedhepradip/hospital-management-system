@@ -1,25 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { FiMenu, FiUser, FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCalendarCheck } from 'react-icons/fa';
+import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCalendarCheck, FaCalendar } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { motion } from "framer-motion";
 import { SubmitHandler } from 'react-hook-form';
 import { RiGalleryFill } from 'react-icons/ri';
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
+import { RootState, useAppDispatch } from '../Redux Toolkit/Store/store';
+import { useSelector } from 'react-redux';
 
-interface Doctor {
-    _id: string;
-    name: string;
-    specialization: string;
-    experience: string;
-    profile_picture: string;
-    about?: string;
-    appointment_fee: string;
-}
+import { Blog, FetchingBlogData } from '../Redux Toolkit/Features/Blog';
+import { DetchinAllDoctors, AllDoctors } from '../Redux Toolkit/Features/All-Doctors';
+import { FetchinGalleryAllData, Gallery } from '../Redux Toolkit/Features/gallery';
+import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
+
 
 interface User {
     _id: string;
@@ -37,56 +34,64 @@ interface Appointment {
     status: string;
 }
 
-interface Facility {
-    _id: string;
-    title: string;
-    description: string;
-    image: string;
-}
-
-interface Blog {
-    _id: string;
-    category: string;
-    date: string;
-    hospital: string;
-    title: string;
-    description: string;
-    imageUrl: string;
-    readMoreLink: string;
-}
-
 interface ImgComponents {
     imageUrl: string,
 }
 
 const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
-type FormData = Doctor & Facility & Blog & Appointment & User & ImgComponents
+type FormData = AllDoctors & AllFacility & Blog & Appointment & User & ImgComponents
 
 const Admin: React.FC = () => {
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [activePage, setActivePage] = useState('Dashboard');
-    const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [appointments, setAppointments] = useState<Appointment[]>([]);
-    const [facilities, setFacilities] = useState<Facility[]>([]);
-    const [blogs, setBlogs] = useState<Blog[]>([]);
-    const [gallery, setGallery] = useState([]);
+
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
-    const fetchData = () => {
-        setDoctors(dummyDoctors);
+    useEffect(() => {
         setUsers(dummyUsers);
         setAppointments(dummyAppointments);
-        setFacilities(dummyFacilities);
-        setBlogs(dummyBlogs);
-    };
+    }, [users, appointments])
+
+
+    // const [doctors, setDoctors] = useState<Doctor[]>([]);
+    const [doctors, setalldoctors] = useState<AllDoctors[]>([])
+    const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [GalleryPage, SetGalleryData] = useState<Gallery[]>([]);
+    const [facilities, setFacilities] = useState<AllFacility[]>([]);
+
+    const dispatch = useAppDispatch();
+    const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
+    const allBlog = useSelector((state: RootState) => state.Blog.AllBlog)
+    const AllGallery = useSelector((state: RootState) => state.gallery.AllGallery)
+    const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility)
 
     useEffect(() => {
-        fetchData();
-        setGallery([]);
-    }, [fetchData]);
+        if (alldcotors?.length > 0) {
+            setalldoctors(alldcotors)
+        }
+        if (allBlog?.length > 0) {
+            setBlogs(allBlog)
+        }
+        if (AllGallery?.length > 0) {
+            SetGalleryData(AllGallery)
+        }
+        if (Facilitya?.length > 0) {
+            setFacilities(Facilitya)
+        }
+    }, [alldcotors, allBlog, AllGallery, Facilitya])
+
+
+    useEffect(() => {
+        dispatch(DetchinAllDoctors())
+        dispatch(FetchinGalleryAllData());
+        dispatch(DetchinAllFacility());
+        dispatch(FetchingBlogData());
+    }, [dispatch])
 
     const handlePageChange = (page: string) => {
         setActivePage(page);
@@ -101,7 +106,7 @@ const Admin: React.FC = () => {
         switch (page) {
             case 'Doctors':
                 updatedData = doctors.filter((doctor) => doctor._id !== id);
-                setDoctors(updatedData);
+                setalldoctors(updatedData);
                 break;
             case 'Users':
                 updatedData = users.filter((user) => user._id !== id);
@@ -124,12 +129,8 @@ const Admin: React.FC = () => {
         }
     };
 
-    // const handleDeleteImage: SubmitHandler<ImgComponents> = (index) => {
-    //     console.log(index);
-    // };
-
-    const onSubmitDoctor: SubmitHandler<Doctor> = async (data) => {
-        // const token = localStorage.getItem("token")
+    const onSubmitDoctor: SubmitHandler<AllDoctors> = async (data) => {
+        const token = localStorage.getItem("token")
         if (!token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
@@ -170,14 +171,14 @@ const Admin: React.FC = () => {
         }
     };
 
-    const onSubmitFacility: SubmitHandler<Facility> = async (data: Facility) => {
+    const onSubmitFacility: SubmitHandler<AllFacility> = async (data: AllFacility) => {
         // const token = localStorage.getItem("token")
         if (!token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
         const formData = new FormData();
-        formData.append("description", data.description)
+        formData.append("description", data.description.toString())
         formData.append("image", data.image)
         formData.append("title", data.title)
         try {
@@ -256,7 +257,6 @@ const Admin: React.FC = () => {
         }
     };
 
-
     const onSubmitImage: SubmitHandler<ImgComponents> = async (data) => {
         // const token = localStorage.getItem("token")
         if (!token) {
@@ -314,6 +314,27 @@ const Admin: React.FC = () => {
                             <h3 className="text-lg font-semibold">Total Appointments</h3>
                             <p className="text-2xl font-bold">{appointments.length}</p>
                         </div>
+                        <div className="bg-white shadow p-5 rounded-lg">
+                            <h3 className="text-lg font-semibold">Total Special Appointment</h3>
+                            <p className="text-2xl font-bold">{appointments.length}</p>
+                        </div>
+                        <div className="bg-white shadow p-5 rounded-lg">
+                            <h3 className="text-lg font-semibold">Total Facility</h3>
+                            <p className="text-2xl font-bold">{facilities.length}</p>
+                        </div>
+                        <div className="bg-white shadow p-5 rounded-lg">
+                            <h3 className="text-lg font-semibold">Total Blogs</h3>
+                            <p className="text-2xl font-bold">{blogs?.length}</p>
+                        </div>
+                        <div className="bg-white shadow p-5 rounded-lg">
+                            <h3 className="text-lg font-semibold">Total Gallery Photos</h3>
+                            <p className="text-2xl font-bold">{GalleryPage.length}</p>
+                        </div>
+                        <div className="bg-white shadow p-5 rounded-lg">
+                            <h3 className="text-lg font-semibold">Total Contact</h3>
+                            <p className="text-2xl font-bold">{appointments.length}</p>
+                        </div>
+
                     </div>
                 );
             case 'Doctors':
@@ -455,9 +476,24 @@ const Admin: React.FC = () => {
                         ))}
                     </div>
                 );
+            case 'Special Appointment':
+                return (
+                    <div className="p-6">
+                        <h3 className="text-lg font-semibold mb-4">Special Appointments List</h3>
+                        {appointments.map((appointment) => (
+                            <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
+                                <span>{appointment.userName} - {appointment.doctorName} - {appointment.department} - {appointment.status} - {appointment.contact}</span>
+                                <div className="space-x-2">
+                                    <button onClick={() => handleEdit('Appointments', appointment._id)}><FiEdit2 className="text-blue-500" /></button>
+                                    <button onClick={() => handleDelete('Appointments', appointment._id)}><FiTrash2 className="text-red-500" /></button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                );
             case 'Facilities':
                 return (
-                    <div className="p-6 min-h-screen">
+                    <div className="p-6 w-[10%]">
                         <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Facility</h3>
                         <form onSubmit={handleSubmit(onSubmitFacility)} className="bg-white shadow-md p-6 rounded-lg mb-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -635,10 +671,10 @@ const Admin: React.FC = () => {
 
                         <h3 className="text-xl font-semibold mb-4 text-gray-700">Gallery</h3>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            {gallery.length > 0 ? (
-                                gallery.map((image, index) => (
+                            {GalleryPage.length > 0 ? (
+                                GalleryPage.map((image, index) => (
                                     <div key={index} className="relative bg-white p-2 shadow-md rounded-lg">
-                                        <img src={image} alt="Gallery" className="w-full h-32 object-cover rounded-lg" />
+                                        <img src={image?.GalleryImg} alt="Gallery" className="w-full h-32 object-cover rounded-lg" />
                                         <button
                                             // onClick={() => handleDeleteImage()}
                                             className="absolute top-2 right-2 text-red-500 hover:text-red-700 transition">
@@ -657,10 +693,10 @@ const Admin: React.FC = () => {
         }
     };
 
-    const dummyDoctors: Doctor[] = [
-        { _id: '1', name: 'Dr. John Doe', specialization: 'Cardiologist', experience: '10 years', profile_picture: 'https://via.placeholder.com/150', about: 'Experienced cardiologist.', appointment_fee: '$100' },
-        { _id: '2', name: 'Dr. Jane Smith', specialization: 'Dermatologist', experience: '5 years', profile_picture: 'https://via.placeholder.com/150', about: 'Specializes in skin conditions.', appointment_fee: '$80' },
-    ];
+    // const dummyDoctors: Doctor[] = [
+    //     { _id: '1', name: 'Dr. John Doe', specialization: 'Cardiologist', experience: '10 years', profile_picture: 'https://via.placeholder.com/150', about: 'Experienced cardiologist.', appointment_fee: '$100' },
+    //     { _id: '2', name: 'Dr. Jane Smith', specialization: 'Dermatologist', experience: '5 years', profile_picture: 'https://via.placeholder.com/150', about: 'Specializes in skin conditions.', appointment_fee: '$80' },
+    // ];
 
     const dummyUsers: User[] = [
         { _id: '1', name: 'Alice Johnson', email: 'alice@example.com', contact: '123-456-7890' },
@@ -670,16 +706,6 @@ const Admin: React.FC = () => {
     const dummyAppointments: Appointment[] = [
         { _id: '1', userName: 'Alice Johnson', contact: '123-456-7890', doctorName: 'Dr. John Doe', department: 'Cardiology', status: 'Scheduled' },
         { _id: '2', userName: 'Bob Williams', contact: '987-654-3210', doctorName: 'Dr. Jane Smith', department: 'Dermatology', status: 'Confirmed' },
-    ];
-
-    const dummyFacilities: Facility[] = [
-        { _id: '1', title: 'ICU', description: "description", image: 'https://via.placeholder.com/150' },
-        { _id: '2', title: 'Pharmacy', description: "description", image: 'https://via.placeholder.com/150' },
-    ];
-
-    const dummyBlogs: Blog[] = [
-        { _id: '1', category: 'Health', date: '2023-10-26', hospital: 'General Hospital', title: 'Healthy Living', description: 'Tips for a healthy lifestyle.', imageUrl: 'https://via.placeholder.com/150', readMoreLink: 'https://example.com/health' },
-        { _id: '2', category: 'Medicine', date: '2023-10-25', hospital: 'Specialist Clinic', title: 'New Treatments', description: 'Advances in medical treatments.', imageUrl: 'https://via.placeholder.com/150', readMoreLink: 'https://example.com/medicine' },
     ];
 
     return (
@@ -700,6 +726,9 @@ const Admin: React.FC = () => {
                     <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Appointments" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Appointments")}>
                         <FaCalendarCheck /> Appointments
                     </li>
+                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Special Appointment" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Special Appointment")}>
+                        <FaCalendar /> Special Appointments
+                    </li>
                     <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Facilities" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Facilities")}>
                         <FaHospital /> Facilities
                     </li>
@@ -709,6 +738,8 @@ const Admin: React.FC = () => {
                     <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
                         <RiGalleryFill /> Gallery
                     </li>
+
+
                 </ul>
             </div>
 

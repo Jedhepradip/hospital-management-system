@@ -49,9 +49,6 @@ const GalleryPages: React.FC = () => {
         }
     }, [AllGallery])
 
-
-    console.log(images);
-    
     return (
         <>
             <div

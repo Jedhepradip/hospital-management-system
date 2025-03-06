@@ -4,6 +4,7 @@ import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
 export interface AllFacility {
+    _id: string,
     title: string;
     description: string[];
     image: string;

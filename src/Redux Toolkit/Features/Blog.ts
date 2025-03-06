@@ -5,7 +5,7 @@ import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
 export interface Blog {
-    id: string,
+    _id: string,
     category: string;
     date: string;
     hospital: string;
@@ -25,7 +25,7 @@ const initialState: BlogState = {
 
 export const FetchingBlogData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/all`, {        
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/all`, {
         });
         dispatch(SetAllBLog(response.data));
     } catch (error) {
