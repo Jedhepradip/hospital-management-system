@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { doctors } from "../Data/DoctoreData";
+import React, { useEffect, useState } from "react";
+// import { doctors } from "../Data/DoctoreData";
 import { NavLink } from "react-router-dom";
+import { AllDoctors } from "../Redux Toolkit/Features/All-Doctors";
+import { DetchinAllDoctors } from "../Redux Toolkit/Features/All-Doctors";
+import { RootState, useAppDispatch } from "../Redux Toolkit/Store/store";
+import { useSelector } from "react-redux";
 
 const specialties = [
   "General Physician",
@@ -13,6 +17,21 @@ const specialties = [
 
 const AllDoctorsPages: React.FC = () => {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
+ 
+  const [doctors, setalldoctors] = useState<AllDoctors[]>([])
+  const dispatch = useAppDispatch();
+  const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
+
+  useEffect(() => {
+    dispatch(DetchinAllDoctors())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (alldcotors.length > 0) {
+      setalldoctors(alldcotors)
+    }
+  }, [alldcotors])
+
 
   return (
     <div className="container mx-auto px-4 md:px-20 py-10 flex flex-col md:flex-row gap-8">
@@ -45,7 +64,7 @@ const AllDoctorsPages: React.FC = () => {
                 !selectedSpecialty || doctor.specialization === selectedSpecialty
             )
             .map((doctor) => (
-              <NavLink to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor.name)}`}>
+              <NavLink to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor?.name)}`}>
                 <div
                   key={doctor.name}
                   className=" p-5 rounded-2xl transition duration-300 border border-black"

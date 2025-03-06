@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface Blog {
+export interface Blog {
     id: string,
     category: string;
     date: string;
@@ -25,10 +25,7 @@ const initialState: BlogState = {
 
 export const FetchingBlogData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
-            }
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/all`, {        
         });
         dispatch(SetAllBLog(response.data));
     } catch (error) {

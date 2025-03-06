@@ -3,8 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface AllFacility {
-    id: string,
+export interface AllFacility {
     title: string;
     description: string[];
     image: string;
@@ -20,11 +19,7 @@ const initialState: AllFacilityState = {
 
 export const DetchinAllFacility = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
-            }
-        });
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Facility/FacilityRouter/Facility/All`, {});
         dispatch(SetAllFacility(response.data));
     } catch (error) {
         console.error("Error fetching all appointments:", error);

@@ -3,17 +3,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface AllDoctors {
-    id: string,
-    UserId: string;
-    choosedepartment: string;
-    selectDoctor: string;
-    date: string;  // Changed to string
-    time: string;
-    fullname: string;
-    phonnumber: string;  // Changed to string
-    message: string;
-    status: "Pending" | "Confirmed" | "Cancelled";
+export interface AllDoctors {
+    _id: string;
+    name: string;
+    specialization: string;
+    experience: string;
+    profile_picture: string;
+    about?: string;
+    appointment_fee: string;
 }
 
 interface AllDoctorsState {
@@ -26,12 +23,13 @@ const initialState: AllDoctorsState = {
 
 export const DetchinAllDoctors = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Doctors/DoctorsRouter/all`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`
             }
         });
         dispatch(SetAllDoctors(response.data));
+
     } catch (error) {
         console.error("Error fetching all appointments:", error);
     }

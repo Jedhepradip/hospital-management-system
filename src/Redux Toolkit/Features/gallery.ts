@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface Gallery {
+export interface Gallery {
     GalleryImg: string;
 }
 
@@ -18,10 +18,8 @@ const initialState: GalleryState = {
 
 export const FetchinGalleryAllData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
-            }
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Gallery/Galleryrouter/all`, {
+         
         });
         dispatch(SetGalleryAllData(response.data));
     } catch (error) {
