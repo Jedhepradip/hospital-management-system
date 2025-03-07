@@ -17,6 +17,8 @@ import { FetchinGalleryAllData, Gallery } from '../Redux Toolkit/Features/galler
 import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
 import { AllUser, FetchinAllUserdataToAdmin } from '../Redux Toolkit/Features/All-User';
 import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features/All-appointment';
+import { DetchinAllSpecialAppointment, SpecialAppointment } from '../Redux Toolkit/Features/All-SpecialAppointment';
+
 
 interface Appointment {
     _id: string;
@@ -49,6 +51,7 @@ const Admin: React.FC = () => {
     const [GalleryPage, SetGalleryData] = useState<Gallery[]>([]);
     const [facilities, setFacilities] = useState<AllFacility[]>([]);
     const [appointments, setAppointments] = useState<AllAppointment[]>([]);
+    const [Scpileappointments, setAppointmentsSpcile] = useState<SpecialAppointment[]>([]);
 
     const dispatch = useAppDispatch();
     const allBlog = useSelector((state: RootState) => state.Blog.AllBlog);
@@ -57,6 +60,7 @@ const Admin: React.FC = () => {
     const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
     const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility);
     const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
+    const SpecilAppointments = useSelector((state: RootState) => state.AllSpecialAppointment.AllSpecialAppointment)
 
     useEffect(() => {
         if (alldcotors?.length > 0) {
@@ -77,7 +81,10 @@ const Admin: React.FC = () => {
         if (Appointments?.length > 0) {
             setAppointments(Appointments)
         }
-    }, [alldcotors, allBlog, AllGallery, Facilitya, alluser, Appointments])
+        if (SpecilAppointments.length > 0) {
+            setAppointmentsSpcile(SpecilAppointments)
+        }
+    }, [alldcotors, allBlog, AllGallery, Facilitya, alluser, Appointments, SpecilAppointments])
 
     const handlePageChange = (page: string) => {
         setActivePage(page);
@@ -257,6 +264,7 @@ const Admin: React.FC = () => {
         dispatch(FetchinGalleryAllData());
         dispatch(FetchinAllAppointment())
         dispatch(FetchinAllUserdataToAdmin())
+        dispatch(DetchinAllSpecialAppointment())
     }, [dispatch])
 
 
@@ -325,7 +333,6 @@ const Admin: React.FC = () => {
             }
         }
     };
-
 
     const renderPageContent = () => {
         switch (activePage) {
@@ -530,9 +537,9 @@ const Admin: React.FC = () => {
                 return (
                     <div className="p-6">
                         <h3 className="text-lg font-semibold mb-4">Special Appointments List</h3>
-                        {appointments.map((appointment) => (
+                        {Scpileappointments.map((appointment) => (
                             <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{appointment.fullname} - {appointment.selectDoctor} - {appointment.choosedepartment} - {appointment.status} - {appointment.phonnumber}</span>
+                                <span>{appointment.patientName} - {appointment.doctor} - {appointment.department} - {appointment.status} - {appointment.phonnumber}</span>
                                 <div className="space-x-2">
                                     <button><FiEdit2 className="text-blue-500" /></button>
                                     <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteSpecialAppointment(appointment?._id)} /></button>

@@ -4,8 +4,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface SpecialAppointment {
-    id: string,
+export interface SpecialAppointment {
+    _id: string,
     UserId: string;
     patientName: string;
     patientEmail: string;
@@ -13,6 +13,7 @@ interface SpecialAppointment {
     department: string;
     appointmentDate: Date;
     appointmentTime: string;
+    phonnumber: string;
     status: "pending" | "confirmed" | "canceled";
     createdAt: Date;
 }
