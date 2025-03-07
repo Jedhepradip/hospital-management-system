@@ -158,7 +158,7 @@ const Appointment: React.FC = () => {
                         </div>
 
                         {/* Submit Button */}
-                        <button type="submit" className="w-[50%] bg-blue-900 text-white font-bold py-4 hover:bg-blue-700 transition">
+                        <button type="submit" className="md:w-[52%] w-full  bg-blue-900 text-white font-bold py-3  hover:bg-blue-700 transition">
                             Book Appointment
                         </button>
                     </form>

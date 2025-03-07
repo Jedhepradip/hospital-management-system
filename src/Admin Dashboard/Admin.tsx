@@ -34,15 +34,13 @@ interface ImgComponents {
     imageUrl: string,
 }
 
-
 const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
-
 
 type FormData = AllDoctors & AllFacility & Blog & Appointment & AllUser & ImgComponents
 
 const Admin: React.FC = () => {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [activePage, setActivePage] = useState('Dashboard');
 
@@ -91,6 +89,7 @@ const Admin: React.FC = () => {
 
     const handlePageChange = (page: string) => {
         setActivePage(page);
+        setIsSidebarOpen(false)
     };
 
     const onSubmitDoctor: SubmitHandler<AllDoctors> = async (data) => {
@@ -645,10 +644,13 @@ const Admin: React.FC = () => {
                             <>
                                 <div className="p-6 bg-gray-100 min-h-screen">
                                     <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Blog Post</h3>
-                                    <form onSubmit={handleSubmit(onSubmitBlog)} className="bg-white shadow-md p-6 rounded-lg mb-6">
+                                    <form
+                                        onSubmit={handleSubmit(onSubmitBlog)}
+                                        className="bg-white shadow-md p-6 rounded-lg mb-6"
+                                    >
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <input
-                                                type='text'
+                                                type="text"
                                                 {...register("category", { required: true })}
                                                 placeholder="Category"
                                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
@@ -656,16 +658,14 @@ const Admin: React.FC = () => {
                                             {errors.category && <p className="text-red-500 text-sm">Category is required</p>}
 
                                             <input
-                                                typeof='date'
-                                                {...register("date", { required: true })}
                                                 type="date"
-                                                placeholder="Date"
+                                                {...register("date", { required: true })}
                                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
                                             />
                                             {errors.date && <p className="text-red-500 text-sm">Date is required</p>}
 
                                             <input
-                                                type='text'
+                                                type="text"
                                                 {...register("hospital", { required: true })}
                                                 placeholder="Hospital"
                                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
@@ -673,7 +673,7 @@ const Admin: React.FC = () => {
                                             {errors.hospital && <p className="text-red-500 text-sm">Hospital name is required</p>}
 
                                             <input
-                                                type='text'
+                                                type="text"
                                                 {...register("title", { required: true })}
                                                 placeholder="Title"
                                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
@@ -681,14 +681,15 @@ const Admin: React.FC = () => {
                                             {errors.title && <p className="text-red-500 text-sm">Title is required</p>}
 
                                             <input
-                                                type='URL'
+                                                type="url"
                                                 {...register("imageUrl", { required: true })}
                                                 placeholder="Image URL"
                                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
                                             />
                                             {errors.imageUrl && <p className="text-red-500 text-sm">Image URL is required</p>}
 
-                                            <input type='link'
+                                            <input
+                                                type="text"
                                                 {...register("readMoreLink")}
                                                 placeholder="Read More Link"
                                                 className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
@@ -702,34 +703,47 @@ const Admin: React.FC = () => {
                                         ></textarea>
                                         {errors.description && <p className="text-red-500 text-sm">Description is required</p>}
 
-                                        <button type="submit" className="bg-blue-950 text-white p-3 mt-4 w-full hover:bg-blue-900 transition">
+                                        <button
+                                            type="submit"
+                                            className="bg-blue-950 text-white p-3 mt-4 w-full hover:bg-blue-900 transition text-sm md:text-base"
+                                        >
                                             Add Blog
                                         </button>
                                     </form>
 
                                     <h3 className="text-xl font-semibold mb-4 text-gray-700">Blog Posts List</h3>
-                                    <div className="space-y-4">
+                                    <div className="space-y-4 bg-gray-100">
                                         {blogs.length > 0 ? (
                                             blogs.map((blog) => (
-                                                <div key={blog._id} className="flex items-center bg-white p-4 shadow-md rounded-lg gap-4">
-                                                    {/* Blog Image */}
+                                                <div
+                                                    key={blog._id}
+                                                    className="flex flex-col sm:flex-row items-center bg-white p-4 shadow-md rounded-lg gap-4"
+                                                >
                                                     {blog.imageUrl && (
-                                                        <img src={blog.imageUrl} alt={blog.title} className="w-24 h-24 object-cover rounded-lg" />
+                                                        <img
+                                                            src={blog.imageUrl}
+                                                            alt={blog.title}
+                                                            className="w-24 h-24 object-cover rounded-lg sm:w-32 sm:h-32"
+                                                        />
                                                     )}
-                                                    {/* Blog Content */}
-                                                    <div className="flex-1">
+                                                    <div className="flex-1 text-center sm:text-left">
                                                         <h4 className="text-lg font-semibold text-gray-800">{blog.title}</h4>
                                                         <p className="text-gray-600 text-sm">🏥 <b>Hospital:</b> {blog.hospital}</p>
                                                         <p className="text-gray-600 text-sm">📅 <b>Date:</b> {blog.date}</p>
                                                         <p className="text-gray-600 text-sm">📌 <b>Category:</b> {blog.category}</p>
                                                         <p className="text-gray-600 text-sm truncate">📝 <b>Description:</b> {blog.description}</p>
                                                     </div>
-                                                    {/* Action Buttons */}
                                                     <div className="space-x-2">
-                                                        <button onClick={() => handleEditClick(blog._id)} className="text-blue-500 hover:text-blue-700 transition">
+                                                        <button
+                                                            onClick={() => handleEditClick(blog._id)}
+                                                            className="text-blue-500 hover:text-blue-700 transition"
+                                                        >
                                                             <FiEdit2 />
                                                         </button>
-                                                        <button onClick={() => handleDeleteBlog(blog?._id)} className="text-red-500 hover:text-red-700 transition">
+                                                        <button
+                                                            onClick={() => handleDeleteBlog(blog?._id)}
+                                                            className="text-red-500 hover:text-red-700 transition"
+                                                        >
                                                             <FiTrash2 />
                                                         </button>
                                                     </div>
@@ -787,46 +801,97 @@ const Admin: React.FC = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        // <div className="flex h-screen">
+        //     <ToastContainer />
+        //     <div className={`bg-blue-950 text-white w-64 p-5 ${isSidebarOpen ? "block" : "hidden"} md:block`}>
+        //         <h2 className="text-xl font-bold mb-6">Admin Dashboard</h2>
+        //         <ul>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Dashboard" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Dashboard")}>
+        //                 <FaChartBar /> Dashboard
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Doctors" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Doctors")}>
+        //                 <FaUserMd /> Doctors
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Users" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Users")}>
+        //                 <FaUsers /> Users
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Appointments" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Appointments")}>
+        //                 <FaCalendarCheck /> Appointments
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Special Appointment" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Special Appointment")}>
+        //                 <FaCalendar /> Special Appointments
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Facilities" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Facilities")}>
+        //                 <FaHospital /> Facilities
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Blog" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Blog")}>
+        //                 <FaBlog /> Blog
+        //             </li>
+        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
+        //                 <RiGalleryFill /> Gallery
+        //             </li>
+        //         </ul>
+        //     </div>
+
+        //     <div className="flex-1 flex flex-col">
+        //         <div className="bg-white p-4 shadow flex justify-between items-center relative">
+        //             <FiMenu className="text-xl cursor-pointer md:hidden" onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+        //             <h2 className="text-lg font-semibold">{activePage}</h2>
+        //             <div className="relative">
+        //                 <FiUser className="text-xl cursor-pointer" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} />
+        //                 {isUserMenuOpen && (
+        //                     <div className="absolute right  -0 mt-2 w-40 bg-white shadow-lg rounded-md py-2">
+        //                         <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => console.log("Logout")}>
+        //                             <FaSignOutAlt className="inline-block mr-2" /> Logout
+        //                         </button>
+        //                     </div>
+        //                 )}
+        //             </div>
+        //         </div>
+        //         {renderPageContent()}
+        //     </div>
+        // </div>
+        <div className="flex h-screen z-50">
             <ToastContainer />
-            <div className={`bg-blue-950 text-white w-64 p-5 ${isSidebarOpen ? "block" : "hidden"} md:block`}>
+
+            {/* Sidebar */}
+            <div className={`fixed inset-y-0 left-0 bg-blue-950 text-white w-72 p-5 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform md:translate-x-0 md:relative md:w-72`}>
                 <h2 className="text-xl font-bold mb-6">Admin Dashboard</h2>
                 <ul>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Dashboard" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Dashboard")}>
-                        <FaChartBar /> Dashboard
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Doctors" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Doctors")}>
-                        <FaUserMd /> Doctors
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Users" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Users")}>
-                        <FaUsers /> Users
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Appointments" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Appointments")}>
-                        <FaCalendarCheck /> Appointments
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Special Appointment" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Special Appointment")}>
-                        <FaCalendar /> Special Appointments
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Facilities" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Facilities")}>
-                        <FaHospital /> Facilities
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Blog" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Blog")}>
-                        <FaBlog /> Blog
-                    </li>
-                    <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
-                        <RiGalleryFill /> Gallery
-                    </li>
+                    {[
+                        { name: "Dashboard", icon: <FaChartBar /> },
+                        { name: "Doctors", icon: <FaUserMd /> },
+                        { name: "Users", icon: <FaUsers /> },
+                        { name: "Appointments", icon: <FaCalendarCheck /> },
+                        { name: "Special Appointment", icon: <FaCalendar /> },
+                        { name: "Facilities", icon: <FaHospital /> },
+                        { name: "Blog", icon: <FaBlog /> },
+                        { name: "Gallery", icon: <RiGalleryFill /> }
+                    ].map(({ name, icon }) => (
+                        <li
+                            key={name}
+                            className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === name ? "text-gray-200" : ""}`}
+                            onClick={() => handlePageChange(name)}
+                        >
+                            {icon} {name}
+                        </li>
+                    ))}
                 </ul>
             </div>
 
+            {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 <div className="bg-white p-4 shadow flex justify-between items-center relative">
+                    {/* Sidebar Toggle Button (Mobile) */}
                     <FiMenu className="text-xl cursor-pointer md:hidden" onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+
                     <h2 className="text-lg font-semibold">{activePage}</h2>
+
+                    {/* User Menu */}
                     <div className="relative">
                         <FiUser className="text-xl cursor-pointer" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} />
                         {isUserMenuOpen && (
-                            <div className="absolute right  -0 mt-2 w-40 bg-white shadow-lg rounded-md py-2">
+                            <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2">
                                 <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => console.log("Logout")}>
                                     <FaSignOutAlt className="inline-block mr-2" /> Logout
                                 </button>
@@ -834,9 +899,12 @@ const Admin: React.FC = () => {
                         )}
                     </div>
                 </div>
+
+                {/* Page Content */}
                 {renderPageContent()}
             </div>
         </div>
+
     );
 };
 
