@@ -18,10 +18,10 @@ const HomePages: React.FC = () => {
               alt="Doctors"
               className="w-[100px] h-12 md:w-28 md:h-12 object-cover rounded-full"
             />
-            <p className="text-lg md:text-[15px] text-white">
-              Simply browse through our extensive list of trusted doctors, <br />
-              schedule your appointment hassle-free.
+            <p className="text-[16px] md:text-[15px] text-white text-center md:text-left leading-relaxed">
+              Simply browse through our extensive list of trusted doctors and schedule your appointment hassle-free.
             </p>
+
           </div>
           {/* Book Appointment Button */}
           <button className="mt-6 flex items-center bg-white text-blue-900 px-5 py-2 rounded-full font-semibold text-sm shadow-lg hover:bg-gray-200 transition">

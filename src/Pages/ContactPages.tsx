@@ -40,7 +40,7 @@ const ContactPages: React.FC = () => {
                     </div>
 
                     {/* Contact Info */}
-                    <div className="md:w-1/2 bg-white p-6 md:p-10 rounded-lg shadow-lg">
+                    <div className="md:w-1/2 bg-white p-8 md:p-10 rounded-lg shadow-lg">
                         <h2 className="text-2xl font-semibold text-blue-900 mb-4">OUR OFFICE</h2>
                         <p className="text-gray-700">
                             00000 Willms Station <br />
@@ -62,9 +62,9 @@ const ContactPages: React.FC = () => {
                 </div>
             </div>
 
-            <div className="p-6 min-h-screen flex items-center justify-center">
+            <div className="p-6 md:min-h-screen flex items-center justify-center">
                 <motion.div
-                    className="bg-white p-8 shadow-lg w-full max-w-8xl"
+                    className="bg-white md:p-8 w-full max-w-8xl"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
@@ -152,7 +152,7 @@ const ContactPages: React.FC = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             type="submit"
-                            className="w-[20%] bg-blue-950 text-white p-3 font-semibold hover:bg-blue-900 transition"
+                            className="w-full md:w-[30%] bg-blue-950 text-white p-3 font-semibold hover:bg-blue-900 transition"
                         >
                             Send Message
                         </motion.button>

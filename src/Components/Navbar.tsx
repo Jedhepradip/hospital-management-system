@@ -9,13 +9,17 @@ const Navbar = () => {
 
     return (
         <>
-            <div className="flex items-center justify-around text-[15px] bg-blue-950 text-white py-2">
-                <span className="flex gap-2"> <i className="mt-1"><IoThumbsUpOutline /></i>support@Palwehospital.com</span>
-                <h1 className="flex gap-2"> <i className="mt-1"><IoLocationOutline /></i>Shree ram chowk, Pipeline Rd, Ahmednagar</h1>
-                <span>Emergency No : 0241 242 5351</span>
+            <div className="flex flex-col md:flex-row items-center justify-around text-[15px] bg-blue-950 text-white py-2 px-4 text-center md:text-left space-y-2 md:space-y-0">
+                <span className="flex items-center gap-2">
+                    <i className="mt-1"><IoThumbsUpOutline /></i> support@Palwehospital.com
+                </span>
+                <h1 className="flex items-center gap-2">
+                    <i className="mt-1"><IoLocationOutline /></i> Shree Ram Chowk, Pipeline Rd, Ahmednagar
+                </h1>
+                <span>Emergency No: 0241 242 5351</span>
             </div>
-            <div className="md:px-2 static z-[100]">
 
+            <div className="md:px-2 static z-[100]">
                 <nav className="px-6 sticky top-0 left-0 w-full bg-white z-[100]">
                     <div className="container mx-auto flex justify-between items-center">
 
@@ -97,7 +101,7 @@ const Navbar = () => {
                                     >
                                         Gallery
                                     </Link>
-                                </li>                            
+                                </li>
 
                                 {/* Contact */}
                                 <li className="border-b md:border-none hover:rounded-lg">

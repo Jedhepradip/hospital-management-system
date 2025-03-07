@@ -23,7 +23,7 @@ const Appointment: React.FC = () => {
 
     const onSubmit = async (data: FormData) => {
         // const token = localStorage.getItem("token")  
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"   
+        const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
         if (!token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
@@ -87,7 +87,7 @@ const Appointment: React.FC = () => {
                     </p>
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-between bg-white p-6 rounded-lg shadow-lg">
+            <div className="flex flex-col md:flex-row items-center justify-between bg-white md:p-6 p-2 py-5 rounded-lg shadow-lg">
                 {/* Left Side - Emergency Contact Info */}
                 <div className="w-full md:w-1/2 text-center md:text-left mb-6 md:mb-0">
 

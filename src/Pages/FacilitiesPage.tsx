@@ -152,11 +152,11 @@ const FacilitiesPage: React.FC = () => {
             </div>
 
             {/* Services Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:px-32 gap-6 p-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:px-32 gap-6 md:p-7 p-3 py-5">
                 {Faciltiy.map((service, index) => (
                     <motion.div
                         key={index}
-                        className="bg-white pb-10 p-2 shadow-lg rounded-lg"
+                        className="bg-white pb-10 md:p-2 shadow-lg rounded-lg"
                         variants={cardVariants}
                         initial="hidden"
                         whileInView="visible"
