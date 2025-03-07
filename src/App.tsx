@@ -19,11 +19,12 @@ import GalleryPages from './Pages/GalleryPages'
 import Appointment from "./Pages/Appointment"
 import Admin from './Admin Dashboard/Admin'
 
+
 const Layout: React.FC = () => {
   const location = useLocation();
 
   // Hide Navbar on Signin and Signup pages
-  const hideNavbar = location.pathname === "/SigninPages" || location.pathname === "/SignupPages" || location.pathname === "/Admin";
+  const hideNavbar = location.pathname === "/SigninPages" || location.pathname === "/SignupPages" || location.pathname === "/Admin" || location.pathname === "/ForgetPassword";
 
   return (
     <>
