@@ -34,7 +34,9 @@ interface ImgComponents {
     imageUrl: string,
 }
 
+
 const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
+
 
 type FormData = AllDoctors & AllFacility & Blog & Appointment & AllUser & ImgComponents
 
