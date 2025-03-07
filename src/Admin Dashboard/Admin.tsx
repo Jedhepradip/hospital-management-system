@@ -19,6 +19,7 @@ import { AllUser, FetchinAllUserdataToAdmin } from '../Redux Toolkit/Features/Al
 import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features/All-appointment';
 import { DetchinAllSpecialAppointment, SpecialAppointment } from '../Redux Toolkit/Features/All-SpecialAppointment';
 import BlogEdit from './BlogEdit';
+import FacilitiesEdit from './FacilitiesEdit';
 
 
 interface Appointment {
@@ -43,9 +44,7 @@ const Admin: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [activePage, setActivePage] = useState('Dashboard');
-
     const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
-
     const [users, setUsers] = useState<AllUser[]>([]);
     const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -338,15 +337,24 @@ const Admin: React.FC = () => {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [BlogId, setSelectedAppointment] = useState<string>('');
+    const [isEditFacilitiesModalOpen, setIsFacilitiesEditModalOpen] = useState(false);
+    const [FacilitiesId, setSelectedFacilities] = useState<string>('');
 
     const handleEditClick = (id: string) => {
         setSelectedAppointment(id); // Store the selected appointment
         setIsEditModalOpen(true); // Open the modal
     };
 
+    const handleEditFacilitie = (id: string) => {
+        setIsFacilitiesEditModalOpen(true)
+        setSelectedFacilities(id)
+    }
+
     const cancelBlogModel = () => {
         setSelectedAppointment(''); // Store the selected appointment
         setIsEditModalOpen(false); // Open the modal
+        setIsFacilitiesEditModalOpen(false)
+        setSelectedFacilities("")
     }
 
     const renderPageContent = () => {
@@ -565,73 +573,85 @@ const Admin: React.FC = () => {
                 );
             case 'Facilities':
                 return (
-                    <div className="p-6 max-w-4xl">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Add New Facility</h2>
+                    <>
+                        {isEditFacilitiesModalOpen ?
+                            <>
+                                <FacilitiesEdit FacilitiesId={FacilitiesId} onCancel={cancelBlogModel} />
+                            </>
+                            :
+                            <>
+                                <div className="p-6 max-w-4xl">
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Add New Facility</h2>
 
-                        <form onSubmit={handleSubmit(onSubmitFacility)} className="bg-white p-6 rounded-lg mb-6">
-                            <input
-                                type="text"
-                                {...register("title", { required: "Title is required" })}
-                                placeholder="Title"
-                                className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
-                            />
-                            {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+                                    <form onSubmit={handleSubmit(onSubmitFacility)} className="bg-white p-6 rounded-lg mb-6">
+                                        <input
+                                            type="text"
+                                            {...register("title", { required: "Title is required" })}
+                                            placeholder="Title"
+                                            className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                                        />
+                                        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
 
-                            <input
-                                type="url"
-                                {...register("image", { required: "Image URL is required" })}
-                                placeholder="Image URL"
-                                className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
-                            />
-                            {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+                                        <input
+                                            type="url"
+                                            {...register("image", { required: "Image URL is required" })}
+                                            placeholder="Image URL"
+                                            className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                                        />
+                                        {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
 
-                            <textarea
-                                {...register("description", { required: "Description is required" })}
-                                placeholder="Description"
-                                className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
-                            ></textarea>
-                            {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+                                        <textarea
+                                            {...register("description", { required: "Description is required" })}
+                                            placeholder="Description"
+                                            className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
+                                        ></textarea>
+                                        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
 
-                            <button type="submit" className="bg-blue-950 text-white p-3 w-full rounded-md hover:bg-blue-900 transition">
-                                Add Facility
-                            </button>
-                        </form>
+                                        <button type="submit" className="bg-blue-950 text-white p-3 w-full rounded-md hover:bg-blue-900 transition">
+                                            Add Facility
+                                        </button>
+                                    </form>
 
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Facilities List</h2>
+                                    <div className="space-y-4">
+                                        {facilities.length > 0 ? (
+                                            facilities.map((facility) => (
+                                                <div key={facility._id} className="flex justify-between items-center bg-white p-4 shadow-md rounded-lg">
 
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Facilities List</h2>
-                        <div className="space-y-4">
-                            {facilities.length > 0 ? (
-                                facilities.map((facility) => (
-                                    <div key={facility._id} className="flex justify-between items-center bg-white p-4 shadow-md rounded-lg">
+                                                    <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
+                                                        <img src={facility.image} alt={facility.title} className="w-16 h-16 object-cover rounded-md" />
 
-                                        <div className="flex items-center gap-4 bg-white p-4 rounded-lg">
-                                            <img src={facility.image} alt={facility.title} className="w-16 h-16 object-cover rounded-md" />
+                                                        <div>
+                                                            <h3 className="text-lg font-semibold text-gray-900">{facility.title}</h3>
+                                                            <p className="text-gray-600 text-sm">
+                                                                📝 <b>Description:</b> {facility.description}
+                                                            </p>
+                                                        </div>
+                                                    </div>
 
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-gray-900">{facility.title}</h3>
-                                                <p className="text-gray-600 text-sm">
-                                                    📝 <b>Description:</b> {facility.description}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex space-x-4">
-                                            <button className="text-blue-600 hover:text-blue-800 transition">
-                                                <FiEdit2 />
-                                            </button>
-                                            <button
-                                                onClick={() => handleDeleteFacilities(facility._id)}
-                                                className="text-red-600 hover:text-red-800 transition">
-                                                <FiTrash2 />
-                                            </button>
-                                        </div>
+                                                    <div className="flex space-x-4">
+                                                        <button
+                                                            onClick={() => handleEditFacilitie(facility?._id)}
+                                                            className="text-blue-600 hover:text-blue-800 transition">
+                                                            <FiEdit2 />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteFacilities(facility._id)}
+                                                            className="text-red-600 hover:text-red-800 transition">
+                                                            <FiTrash2 />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-gray-500 text-center">No facilities added yet.</p>
+                                        )}
                                     </div>
-                                ))
-                            ) : (
-                                <p className="text-gray-500 text-center">No facilities added yet.</p>
-                            )}
-                        </div>
-                    </div>
+                                </div>
+                            </>
+                        }
+
+                    </>
                 );
             case 'Blog':
                 return (
