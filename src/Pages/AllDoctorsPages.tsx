@@ -17,7 +17,7 @@ const specialties = [
 
 const AllDoctorsPages: React.FC = () => {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
- 
+
   const [doctors, setalldoctors] = useState<AllDoctors[]>([])
   const dispatch = useAppDispatch();
   const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
@@ -64,7 +64,7 @@ const AllDoctorsPages: React.FC = () => {
                 !selectedSpecialty || doctor.specialization === selectedSpecialty
             )
             .map((doctor) => (
-              <NavLink to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor?.name)}`}>
+              <NavLink to={`/DoctoreAboutPage?doctorID=${encodeURIComponent(doctor?._id)}`}>
                 <div
                   key={doctor.name}
                   className=" p-5 rounded-2xl transition duration-300 border border-black"

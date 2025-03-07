@@ -11,6 +11,7 @@ export interface SpecialAppointment {
     patientEmail: string;
     doctor: string;
     department: string;
+    message: string,
     appointmentDate: Date;
     appointmentTime: string;
     phonnumber: string;
