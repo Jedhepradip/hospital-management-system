@@ -15,7 +15,7 @@ import { Blog, FetchingBlogData } from '../Redux Toolkit/Features/Blog';
 import { DetchinAllDoctors, AllDoctors } from '../Redux Toolkit/Features/All-Doctors';
 import { FetchinGalleryAllData, Gallery } from '../Redux Toolkit/Features/gallery';
 import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
-import { AllUser, FetchinAllUserData } from '../Redux Toolkit/Features/All-User';
+import { AllUser, FetchinAllUserdataToAdmin } from '../Redux Toolkit/Features/All-User';
 import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features/All-appointment';
 
 interface Appointment {
@@ -253,10 +253,10 @@ const Admin: React.FC = () => {
     useEffect(() => {
         dispatch(FetchingBlogData());
         dispatch(DetchinAllDoctors())
-        dispatch(FetchinAllUserData())
         dispatch(DetchinAllFacility());
         dispatch(FetchinGalleryAllData());
         dispatch(FetchinAllAppointment())
+        dispatch(FetchinAllUserdataToAdmin())
     }, [dispatch])
 
 
@@ -293,6 +293,39 @@ const Admin: React.FC = () => {
     const handleDeleteUser = (id: string) => handleDelete(id, "/api-user/UserRouther");
     const handleDeleteAppointment = (id: string) => handleDelete(id, "/api-appointments/appointmentsRouter");
     const handleDeleteSpecialAppointment = (id: string) => handleDelete(id, "/api-Specile/SpecileAppointments");
+
+    const handleStatusChangeappointment = async (id: string, status: string) => {
+        try {
+            if (!token) {
+                toast.error("Unauthorized! Please log in again.");
+                return;
+            }
+
+            const response = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api-appointments/appointmentsRouter/update/${id}`,
+                { status },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            const responseData = response.data; // Fixed typo
+
+            if (response.status === 200 || response.status === 201) {
+                toast.success(responseData.message, { position: "top-right", autoClose: 3000 });
+            }
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data?.message || "Unexpected error occurred.";
+                toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+
+                console.error("Error:", errorMessage);
+            } else {
+                console.error("Network issue or server not responding", error);
+            }
+        }
+    };
+
 
     const renderPageContent = () => {
         switch (activePage) {
@@ -463,11 +496,31 @@ const Admin: React.FC = () => {
                     <div className="p-6">
                         <h3 className="text-lg font-semibold mb-4">Appointments List</h3>
                         {appointments.map((appointment) => (
-                            <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{appointment.fullname} - {appointment.selectDoctor} - {appointment.choosedepartment} - {appointment.status} - {appointment.phonnumber}</span>
-                                <div className="space-x-2">
-                                    <button><FiEdit2 className="text-blue-500" /></button>
-                                    <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteAppointment(appointment?._id)} /></button>
+                            <div
+                                key={appointment._id}
+                                className="flex justify-between items-center bg-white p-3 shadow rounded mb-2"
+                            >
+                                <span>
+                                    {appointment.fullname} - {appointment.selectDoctor} -{" "}
+                                    {appointment.choosedepartment} - {appointment.phonnumber}
+                                </span>
+                                <div className="flex items-center space-x-4">
+                                    {/* Dropdown for selecting appointment status */}
+                                    <select
+                                        className="border rounded p-1 text-sm"
+                                        value={appointment.status}
+                                        onChange={(e) => handleStatusChangeappointment(appointment._id, e.target.value)}
+                                    >
+                                        <option value="Pending">Pending</option>
+                                        <option value="Confirmed">Confirmed</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                    <button>
+                                        <FiEdit2 className="text-blue-500" />
+                                    </button>
+                                    <button onClick={() => handleDeleteAppointment(appointment._id)}>
+                                        <FiTrash2 className="text-red-500" />
+                                    </button>
                                 </div>
                             </div>
                         ))}

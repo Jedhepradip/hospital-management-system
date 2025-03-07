@@ -20,14 +20,17 @@ interface AllUserStateState {
 const initialState: AllUserStateState = {
     AllUser: []
 };
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
 
-export const FetchinAllUserData = () => async (dispatch: AppDispatch) => {
+export const FetchinAllUserdataToAdmin = () => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/UserRouther/AllData/Send`, {
             headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
+                // authorization: `Bearer ${localStorage.getItem("Token")}`
+                authorization: `Bearer ${token}`
             }
         });
+        console.log("response.data :", response.data);
         dispatch(SetAllUser(response.data));
     } catch (error) {
         console.error("Error fetching all appointments:", error);
