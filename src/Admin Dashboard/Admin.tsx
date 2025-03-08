@@ -563,25 +563,44 @@ const Admin: React.FC = () => {
                                             doctors?.map((doctor) => (
                                                 <motion.div
                                                     key={doctor._id}
-                                                    className="flex justify-between items-center bg-white p-3 shadow-md rounded-lg mb-3"
+                                                    className="flex flex-col md:flex-row justify-between items-center bg-white p-4 shadow-md rounded-lg mb-3"
                                                     whileHover={{ scale: 1.02 }}
                                                     transition={{ duration: 0.2 }}
                                                 >
-                                                    <span className="text-gray-700">{doctor?.name} - {doctor?.specialization}</span>
-                                                    <div className="space-x-2">
-                                                        <button>
-                                                            <FiEdit2 onClick={() => handelEditDoctor(doctor?._id)} className="text-blue-500 hover:text-blue-700 transition duration-200" />
+                                                    {/* Doctor Profile Picture */}
+                                                    <img
+                                                        src={doctor.profile_picture}
+                                                        alt={doctor.name}
+                                                        className="w-16 h-16 rounded-full object-cover border"
+                                                    />
+
+                                                    {/* Doctor Details */}
+                                                    <div className="flex-1 px-4">
+                                                        <h4 className="text-lg font-semibold text-gray-800">{doctor?.name}</h4>
+                                                        <p className="text-sm text-gray-600">{doctor?.specialization}</p>
+                                                        <p className="text-sm text-gray-600">Experience: {doctor?.experience} years</p>
+                                                        <p className="text-sm text-gray-600">Fee: ${doctor?.appointment_fee}</p>
+                                                        {doctor?.about && <p className="text-xs text-gray-500 mt-1">{doctor?.about}</p>}
+                                                    </div>
+
+                                                    {/* Action Buttons */}
+                                                    <div className="space-x-2 flex">
+                                                        <button onClick={() => handelEditDoctor(doctor?._id)}>
+                                                            <FiEdit2 className="text-blue-500 hover:text-blue-700 transition duration-200 text-xl" />
                                                         </button>
                                                         <button onClick={() => handleDeleteDoctor(doctor?._id)}>
-                                                            <FiTrash2 className="text-red-500 hover:text-red-700 transition duration-200" />
+                                                            <FiTrash2 className="text-red-500 hover:text-red-700 transition duration-200 text-xl" />
                                                         </button>
                                                     </div>
                                                 </motion.div>
                                             ))
                                         )}
                                     </motion.div>
+
+
+
                                 </div>
-                                </>
+                            </>
                         }
                     </>
                 );

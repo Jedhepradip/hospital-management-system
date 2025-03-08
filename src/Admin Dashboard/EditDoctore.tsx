@@ -1,14 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RootState } from '../Redux Toolkit/Store/store';
 import { AllDoctors, DetchinAllDoctors } from '../Redux Toolkit/Features/All-Doctors';
 import { useAppDispatch } from '../Redux Toolkit/Store/store';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 interface DoctorEditProps {
     DoctoreId: string;
     onCancel: () => void;
 }
+
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
 
 const EditDoctore: React.FC<DoctorEditProps> = ({ DoctoreId, onCancel }) => {
     const doctoreAll = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
@@ -20,7 +26,7 @@ const EditDoctore: React.FC<DoctorEditProps> = ({ DoctoreId, onCancel }) => {
         dispatch(DetchinAllDoctors());
     }, [dispatch])
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<AllDoctors>();
+    const { register, handleSubmit, reset } = useForm<AllDoctors>();
 
     useEffect(() => {
         if (doctoreAll.length > 0) {
@@ -31,33 +37,72 @@ const EditDoctore: React.FC<DoctorEditProps> = ({ DoctoreId, onCancel }) => {
         }
     }, [doctoreAll, DoctoreId, reset]);
 
-    const onSubmit: SubmitHandler<AllDoctors> = (data: AllDoctors) => {
-        console.log('Updated Doctor Data:', data);
-        onCancel(); // Close form after submission
+    const onSubmit: SubmitHandler<AllDoctors> = async (data: AllDoctors) => {
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
+        const formData = new FormData();
+        formData.append("name", data.name)
+        formData.append("specialization", data.specialization)
+        formData.append("about", data.about || "")
+        formData.append("appointment_fee", data.appointment_fee)
+        formData.append("experience", data.experience)
+        formData.append("profile_picture", data.profile_picture)
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-Doctors/DoctorsRouter/update/${DoctoreId}`, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`, // Send Bearer Token
+                },
+            });
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success("Appointment booked successfully!", { position: "top-right", autoClose: 3000 });
+                reset(); // Clear form after submission                
+
+                setTimeout(() => {
+                    onCancel()
+                }, 1000);
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
     };
 
     return (
         <div className="p-6 max-w-4xl bg-gray-100 shadow-lg rounded-lg">
             <h3 className="text-2xl font-semibold mb-4 text-gray-800">Edit Doctor</h3>
-
+            <ToastContainer />
             {/* Form */}
             <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 shadow-md rounded-lg space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Name */}
                     <div>
                         <input
-                            {...register("name", { required: "Name is required" })}
+                            {...register("name")}
                             placeholder="Name"
                             className="border p-3 w-full rounded"
                             defaultValue={doctorData?.name}
                         />
-                        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                     </div>
 
                     {/* Specialization */}
                     <div className="w-full">
                         <select
-                            {...register("specialization", { required: "Specialization is required" })}
+                            {...register("specialization")}
                             className="border p-3 w-full rounded bg-white"
                             defaultValue={doctorData?.specialization}
                         >
@@ -69,31 +114,28 @@ const EditDoctore: React.FC<DoctorEditProps> = ({ DoctoreId, onCancel }) => {
                             <option value="Neurologist">Neurologist</option>
                             <option value="Gastroenterologist">Gastroenterologist</option>
                         </select>
-                        {errors.specialization && <p className="text-red-500 text-sm">{errors.specialization.message}</p>}
                     </div>
 
                     {/* Experience */}
                     <div>
                         <input
                             type="number"
-                            {...register("experience", { required: "Experience is required" })}
+                            {...register("experience")}
                             placeholder="Experience (years)"
                             className="border p-3 w-full rounded"
                             defaultValue={doctorData?.experience}
                         />
-                        {errors.experience && <p className="text-red-500 text-sm">{errors.experience.message}</p>}
                     </div>
 
                     {/* Profile Picture */}
                     <div>
                         <input
                             type="url"
-                            {...register("profile_picture", { required: "Profile picture URL is required" })}
+                            {...register("profile_picture")}
                             placeholder="Profile Picture URL"
                             className="border p-3 w-full rounded"
                             defaultValue={doctorData?.profile_picture}
                         />
-                        {errors.profile_picture && <p className="text-red-500 text-sm">{errors.profile_picture.message}</p>}
                     </div>
                 </div>
 
@@ -108,12 +150,11 @@ const EditDoctore: React.FC<DoctorEditProps> = ({ DoctoreId, onCancel }) => {
                 {/* Appointment Fee */}
                 <input
                     type="number"
-                    {...register("appointment_fee", { required: "Appointment Fee is required" })}
+                    {...register("appointment_fee")}
                     placeholder="Appointment Fee"
                     className="border p-3 w-full rounded"
                     defaultValue={doctorData?.appointment_fee}
                 />
-                {errors.appointment_fee && <p className="text-red-500 text-sm">{errors.appointment_fee.message}</p>}
 
                 {/* Buttons */}
                 <div className="flex justify-between mt-4">
