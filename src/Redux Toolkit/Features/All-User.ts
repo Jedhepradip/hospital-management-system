@@ -30,7 +30,6 @@ export const FetchinAllUserdataToAdmin = () => async (dispatch: AppDispatch) => 
                 authorization: `Bearer ${token}`
             }
         });
-        console.log("response.data :", response.data);
         dispatch(SetAllUser(response.data));
     } catch (error) {
         console.error("Error fetching all appointments:", error);
