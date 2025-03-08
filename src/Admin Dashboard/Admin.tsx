@@ -62,8 +62,8 @@ const Admin: React.FC = () => {
     const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
     const SpecilAppointments = useSelector((state: RootState) => state.AllSpecialAppointment.AllSpecialAppointment)
 
-    console.log("SpecilAppointments",SpecilAppointments);
-    
+    console.log("SpecilAppointments", SpecilAppointments);
+
 
     useEffect(() => {
         if (alldcotors?.length > 0) {
@@ -368,6 +368,38 @@ const Admin: React.FC = () => {
         SetUpdateUserId("")
     }
 
+    const handleStatusChangeSpcileappointment = async (id: string, status: string) => {
+        try {
+            if (!token) {
+                toast.error("Unauthorized! Please log in again.");
+                return;
+            }
+
+            const response = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/statue/update/${id}`,
+                { status },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            const responseData = response.data; // Fixed typo
+
+            if (response.status === 200 || response.status === 201) {
+                toast.success(responseData.message, { position: "top-right", autoClose: 3000 });
+            }
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data?.message || "Unexpected error occurred.";
+                toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>);
+
+                console.error("Error:", errorMessage);
+            } else {
+                console.error("Network issue or server not responding", error);
+            }
+        }
+    };
+
     const renderPageContent = () => {
         switch (activePage) {
             case 'Dashboard':
@@ -579,17 +611,54 @@ const Admin: React.FC = () => {
                 );
             case 'Special Appointment':
                 return (
-                    <div className="p-6">
-                        <h3 className="text-lg font-semibold mb-4">Special Appointments List</h3>
-                        {Scpileappointments.map((appointment) => (
-                            <div key={appointment._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{appointment.patientName} - {appointment.doctor} - {appointment.department} - {appointment.status} - {appointment.phonnumber}</span>
-                                <div className="space-x-2">
-                                    <button><FiEdit2 className="text-blue-500" /></button>
-                                    <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteSpecialAppointment(appointment?._id)} /></button>
+                    <div className="p-6  rounded-lg">
+                        <h3 className="text-lg font-semibold mb-4 text-gray-800">Special Appointments List</h3>
+
+                        {/* Show message if no appointments */}
+                        {Scpileappointments.length === 0 ? (
+                            <p className="text-gray-600">No special appointments available.</p>
+                        ) : (
+                            Scpileappointments.map((appointment) => (
+                                <div
+                                    key={appointment._id}
+                                    className="flex justify-between items-center bg-white p-3 shadow-md rounded mb-2 border-l-4 
+                                transition-all hover:shadow-lg"
+                                >
+                                    <div className="text-gray-700">
+                                        <span className="font-medium">{appointment.patientName}</span> -
+                                        <span className="text-blue-600"> {appointment.doctor} </span> -
+                                        <span className="text-green-600"> {appointment.department} </span> -
+
+                                        {/* Status Dropdown (No Background or Text Color) */}
+
+                                        - <span className="text-gray-500">{appointment.phonnumber}</span>
+                                    </div>
+
+                                    {/* Edit & Delete Buttons */}
+                                    <div className="space-x-3">
+                                        <select
+                                            value={appointment.status}
+                                            onChange={(e) => handleStatusChangeSpcileappointment(appointment._id, e.target.value as "pending" | "confirmed" | "canceled")}
+                                            className="border px-2 py-1 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                                        >
+                                            <option value="pending">Pending</option>
+                                            <option value="confirmed">Confirmed</option>
+                                            <option value="canceled">Canceled</option>
+                                        </select>
+
+                                        <button className="text-blue-500 hover:text-blue-700 transition">
+                                            <FiEdit2 size={18} />
+                                        </button>
+                                        <button
+                                            className="text-red-500 hover:text-red-700 transition"
+                                            onClick={() => handleDeleteSpecialAppointment(appointment._id)}
+                                        >
+                                            <FiTrash2 size={18} />
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 );
             case 'Facilities':
