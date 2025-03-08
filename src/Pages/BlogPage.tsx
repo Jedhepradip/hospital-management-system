@@ -263,7 +263,7 @@ const BlogPage: React.FC = () => {
     useEffect(() => {
         const filtered = selectedCategory === "All" ? articles : articles.filter(article => article.category === selectedCategory);
         setFilteredArticles(filtered);
-    }, [selectedCategory]);
+    }, [selectedCategory, filteredArticles]);
 
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(category);

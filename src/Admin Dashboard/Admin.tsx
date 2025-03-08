@@ -21,6 +21,7 @@ import { DetchinAllSpecialAppointment, SpecialAppointment } from '../Redux Toolk
 import BlogEdit from './BlogEdit';
 import FacilitiesEdit from './FacilitiesEdit';
 import UserEdit from './UserEdit';
+import EditDoctore from './EditDoctore';
 
 interface Appointment {
     _id: string;
@@ -353,6 +354,8 @@ const Admin: React.FC = () => {
     const [FacilitiesId, setSelectedFacilities] = useState<string>('');
     const [isopenUser, SetUserEditModel] = useState(false);
     const [UserId, SetUpdateUserId] = useState<string>('');
+    const [isopenDoctore, SetDoctoreEditModel] = useState(false);
+    const [DoctoreId, SetUpdateDoctoreId] = useState<string>('');
 
     const handleEditClick = (id: string) => {
         setSelectedAppointment(id); // Store the selected appointment
@@ -369,6 +372,11 @@ const Admin: React.FC = () => {
         SetUpdateUserId(id)
     }
 
+    const handelEditDoctor = (id: string) => {
+        SetDoctoreEditModel(true)
+        SetUpdateDoctoreId(id)
+    }
+
     const cancelBlogModel = () => {
         setSelectedAppointment(''); // Store the selected appointment
         setIsEditModalOpen(false); // Open the modal
@@ -376,6 +384,8 @@ const Admin: React.FC = () => {
         setSelectedFacilities("")
         SetUserEditModel(false)
         SetUpdateUserId("")
+        SetDoctoreEditModel(false)
+        SetUpdateDoctoreId("")
     }
 
     const handleStatusChangeSpcileappointment = async (id: string, status: string) => {
@@ -450,120 +460,130 @@ const Admin: React.FC = () => {
                 );
             case 'Doctors':
                 return (
-                    <div className="p-6 max-w-5xl bg-gray-100">
-                        <h3 className="text-xl font-semibold mb-4 text-gray-800">Add Doctor</h3>
+                    <>
+                        {isopenDoctore ?
+                            <>
+                                <EditDoctore DoctoreId={DoctoreId} onCancel={cancelBlogModel} />
+                            </>
+                            :
+                            <>
+                                <div className="p-6 max-w-5xl bg-gray-100">
+                                    <h3 className="text-xl font-semibold mb-4 text-gray-800">Add Doctor</h3>
 
-                        {/* Form */}
-                        <motion.form
-                            onSubmit={handleSubmit(onSubmitDoctor)}
-                            className="mb-6 bg-white p-6 shadow-md rounded-lg space-y-4"
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <input
-                                        {...register("name", { required: "Name is required" })}
-                                        placeholder="Name"
-                                        className="border p-4 w-full rounded"
-                                    />
-                                    {errors.name && <p className="text-red-500 text-sm">{errors.name.message as string}</p>}
-                                </div>
-
-                                <div className="w-full">
-                                    <select
-                                        {...register("specialization", { required: "Specialization is required" })}
-                                        className="border p-4 w-full rounded bg-white"
+                                    {/* Form */}
+                                    <motion.form
+                                        onSubmit={handleSubmit(onSubmitDoctor)}
+                                        className="mb-6 bg-white p-6 shadow-md rounded-lg space-y-4"
+                                        initial={{ opacity: 0, y: -20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.3 }}
                                     >
-                                        <option value="">Select Specialization</option>
-                                        <option value="General Physician">General Physician</option>
-                                        <option value="Gynecologist">Gynecologist</option>
-                                        <option value="Dermatologist">Dermatologist</option>
-                                        <option value="Pediatricians">Pediatricians</option>
-                                        <option value="Neurologist">Neurologist</option>
-                                        <option value="Gastroenterologist">Gastroenterologist</option>
-                                    </select>
-                                    {errors.specialization && <p className="text-red-500 text-sm">{errors.specialization.message as string}</p>}
-                                </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <input
+                                                    {...register("name", { required: "Name is required" })}
+                                                    placeholder="Name"
+                                                    className="border p-4 w-full rounded"
+                                                />
+                                                {errors.name && <p className="text-red-500 text-sm">{errors.name.message as string}</p>}
+                                            </div>
+
+                                            <div className="w-full">
+                                                <select
+                                                    {...register("specialization", { required: "Specialization is required" })}
+                                                    className="border p-4 w-full rounded bg-white"
+                                                >
+                                                    <option value="">Select Specialization</option>
+                                                    <option value="General Physician">General Physician</option>
+                                                    <option value="Gynecologist">Gynecologist</option>
+                                                    <option value="Dermatologist">Dermatologist</option>
+                                                    <option value="Pediatricians">Pediatricians</option>
+                                                    <option value="Neurologist">Neurologist</option>
+                                                    <option value="Gastroenterologist">Gastroenterologist</option>
+                                                </select>
+                                                {errors.specialization && <p className="text-red-500 text-sm">{errors.specialization.message as string}</p>}
+                                            </div>
 
 
-                                <div>
-                                    <input
-                                        type="number"
-                                        {...register("experience", { required: "Experience is required" })}
-                                        placeholder="Experience (years)"
-                                        className="border p-4 w-full rounded"
-                                    />
-                                    {errors.experience && <p className="text-red-500 text-sm">{errors.experience.message as string}</p>}
-                                </div>
+                                            <div>
+                                                <input
+                                                    type="number"
+                                                    {...register("experience", { required: "Experience is required" })}
+                                                    placeholder="Experience (years)"
+                                                    className="border p-4 w-full rounded"
+                                                />
+                                                {errors.experience && <p className="text-red-500 text-sm">{errors.experience.message as string}</p>}
+                                            </div>
 
-                                <div>
-                                    <input
-                                        type="URl"
-                                        {...register("profile_picture", { required: "Profile picture URL is required" })}
-                                        placeholder="Profile Picture URL"
-                                        className="border p-3 w-full rounded"
-                                    />
-                                    {errors.profile_picture && <p className="text-red-500 text-sm">{errors.profile_picture.message as string}</p>}
-                                </div>
-                            </div>
-
-                            <textarea
-                                {...register("about")}
-                                placeholder="About Doctor"
-                                className="border p-4 w-full rounded"
-                            />
-
-                            <input
-                                type="number"
-                                {...register("appointment_fee", { required: "Appointment Fee is required" })}
-                                placeholder="Appointment Fee"
-                                className="border p-4 w-full rounded"
-                            />
-                            {errors.appointment_fee && <p className="text-red-500 text-sm">{errors.appointment_fee.message as string}</p>}
-
-                            <motion.button
-                                type="submit"
-                                className="bg-blue-950 hover:bg-blue-900 text-white p-4 w-full transition duration-10"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                Add Doctor
-                            </motion.button>
-                        </motion.form>
-
-                        {/* Doctors List */}
-                        <h3 className="text-xl font-semibold mb-4 text-gray-800">Doctors List</h3>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            {doctors?.length === 0 ? (
-                                <p className="text-gray-500">No doctors added yet.</p>
-                            ) : (
-                                doctors?.map((doctor) => (
-                                    <motion.div
-                                        key={doctor._id}
-                                        className="flex justify-between items-center bg-white p-3 shadow-md rounded-lg mb-3"
-                                        whileHover={{ scale: 1.02 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <span className="text-gray-700">{doctor?.name} - {doctor?.specialization}</span>
-                                        <div className="space-x-2">
-                                            <button>
-                                                <FiEdit2 className="text-blue-500 hover:text-blue-700 transition duration-200" />
-                                            </button>
-                                            <button onClick={() => handleDeleteDoctor(doctor?._id)}>
-                                                <FiTrash2 className="text-red-500 hover:text-red-700 transition duration-200" />
-                                            </button>
+                                            <div>
+                                                <input
+                                                    type="URl"
+                                                    {...register("profile_picture", { required: "Profile picture URL is required" })}
+                                                    placeholder="Profile Picture URL"
+                                                    className="border p-3 w-full rounded"
+                                                />
+                                                {errors.profile_picture && <p className="text-red-500 text-sm">{errors.profile_picture.message as string}</p>}
+                                            </div>
                                         </div>
+
+                                        <textarea
+                                            {...register("about")}
+                                            placeholder="About Doctor"
+                                            className="border p-4 w-full rounded"
+                                        />
+
+                                        <input
+                                            type="number"
+                                            {...register("appointment_fee", { required: "Appointment Fee is required" })}
+                                            placeholder="Appointment Fee"
+                                            className="border p-4 w-full rounded"
+                                        />
+                                        {errors.appointment_fee && <p className="text-red-500 text-sm">{errors.appointment_fee.message as string}</p>}
+
+                                        <motion.button
+                                            type="submit"
+                                            className="bg-blue-950 hover:bg-blue-900 text-white p-4 w-full transition duration-10"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            Add Doctor
+                                        </motion.button>
+                                    </motion.form>
+
+                                    {/* Doctors List */}
+                                    <h3 className="text-xl font-semibold mb-4 text-gray-800">Doctors List</h3>
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.5 }}
+                                    >
+                                        {doctors?.length === 0 ? (
+                                            <p className="text-gray-500">No doctors added yet.</p>
+                                        ) : (
+                                            doctors?.map((doctor) => (
+                                                <motion.div
+                                                    key={doctor._id}
+                                                    className="flex justify-between items-center bg-white p-3 shadow-md rounded-lg mb-3"
+                                                    whileHover={{ scale: 1.02 }}
+                                                    transition={{ duration: 0.2 }}
+                                                >
+                                                    <span className="text-gray-700">{doctor?.name} - {doctor?.specialization}</span>
+                                                    <div className="space-x-2">
+                                                        <button>
+                                                            <FiEdit2 onClick={() => handelEditDoctor(doctor?._id)} className="text-blue-500 hover:text-blue-700 transition duration-200" />
+                                                        </button>
+                                                        <button onClick={() => handleDeleteDoctor(doctor?._id)}>
+                                                            <FiTrash2 className="text-red-500 hover:text-red-700 transition duration-200" />
+                                                        </button>
+                                                    </div>
+                                                </motion.div>
+                                            ))
+                                        )}
                                     </motion.div>
-                                ))
-                            )}
-                        </motion.div>
-                    </div>
+                                </div>
+                                </>
+                        }
+                    </>
                 );
             case 'Users':
                 return (
