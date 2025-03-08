@@ -27,11 +27,15 @@ const initialState: SpecialAppointmentState = {
     AllSpecialAppointment: []
 };
 
+
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
+
 export const DetchinAllSpecialAppointment = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/user-appointments`, {
             headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
+                // authorization: `Bearer ${localStorage.getItem("Token")}`
+                authorization: `Bearer ${token}`
             }
         });
         dispatch(SetSpecialAppointment(response.data));

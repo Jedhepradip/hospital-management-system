@@ -62,6 +62,9 @@ const Admin: React.FC = () => {
     const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
     const SpecilAppointments = useSelector((state: RootState) => state.AllSpecialAppointment.AllSpecialAppointment)
 
+    console.log("SpecilAppointments",SpecilAppointments);
+    
+
     useEffect(() => {
         if (alldcotors?.length > 0) {
             setalldoctors(alldcotors)
