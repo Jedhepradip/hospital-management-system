@@ -1,36 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { FiMenu, FiUser, FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCalendarCheck, FaCalendar } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { motion } from "framer-motion";
-import { SubmitHandler } from 'react-hook-form';
-import { RiGalleryFill } from 'react-icons/ri';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
-import { RootState, useAppDispatch } from '../Redux Toolkit/Store/store';
+import BlogEdit from './BlogEdit';
+import UserEdit from './UserEdit';
+import { motion } from "framer-motion";
+import EditDoctore from './EditDoctore';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import FacilitiesEdit from './FacilitiesEdit';
+import { RiGalleryFill } from 'react-icons/ri';
+import "react-toastify/dist/ReactToastify.css";
+import { SubmitHandler } from 'react-hook-form';
+import { ToastContainer, toast } from "react-toastify";
+import { FiMenu, FiUser, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { Blog, FetchingBlogData } from '../Redux Toolkit/Features/Blog';
-import { DetchinAllDoctors, AllDoctors } from '../Redux Toolkit/Features/All-Doctors';
+import { RootState, useAppDispatch } from '../Redux Toolkit/Store/store';
 import { FetchinGalleryAllData, Gallery } from '../Redux Toolkit/Features/gallery';
-import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
+import { DetchinAllDoctors, AllDoctors } from '../Redux Toolkit/Features/All-Doctors';
 import { AllUser, FetchinAllUserdataToAdmin } from '../Redux Toolkit/Features/All-User';
+import { AllFacility, DetchinAllFacility } from '../Redux Toolkit/Features/All-Facility';
 import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features/All-appointment';
 import { DetchinAllSpecialAppointment, SpecialAppointment } from '../Redux Toolkit/Features/All-SpecialAppointment';
-import BlogEdit from './BlogEdit';
-import FacilitiesEdit from './FacilitiesEdit';
-import UserEdit from './UserEdit';
-import EditDoctore from './EditDoctore';
-
-interface Appointment {
-    _id: string;
-    userName: string;
-    contact: string;
-    doctorName: string;
-    department: string;
-    status: string;
-}
+import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCalendarCheck, FaCalendar } from 'react-icons/fa';
 
 interface ImgComponents {
     imageUrl: string,
@@ -38,33 +29,22 @@ interface ImgComponents {
 
 const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
 
-type FormData = AllDoctors & AllFacility & Blog & Appointment & AllUser & ImgComponents
+type FormData = AllDoctors & AllFacility & Blog & AllAppointment & AllUser & ImgComponents
 
-const categories = [
-    "All",
-    "Cardiology",
-    "Gynecology",
-    "Neurology",
-    "Orthopedics",
-    "Spine Injury",
-    "Uncategorized",
-    "Infectious",
-    "Medical Breakthroughs",
-    "Life Style"
-];
+const categories = ["All", "Cardiology", "Gynecology", "Neurology", "Orthopedics", "Spine Injury", "Uncategorized", "Infectious", "Medical Breakthroughs", "Life Style"];
 
 const Admin: React.FC = () => {
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const [activePage, setActivePage] = useState('Dashboard');
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
-    const [users, setUsers] = useState<AllUser[]>([]);
-    const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const [blogs, setBlogs] = useState<Blog[]>([]);
+    const [users, setUsers] = useState<AllUser[]>([]);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [activePage, setActivePage] = useState('Dashboard');
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const [GalleryPage, SetGalleryData] = useState<Gallery[]>([]);
     const [facilities, setFacilities] = useState<AllFacility[]>([]);
     const [appointments, setAppointments] = useState<AllAppointment[]>([]);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
     const [Scpileappointments, setAppointmentsSpcile] = useState<SpecialAppointment[]>([]);
 
     const dispatch = useAppDispatch();
@@ -75,6 +55,15 @@ const Admin: React.FC = () => {
     const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility);
     const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
     const SpecilAppointments = useSelector((state: RootState) => state.AllSpecialAppointment.AllSpecialAppointment)
+
+    const [isopenUser, SetUserEditModel] = useState(false);
+    const [UserId, SetUpdateUserId] = useState<string>('');
+    const [isopenDoctore, SetDoctoreEditModel] = useState(false);
+    const [DoctoreId, SetUpdateDoctoreId] = useState<string>('');
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [BlogId, setSelectedAppointment] = useState<string>('');
+    const [FacilitiesId, setSelectedFacilities] = useState<string>('');
+    const [isEditFacilitiesModalOpen, setIsFacilitiesEditModalOpen] = useState(false);
 
     useEffect(() => {
         if (alldcotors?.length > 0) {
@@ -347,15 +336,6 @@ const Admin: React.FC = () => {
             }
         }
     };
-
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [BlogId, setSelectedAppointment] = useState<string>('');
-    const [isEditFacilitiesModalOpen, setIsFacilitiesEditModalOpen] = useState(false);
-    const [FacilitiesId, setSelectedFacilities] = useState<string>('');
-    const [isopenUser, SetUserEditModel] = useState(false);
-    const [UserId, SetUpdateUserId] = useState<string>('');
-    const [isopenDoctore, SetDoctoreEditModel] = useState(false);
-    const [DoctoreId, SetUpdateDoctoreId] = useState<string>('');
 
     const handleEditClick = (id: string) => {
         setSelectedAppointment(id); // Store the selected appointment
