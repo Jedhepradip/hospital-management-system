@@ -8,7 +8,6 @@ import { FetchingBlogData } from "../Redux Toolkit/Features/Blog";
 import { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
@@ -152,7 +151,6 @@ const BlogEdit: React.FC<BlogEditProps> = ({ BlogId, onCancel }) => {
                 </form>
             </div>
         </>
-
     );
 };
 

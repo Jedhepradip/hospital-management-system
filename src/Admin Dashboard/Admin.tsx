@@ -39,6 +39,19 @@ const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIs
 
 type FormData = AllDoctors & AllFacility & Blog & Appointment & AllUser & ImgComponents
 
+const categories = [
+    "All",
+    "Cardiology",
+    "Gynecology",
+    "Neurology",
+    "Orthopedics",
+    "Spine Injury",
+    "Uncategorized",
+    "Infectious",
+    "Medical Breakthroughs",
+    "Life Style"
+];
+
 const Admin: React.FC = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -61,9 +74,6 @@ const Admin: React.FC = () => {
     const Facilitya = useSelector((state: RootState) => state.AllFacility.AllFacility);
     const Appointments = useSelector((state: RootState) => state.Allappointment.AllAppointmentdata)
     const SpecilAppointments = useSelector((state: RootState) => state.AllSpecialAppointment.AllSpecialAppointment)
-
-    console.log("SpecilAppointments", SpecilAppointments);
-
 
     useEffect(() => {
         if (alldcotors?.length > 0) {
@@ -382,9 +392,7 @@ const Admin: React.FC = () => {
                     headers: { Authorization: `Bearer ${token}` },
                 }
             );
-
             const responseData = response.data; // Fixed typo
-
             if (response.status === 200 || response.status === 201) {
                 toast.success(responseData.message, { position: "top-right", autoClose: 3000 });
             }
@@ -463,14 +471,22 @@ const Admin: React.FC = () => {
                                     {errors.name && <p className="text-red-500 text-sm">{errors.name.message as string}</p>}
                                 </div>
 
-                                <div>
-                                    <input
+                                <div className="w-full">
+                                    <select
                                         {...register("specialization", { required: "Specialization is required" })}
-                                        placeholder="Specialization"
-                                        className="border p-4 w-full rounded"
-                                    />
+                                        className="border p-4 w-full rounded bg-white"
+                                    >
+                                        <option value="">Select Specialization</option>
+                                        <option value="General Physician">General Physician</option>
+                                        <option value="Gynecologist">Gynecologist</option>
+                                        <option value="Dermatologist">Dermatologist</option>
+                                        <option value="Pediatricians">Pediatricians</option>
+                                        <option value="Neurologist">Neurologist</option>
+                                        <option value="Gastroenterologist">Gastroenterologist</option>
+                                    </select>
                                     {errors.specialization && <p className="text-red-500 text-sm">{errors.specialization.message as string}</p>}
                                 </div>
+
 
                                 <div>
                                     <input
@@ -614,7 +630,6 @@ const Admin: React.FC = () => {
                     <div className="p-6  rounded-lg">
                         <h3 className="text-lg font-semibold mb-4 text-gray-800">Special Appointments List</h3>
 
-                        {/* Show message if no appointments */}
                         {Scpileappointments.length === 0 ? (
                             <p className="text-gray-600">No special appointments available.</p>
                         ) : (
@@ -628,8 +643,6 @@ const Admin: React.FC = () => {
                                         <span className="font-medium">{appointment.patientName}</span> -
                                         <span className="text-blue-600"> {appointment.doctor} </span> -
                                         <span className="text-green-600"> {appointment.department} </span> -
-
-                                        {/* Status Dropdown (No Background or Text Color) */}
 
                                         - <span className="text-gray-500">{appointment.phonnumber}</span>
                                     </div>
@@ -759,14 +772,18 @@ const Admin: React.FC = () => {
                                         className="bg-white shadow-md p-6 rounded-lg mb-6"
                                     >
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            <input
-                                                type="text"
-                                                {...register("category", { required: true })}
-                                                placeholder="Category"
-                                                className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
-                                            />
-                                            {errors.category && <p className="text-red-500 text-sm">Category is required</p>}
-
+                                            <div className="w-full">
+                                                <select
+                                                    {...register("category", { required: "Category is required" })}
+                                                    className="border p-4 w-full rounded bg-white"
+                                                >
+                                                    <option value="">Select Category</option>
+                                                    {categories.map((category, index) => (
+                                                        <option key={index} value={category}>{category}</option>
+                                                    ))}
+                                                </select>
+                                                {errors.category && <p className="text-red-500 text-sm">{errors.category.message as string}</p>}
+                                            </div>
                                             <input
                                                 type="date"
                                                 {...register("date", { required: true })}
@@ -911,59 +928,8 @@ const Admin: React.FC = () => {
     };
 
     return (
-        // <div className="flex h-screen">
-        //     <ToastContainer />
-        //     <div className={`bg-blue-950 text-white w-64 p-5 ${isSidebarOpen ? "block" : "hidden"} md:block`}>
-        //         <h2 className="text-xl font-bold mb-6">Admin Dashboard</h2>
-        //         <ul>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Dashboard" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Dashboard")}>
-        //                 <FaChartBar /> Dashboard
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Doctors" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Doctors")}>
-        //                 <FaUserMd /> Doctors
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Users" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Users")}>
-        //                 <FaUsers /> Users
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Appointments" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Appointments")}>
-        //                 <FaCalendarCheck /> Appointments
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Special Appointment" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Special Appointment")}>
-        //                 <FaCalendar /> Special Appointments
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Facilities" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Facilities")}>
-        //                 <FaHospital /> Facilities
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Blog" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Blog")}>
-        //                 <FaBlog /> Blog
-        //             </li>
-        //             <li className={`mb-4 flex items-center gap-3 cursor-pointer hover:text-gray-400 ${activePage === "Gallery" ? "text-gray-200" : ""}`} onClick={() => handlePageChange("Gallery")}>
-        //                 <RiGalleryFill /> Gallery
-        //             </li>
-        //         </ul>
-        //     </div>
-
-        //     <div className="flex-1 flex flex-col">
-        //         <div className="bg-white p-4 shadow flex justify-between items-center relative">
-        //             <FiMenu className="text-xl cursor-pointer md:hidden" onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-        //             <h2 className="text-lg font-semibold">{activePage}</h2>
-        //             <div className="relative">
-        //                 <FiUser className="text-xl cursor-pointer" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} />
-        //                 {isUserMenuOpen && (
-        //                     <div className="absolute right  -0 mt-2 w-40 bg-white shadow-lg rounded-md py-2">
-        //                         <button className="block w-full text-left px-4 py-2 hover:bg-gray-200" onClick={() => console.log("Logout")}>
-        //                             <FaSignOutAlt className="inline-block mr-2" /> Logout
-        //                         </button>
-        //                     </div>
-        //                 )}
-        //             </div>
-        //         </div>
-        //         {renderPageContent()}
-        //     </div>
-        // </div>
         <div className="flex h-screen z-50">
             <ToastContainer />
-
             {/* Sidebar */}
             <div className={`fixed inset-y-0 left-0 bg-blue-950 text-white w-72 p-5 transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} transition-transform md:translate-x-0 md:relative md:w-72`}>
                 <h2 className="text-xl font-bold mb-6">Admin Dashboard</h2>
@@ -994,9 +960,7 @@ const Admin: React.FC = () => {
                 <div className="bg-white p-4 shadow flex justify-between items-center relative">
                     {/* Sidebar Toggle Button (Mobile) */}
                     <FiMenu className="text-xl cursor-pointer md:hidden" onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-
                     <h2 className="text-lg font-semibold">{activePage}</h2>
-
                     {/* User Menu */}
                     <div className="relative">
                         <FiUser className="text-xl cursor-pointer" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} />
@@ -1009,12 +973,10 @@ const Admin: React.FC = () => {
                         )}
                     </div>
                 </div>
-
                 {/* Page Content */}
                 {renderPageContent()}
             </div>
         </div>
-
     );
 };
 
