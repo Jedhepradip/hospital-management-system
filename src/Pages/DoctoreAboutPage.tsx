@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
@@ -7,7 +8,10 @@ import { useSelector } from "react-redux";
 import { DetchinAllDoctors } from "../Redux Toolkit/Features/All-Doctors";
 import { useParams } from "react-router-dom";
 import { SpecialAppointment } from "../Redux Toolkit/Features/All-SpecialAppointment";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const DoctoreAboutPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -78,7 +82,7 @@ const DoctoreAboutPage: React.FC = () => {
             </div>
 
             {/* Appointment Modal Component */}
-            <AppointmentModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} doctorName={filterdoctore?.name} />
+            <AppointmentModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
         </div>
     );
 };
@@ -86,48 +90,69 @@ const DoctoreAboutPage: React.FC = () => {
 interface AppointmentModalProps {
     isOpen: boolean;
     onClose: () => void;
-    doctorName: string | undefined;
 }
 
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) => {
 
-const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose, doctorName }) => {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<SpecialAppointment>();
 
     if (!isOpen) {
         return null
-        onClose();
-        console.log(doctorName);
     }
 
-    const { register, handleSubmit, formState: { errors } } = useForm<SpecialAppointment>();
+    const onSubmit: SubmitHandler<SpecialAppointment> = async (data: SpecialAppointment) => {
+        // const token = localStorage.getItem("token")  
+        const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
+        if (!token) {
+            toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            return;
+        }
 
-    const onSubmit = async (data: SpecialAppointment) => {
-        const appointmentData = {
-            ...data,
-            UserId: "6512ae8f5c6e1d1b9a8d7a9e", // Replace with actual user ID
-            appointmentDate: new Date(data.appointmentDate),
-            createdAt: new Date(),
-            status: "pending",
-        };
+        const formData = new FormData();
+        formData.append("appointmentDate", data.appointmentDate.toString())
+        formData.append("appointmentTime", data.appointmentTime)
+        formData.append("department", data.department)
+        formData.append("doctor", data.doctor)
+        formData.append("message", data.message)
+        formData.append("patientEmail", data.patientEmail.toString())
+        formData.append("patientName", data.patientName || "")
+        formData.append("phonnumber", data.phonnumber || "")
 
         try {
-            const response = await fetch("/api/appointments", {
-                method: "POST",
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/create`, formData, {
                 headers: {
                     "Content-Type": "application/json",
+                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
-                body: JSON.stringify(appointmentData),
             });
 
-            const result = await response.json();
-            console.log("Appointment Created:", result);
-        } catch (error) {
-            console.error("Error booking appointment:", error);
+            if (response.status === 201 || response.status === 200) {
+                toast.success("Appointment booked successfully!", { position: "top-right", autoClose: 3000 });
+                reset(); // Clear form after submission                                
+                setTimeout(() => {
+                    onClose();
+                }, 999);
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
         }
     };
 
     return (
-
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <ToastContainer />
             <div className="bg-white p-6 shadow-lg w-[40rem] relative">
                 {/* Close Button */}
                 <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
@@ -190,7 +215,6 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose, do
                 </form>
             </div>
         </div>
-
     );
 };
 

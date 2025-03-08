@@ -4,8 +4,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface User {
-    id: string,
+export interface User {
+    _id: string,
     fullname: string,
     email: string,
     password: string,

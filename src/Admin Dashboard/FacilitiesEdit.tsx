@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { AllFacility, DetchinAllFacility } from "../Redux Toolkit/Features/All-Facility";
 import { useAppDispatch, RootState } from "../Redux Toolkit/Store/store";
 import { SubmitHandler } from "react-hook-form";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,7 +21,7 @@ interface FacilityFormData {
 
 const FacilitiesEdit: React.FC<FacilitiesEditProps> = ({ FacilitiesId, onCancel }) => {
 
-    const [Faciltiy, SetAllFacility] = useState<AllFacility[]>([])
+    const [Faciltiy, SetAllFacility] = useState<AllFacility | null>(null)
     const dispatch = useAppDispatch();
     const AllFacility = useSelector((state: RootState) => state.AllFacility.AllFacility);
 
@@ -32,28 +31,20 @@ const FacilitiesEdit: React.FC<FacilitiesEditProps> = ({ FacilitiesId, onCancel 
 
     useEffect(() => {
         if (AllFacility.length > 0) {
-            SetAllFacility(AllFacility)
-        }
-    }, [AllFacility])
-
-    useEffect(() => {
-        if (AllFacility.length > 0) {
             const selectedFacility = AllFacility.find((item) => item._id === FacilitiesId);
             if (selectedFacility) {
-                SetAllFacility(selectedFacility);
+                SetAllFacility(selectedFacility || null);
             }
         }
     }, [FacilitiesId, AllFacility]);
 
-    console.log(Faciltiy);
-
     const {
         register,
         handleSubmit,
-        formState: { errors },
     } = useForm<FacilityFormData>();
 
     const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
+
     const onSubmitFacility: SubmitHandler<FacilityFormData> = async (data: FacilityFormData) => {
         if (!token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
@@ -78,6 +69,7 @@ const FacilitiesEdit: React.FC<FacilitiesEditProps> = ({ FacilitiesId, onCancel 
                 onCancel();
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
@@ -110,6 +102,7 @@ const FacilitiesEdit: React.FC<FacilitiesEditProps> = ({ FacilitiesId, onCancel 
             <input
                 type="url"
                 {...register("image")}
+                defaultValue={Faciltiy?.image}
                 placeholder="Image URL"
                 className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
             />
@@ -118,7 +111,7 @@ const FacilitiesEdit: React.FC<FacilitiesEditProps> = ({ FacilitiesId, onCancel 
             <textarea
                 {...register("description")}
                 placeholder="Description"
-                defaultValue={Faciltiy.description}
+                defaultValue={Faciltiy?.description}
                 className="border border-gray-300 p-3 rounded-md w-full mb-4 focus:ring-2 focus:ring-blue-400 outline-none"
             ></textarea>
 

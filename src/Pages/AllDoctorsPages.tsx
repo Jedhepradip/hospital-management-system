@@ -32,7 +32,6 @@ const AllDoctorsPages: React.FC = () => {
     }
   }, [alldcotors])
 
-
   return (
     <div className="container mx-auto px-4 md:px-20 py-10 flex flex-col md:flex-row gap-8">
       {/* Left: Filter Section */}

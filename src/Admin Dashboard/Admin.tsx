@@ -20,7 +20,7 @@ import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features
 import { DetchinAllSpecialAppointment, SpecialAppointment } from '../Redux Toolkit/Features/All-SpecialAppointment';
 import BlogEdit from './BlogEdit';
 import FacilitiesEdit from './FacilitiesEdit';
-
+import UserEdit from './UserEdit';
 
 interface Appointment {
     _id: string;
@@ -268,7 +268,6 @@ const Admin: React.FC = () => {
         dispatch(DetchinAllSpecialAppointment())
     }, [dispatch])
 
-
     const handleDelete = async (id: string, apiPath: string) => {
         if (!token) {
             toast.error("Failed to delete item. Please login first.", { position: "top-right", autoClose: 3000 });
@@ -339,6 +338,8 @@ const Admin: React.FC = () => {
     const [BlogId, setSelectedAppointment] = useState<string>('');
     const [isEditFacilitiesModalOpen, setIsFacilitiesEditModalOpen] = useState(false);
     const [FacilitiesId, setSelectedFacilities] = useState<string>('');
+    const [isopenUser, SetUserEditModel] = useState(false);
+    const [UserId, SetUpdateUserId] = useState<string>('');
 
     const handleEditClick = (id: string) => {
         setSelectedAppointment(id); // Store the selected appointment
@@ -350,11 +351,18 @@ const Admin: React.FC = () => {
         setSelectedFacilities(id)
     }
 
+    const handleUpdatedUser = (id: string) => {
+        SetUserEditModel(true)
+        SetUpdateUserId(id)
+    }
+
     const cancelBlogModel = () => {
         setSelectedAppointment(''); // Store the selected appointment
         setIsEditModalOpen(false); // Open the modal
         setIsFacilitiesEditModalOpen(false)
         setSelectedFacilities("")
+        SetUserEditModel(false)
+        SetUpdateUserId("")
     }
 
     const renderPageContent = () => {
@@ -508,18 +516,28 @@ const Admin: React.FC = () => {
                 );
             case 'Users':
                 return (
-                    <div className="p-6">
-                        <h3 className="text-lg font-semibold mb-4">Users List</h3>
-                        {users.map((user) => (
-                            <div key={user?._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
-                                <span>{user?.fullname} - {user?.email} - {user?.contact}</span>
-                                <div className="space-x-2">
-                                    <button><FiEdit2 className="text-blue-500" /></button>
-                                    <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteUser(user?._id)} /></button>
+                    <>
+                        {isopenUser ?
+                            <>
+                                <UserEdit UserId={UserId} onCancel={cancelBlogModel} />
+                            </>
+                            :
+                            <>
+                                <div className="p-6">
+                                    <h3 className="text-lg font-semibold mb-4">Users List</h3>
+                                    {users.map((user) => (
+                                        <div key={user?._id} className="flex justify-between items-center bg-white p-3 shadow rounded mb-2">
+                                            <span>{user?.fullname} - {user?.email} - {user?.contact}</span>
+                                            <div className="space-x-2">
+                                                <button><FiEdit2 className="text-blue-500" onClick={() => handleUpdatedUser(user?._id)} /></button>
+                                                <button><FiTrash2 className="text-red-500" onClick={() => handleDeleteUser(user?._id)} /></button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            </>
+                        }
+                    </>
                 );
             case 'Appointments':
                 return (
