@@ -38,11 +38,9 @@ const ContactPages: React.FC = () => {
             });
 
             const JobsResponses = await response.data;
-
             if (response.status === 201 || response.status === 200) {
                 toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
             }
-
         } catch (error: any) {
             if (error.response) {
                 const errorMessage = error.response.data.message;
