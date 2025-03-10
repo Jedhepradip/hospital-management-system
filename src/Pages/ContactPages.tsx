@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { motion } from "framer-motion"
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import axios from 'axios';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
-interface ContactFormInputs {
+interface ContactInterface {
     fullName: string;
     email: string;
     topic: string;
@@ -16,16 +20,50 @@ const ContactPages: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<ContactFormInputs>();
+    } = useForm<ContactInterface>();
 
-    const onSubmit = (data: ContactFormInputs) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<ContactInterface> = async (data: ContactInterface) => {
+
+        const formData = new FormData();
+        formData.append("contact", data.contactNumber)
+        formData.append("email", data.email)
+        formData.append("message", data.message)
+        formData.append("topic", data.topic)
+        formData.append("name", data.fullName)
+        try {
+            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-contact/contactRouter/submit`, formData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const JobsResponses = await response.data;
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success(JobsResponses.message, { position: "top-right", autoClose: 3000 });
+            }
+
+        } catch (error: any) {
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (error.response.status === 409 || errorMessage === "User already exists") {
+                    console.log("Error: User already exists.");
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                } else {
+                    toast.error(<div className='font-serif text-[15px] text-black'>{errorMessage}</div>)
+                    console.log("Error pp: ", errorMessage || "Unexpected error occurred.");
+                }
+            } else {
+                console.log("Error: Network issue or server not responding", error);
+            }
+        }
     };
 
     return (
         <>
             <div className="container mx-auto px-4 md:px-16 py-12 text-gray-800">
                 {/* Title */}
+                <ToastContainer />
                 <h1 className="text-4xl font-bold text-center text-blue-900 mb-8">CONTACT US</h1>
 
                 {/* Flexbox for Image & Contact Info */}
