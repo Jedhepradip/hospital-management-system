@@ -23,7 +23,6 @@ const ContactPages: React.FC = () => {
     } = useForm<ContactInterface>();
 
     const onSubmit: SubmitHandler<ContactInterface> = async (data: ContactInterface) => {
-
         const formData = new FormData();
         formData.append("contact", data.contactNumber)
         formData.append("email", data.email)
@@ -31,7 +30,7 @@ const ContactPages: React.FC = () => {
         formData.append("topic", data.topic)
         formData.append("name", data.fullName)
         try {
-            const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api-contact/contactRouter/submit`, formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-contact/contactRouter/submit`, formData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
