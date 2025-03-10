@@ -194,11 +194,6 @@ import GalleryPages from "./Pages/GalleryPages";
 import Appointment from "./Pages/Appointment";
 import Admin from "./Admin Dashboard/Admin";
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key");
-}
 
 // Component to manage Navbar and Footer visibility
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -217,6 +212,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 const App: React.FC = () => {
+  
+  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  console.log("PUBLISHABLE_KEY", PUBLISHABLE_KEY);
+
+  if (!PUBLISHABLE_KEY) {
+    throw new Error("Missing Publishable Key 111");
+  }
+
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <Router>
