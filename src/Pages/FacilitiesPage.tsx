@@ -6,6 +6,9 @@ import { AllFacility, DetchinAllFacility } from "../Redux Toolkit/Features/All-F
 import { useAppDispatch, RootState } from "../Redux Toolkit/Store/store";
 import { useSelector } from "react-redux";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 // const services: AllFacility[] = [
 //     {
 //         title: "ICU",
@@ -107,7 +110,7 @@ const FacilitiesPage: React.FC = () => {
 
     const [Faciltiy, SetAllFacility] = useState<AllFacility[]>([])
     const dispatch = useAppDispatch();
-    const AllFacility = useSelector((state: RootState) => state.AllFacility.AllFacility);
+    const { AllFacility, loading } = useSelector((state: RootState) => state.AllFacility);
 
     useEffect(() => {
         dispatch(DetchinAllFacility())
@@ -151,35 +154,50 @@ const FacilitiesPage: React.FC = () => {
                 </div>
             </div>
 
-            {/* Services Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 md:px-32 gap-6 md:p-7 p-3 py-5">
-                {Faciltiy.map((service, index) => (
-                    <motion.div
-                        key={index}
-                        className="bg-white pb-10 md:p-2 shadow-lg rounded-lg"
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                    >
-                        <motion.img
-                            src={service?.image}
-                            alt={service?.title}
-                            className="w-full h-72 object-cover rounded-md"
+                {loading ? (
+                    // Skeleton Loader while loading
+                    Array.from({ length: 4 }).map((_, index) => (
+                        <motion.div
+                            key={index}
+                            className="bg-white pb-10 md:p-2 shadow-lg rounded-lg"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.7 }}
-                        />
-                        <h3 className="text-xl font-semibold mt-4">{service?.title}</h3>
-                        <ul className="list-disc list-inside mt-2">
-                            {service?.description.map((point, idx) => (
-                                <li key={idx} className="text-gray-600">
-                                    {point}
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
-                ))}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <Skeleton height={288} className="w-full rounded-md" />
+                            <Skeleton width="70%" height={24} className="mt-4" />
+                            <Skeleton count={3} className="mt-2" />
+                        </motion.div>
+                    ))
+                ) : (
+                    // Actual Facility Data
+                    Faciltiy.map((service, index) => (
+                        <motion.div
+                            key={index}
+                            className="bg-white pb-10 md:p-2 shadow-lg rounded-lg"
+                            variants={cardVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.2 }}
+                        >
+                            <motion.img
+                                src={service?.image}
+                                alt={service?.title}
+                                className="w-full h-72 object-cover rounded-md"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.7 }}
+                            />
+                            <h3 className="text-xl font-semibold mt-4">{service?.title}</h3>
+                            <ul className="list-disc list-inside mt-2">
+                                {service?.description.map((point, idx) => (
+                                    <li key={idx} className="text-gray-600">{point}</li>
+                                ))}
+                            </ul>
+                        </motion.div>
+                    ))
+                )}
             </div>
         </div>
 
@@ -187,5 +205,6 @@ const FacilitiesPage: React.FC = () => {
 };
 
 export default FacilitiesPage;
+
 
 

@@ -2,34 +2,13 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
 import { FetchinGalleryAllData, Gallery } from "../Redux Toolkit/Features/gallery";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../Redux Toolkit/Store/store";
-
-// const images = [
-//     "https://t3.ftcdn.net/jpg/04/28/71/26/240_F_428712680_pTl1AvcwjrLJgV6MfD6BiInJPAZAMYE1.jpg",
-//     "https://images.pexels.com/photos/708848/pexels-photo-708848.jpeg",
-//     "https://images.pexels.com/photos/247786/pexels-photo-247786.jpeg",
-//     "https://images.pexels.com/photos/263402/pexels-photo-263402.jpeg",
-//     "https://images.pexels.com/photos/1170979/pexels-photo-1170979.jpeg",
-//     "https://images.pexels.com/photos/2280544/pexels-photo-2280544.jpeg",
-//     "https://t4.ftcdn.net/jpg/04/01/28/69/240_F_401286968_TQJgQz5NMkf24qAQHzvmzE1NWR1QWZqq.jpg",
-//     "https://t3.ftcdn.net/jpg/07/86/33/80/240_F_786338051_K0a7VaD3fxWGI0moq4rvENOmT4ELR2rD.jpg",
-//     "https://t4.ftcdn.net/jpg/07/74/03/73/240_F_774037335_atGFniwq7pTxsk3pFI0WVMzBnzGU5IVO.jpg",
-//     "https://t3.ftcdn.net/jpg/09/59/31/36/240_F_959313678_fHSJiAoVueeJFxIsjp9hRl5cwpiUyF24.jpg",
-//     "https://t4.ftcdn.net/jpg/11/20/21/13/240_F_1120211308_VItrSHzDS9i3TgdU2nyfdUFGkNtprOmz.jpg",
-//     "https://t3.ftcdn.net/jpg/11/74/82/48/240_F_1174824868_rpRvEWef8rMU34JBpeXZz9wlPobHmvNw.jpg",
-//     "https://t4.ftcdn.net/jpg/08/34/67/97/240_F_834679729_6M9eE6OH1gU31Bt1zVOJqhIfEPlFknfz.jpg",
-//     "https://t3.ftcdn.net/jpg/08/39/58/48/240_F_839584841_JJLYOu8gNdmmnRmMzWaumEwMOacQaM71.jpg",
-//     "https://t4.ftcdn.net/jpg/10/16/04/75/240_F_1016047597_hmeFuPBqDGcrVraI7EEN7X7NpCJ9fys9.jpg",
-//     "https://t4.ftcdn.net/jpg/07/77/45/07/240_F_777450763_XsZFnxWsOnypIe0z3FdpDddFDazYxTbn.jpg",
-//     "https://t3.ftcdn.net/jpg/12/23/42/46/240_F_1223424614_cCzXVKyXFLkZvKpcHO37KMhUZZMesAko.jpg",
-//     "https://t3.ftcdn.net/jpg/09/59/31/36/240_F_959313678_fHSJiAoVueeJFxIsjp9hRl5cwpiUyF24.jpg",
-// ];
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const GalleryPages: React.FC = () => {
-
     const [images, setImages] = useState<Gallery[]>([]);
 
     useEffect(() => {
@@ -37,7 +16,7 @@ const GalleryPages: React.FC = () => {
     }, []);
 
     const dispatch = useAppDispatch();
-    const AllGallery = useSelector((state: RootState) => state.gallery.AllGallery);
+    const { AllGallery, loading } = useSelector((state: RootState) => state.gallery);
 
     useEffect(() => {
         dispatch(FetchinGalleryAllData())
@@ -79,31 +58,35 @@ const GalleryPages: React.FC = () => {
                 </div>
             </div>
 
-            {/* Gallery Grid */}
             <div className="container mx-auto px-4 py-12">
                 <h2 className="text-center text-3xl font-bold text-blue-900 mb-8" data-aos="fade-up">
                     Our Gallery
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {images.map((image, index) => (
-                        <motion.div
-                            key={index}
-                            className="overflow-hidden rounded-lg shadow-md"
-                            whileHover={{ scale: 1.05 }}
-                            data-aos="fade-up"
-                        >
-                            <img
-                                src={image.GalleryImg}
-                                alt={`Gallery ${index}`}
-                                className="w-full h-64 object-cover rounded-lg hover:opacity-80 transition duration-300"
-                            />
-                        </motion.div>
-                    ))}
+                    {loading
+                        ? Array.from({ length: 6 }).map((_, index) => (
+                            <div key={index} className="overflow-hidden rounded-lg shadow-md">
+                                <Skeleton height={256} className="w-full rounded-lg" />
+                            </div>
+                        ))
+                        : images.map((image, index) => (
+                            <motion.div
+                                key={index}
+                                className="overflow-hidden rounded-lg shadow-md"
+                                whileHover={{ scale: 1.05 }}
+                                data-aos="fade-up"
+                            >
+                                <img
+                                    src={image.GalleryImg}
+                                    alt={`Gallery ${index}`}
+                                    className="w-full h-64 object-cover rounded-lg hover:opacity-80 transition duration-300"
+                                />
+                            </motion.div>
+                        ))}
                 </div>
             </div>
         </>
     );
 };
-
 export default GalleryPages;
