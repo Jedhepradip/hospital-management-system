@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/Gemini_Generated_Image_jha65qjha65qjha6.jpeg"
 import { IoLocationOutline, IoThumbsUpOutline } from "react-icons/io5";
+import { useUser, UserButton } from "@clerk/clerk-react"
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const { user } = useUser();
     return (
         <>
             <div className="flex flex-col md:flex-row items-center justify-around text-[15px] bg-blue-950 text-white py-2 px-4 text-center md:text-left space-y-2 md:space-y-0">
@@ -135,14 +136,22 @@ const Navbar = () => {
                                 </li>
                             </div>
 
-                            <li className="mt-2 md:mt-0 md:ml-4 md:block hidden">
-                                <Link
-                                    to="/SignupPages"
-                                    className="block bg-white text-black shadow shadow-gray-30 px-5 py-2 mt-1 rounded-lg hover:bg-gray-10 font-medium transition text-center"
-                                >
-                                    Login
-                                </Link>
-                            </li>
+
+                            {!user ? <>
+                                <li className="mt-2 md:mt-0 md:ml-4 md:block hidden">
+                                    <Link
+                                        to="/SignupPages"
+                                        className="block bg-white text-black shadow shadow-gray-30 px-5 py-2 mt-1 rounded-lg hover:bg-gray-10 font-medium transition text-center"
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                            </>
+                                :
+                                <>
+                                    <UserButton />
+                                </>
+                            }
                         </ul>
                     </div>
                 </nav>
