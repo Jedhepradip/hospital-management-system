@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { SpecialAppointment } from "../Redux Toolkit/Features/All-SpecialAppointment";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
@@ -21,7 +22,6 @@ const DoctoreAboutPage: React.FC = () => {
     const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const dispatch = useAppDispatch();
     const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
-
     useEffect(() => {
         dispatch(DetchinAllDoctors())
     }, [dispatch])
@@ -96,6 +96,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<SpecialAppointment>();
 
+    const naviget = useNavigate();
+
     if (!isOpen) {
         return null
     }
@@ -103,8 +105,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
     const onSubmit: SubmitHandler<SpecialAppointment> = async (data: SpecialAppointment) => {
         // const token = localStorage.getItem("token")  
         const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
-        if (!token) {
+        if (token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
+            naviget("/SigninPages")
             return;
         }
 
