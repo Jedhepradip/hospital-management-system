@@ -12,6 +12,7 @@ export interface User {
     contact: number,
     address: string,
     pincode: number
+    isAdmin: boolean,
 }
 
 interface AllUserStateState {
