@@ -5,12 +5,6 @@ import logo from "../assets/Gemini_Generated_Image_jha65qjha65qjha6.jpeg"
 import { IoLocationOutline, IoThumbsUpOutline } from "react-icons/io5";
 import { useUser, UserButton } from "@clerk/clerk-react"
 
-
-// import { useSelector } from "react-redux";
-// import { RootState } from "../Redux Toolkit/Store/store";
-// import { FetchingUserData } from "../Redux Toolkit/Features/User";
-// import { useAppDispatch } from "../Redux Toolkit/Store/store";
-
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { user } = useUser();

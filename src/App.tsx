@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ClerkProvider } from "@clerk/clerk-react";
+// import { ClerkProvider } from "@clerk/clerk-react";
 import { useAppDispatch, RootState } from "./Redux Toolkit/Store/store";
 import { useSelector } from "react-redux";
 import { FetchingUserData } from "./Redux Toolkit/Features/User";
@@ -25,6 +25,7 @@ import Appointment from "./Pages/Appointment";
 import Admin from "./Admin Dashboard/Admin";
 
 import NotFoundPage from "./Pages/NotFoundPage";
+// import { useUser } from "@clerk/clerk-react"
 
 // Component to manage Navbar and Footer visibility
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -58,7 +59,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <>
       <Router>
         <Routes>
           {isAdmin === true ? (
@@ -93,7 +94,7 @@ const App: React.FC = () => {
           )}
         </Routes>
       </Router>
-    </ClerkProvider>
+    </>
   );
 };
 
