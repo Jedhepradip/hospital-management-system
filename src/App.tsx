@@ -1,180 +1,10 @@
-// import React from "react";
-// import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-// import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-
-// import Navbar from "./Components/Navbar";
-// import Footer from "./Components/Footer";
-// import Home from "./Pages/HomePages";
-// import About from "./Pages/AboutPages";
-// import Contact from "./Pages/ContactPages";
-// import Doctors from "./Pages/AllDoctorsPages";
-// import SigninPages from "./Auto/SigninPages";
-// import SignupPages from "./Auto/SingupPages";
-// import SpecialityPage from "./Pages/SpecialityPage";
-// import TopDoctorsList from "./Pages/TopDoctorsList";
-// import BookAppointment from "./Pages/BookAppointment";
-// import DoctoreAboutPage from "./Pages/DoctoreAboutPage";
-// import ForgetPassword from "./Auto/FrogetPassword";
-// import FacilitiesPage from "./Pages/FacilitiesPage";
-// import BlogPage from "./Pages/BlogPage";
-// import GalleryPages from "./Pages/GalleryPages";
-// import Appointment from "./Pages/Appointment";
-// import Admin from "./Admin Dashboard/Admin";
-
-// const Layout: React.FC = () => {
-//   const location = useLocation();
-
-//   // Hide Navbar on specific pages
-//   const hideNavbar =
-//     location.pathname === "/SigninPages" ||
-//     location.pathname === "/SignupPages" ||
-//     location.pathname === "/Admin" ||
-//     location.pathname === "/ForgetPassword";
-
-//   return (
-//     <>
-//       {!hideNavbar && <Navbar />}
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/About" element={<About />} />
-//         <Route path="/BlogPage" element={<BlogPage />} />
-//         <Route path="/Contact" element={<Contact />} />
-//         <Route path="/Doctors" element={<Doctors />} />
-//         <Route path="/SigninPages" element={<SigninPages />} />
-//         <Route path="/SignupPages" element={<SignupPages />} />
-//         <Route path="/FacilitiesPage" element={<FacilitiesPage />} />
-//         <Route path="/Speciality" element={<SpecialityPage />} />
-//         <Route path="/GalleryPages" element={<GalleryPages />} />
-//         <Route path="/TopDoctors" element={<TopDoctorsList />} />
-//         <Route path="/appointment" element={<Appointment />} />
-//         <Route path="/Admin" element={<Admin />} />
-//         <Route path="/ForgetPassword" element={<ForgetPassword />} />
-//         <Route path="/DoctoreAboutPage" element={<DoctoreAboutPage />} />
-//         <Route path="/BookAppointment" element={<BookAppointment />} />
-//       </Routes>
-//       {!hideNavbar && <Footer />}
-//     </>
-//   );
-// };
-
-// const App: React.FC = () => {
-
-//   const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-//   if (!PUBLISHABLE_KEY) {
-//     throw new Error("Missing Publishable Key")
-//   }
-
-//   return (
-//     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
-//       <Router>
-//         {/* Authentication Header */}
-//         <header className="p-4 bg-gray-200 flex justify-between">
-//           <SignedOut>
-//             <SignInButton />
-//           </SignedOut>
-//           <SignedIn>
-//             <UserButton />
-//           </SignedIn>
-//         </header>
-
-//         {/* App Layout with Routing */}
-//         <Layout />
-//       </Router>
-//     </ClerkProvider>
-//   );
-// };
-
-// // export default App;
-// import React from "react";
-// import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-// import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
-
-// import Navbar from "./Components/Navbar";
-// import Footer from "./Components/Footer";
-// import Home from "./Pages/HomePages";
-// import About from "./Pages/AboutPages";
-// import Contact from "./Pages/ContactPages";
-// import Doctors from "./Pages/AllDoctorsPages";
-// import SigninPages from "./Auto/SigninPages";
-// import SignupPages from "./Auto/SingupPages";
-// import SpecialityPage from "./Pages/SpecialityPage";
-// import TopDoctorsList from "./Pages/TopDoctorsList";
-// import BookAppointment from "./Pages/BookAppointment";
-// import DoctoreAboutPage from "./Pages/DoctoreAboutPage";
-// import ForgetPassword from "./Auto/FrogetPassword";
-// import FacilitiesPage from "./Pages/FacilitiesPage";
-// import BlogPage from "./Pages/BlogPage";
-// import GalleryPages from "./Pages/GalleryPages";
-// import Appointment from "./Pages/Appointment";
-// import Admin from "./Admin Dashboard/Admin";
-
-
-
-// const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-// if (!PUBLISHABLE_KEY) {
-//   throw new Error("Missing Publishable Key")
-// }
-
-// const App: React.FC = () => {
-
-//   const location = useLocation();
-
-//   // Hide Navbar on specific pages
-//   const hideNavbar =
-//     location.pathname === "/SigninPages" ||
-//     location.pathname === "/SignupPages" ||
-//     location.pathname === "/Admin" ||
-//     location.pathname === "/ForgetPassword";
-
-//   return (
-//     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-//       {!hideNavbar && <Navbar />}
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/About" element={<About />} />
-//         <Route path="/BlogPage" element={<BlogPage />} />
-//         <Route path="/Contact" element={<Contact />} />
-//         <Route path="/Doctors" element={<Doctors />} />
-//         <Route path="/SigninPages" element={<SigninPages />} />
-//         <Route path="/SignupPages" element={<SignupPages />} />
-//         <Route path="/FacilitiesPage" element={<FacilitiesPage />} />
-//         <Route path="/Speciality" element={<SpecialityPage />} />
-//         <Route path="/GalleryPages" element={<GalleryPages />} />
-//         <Route path="/TopDoctors" element={<TopDoctorsList />} />
-//         <Route path="/appointment" element={<Appointment />} />
-//         <Route path="/Admin" element={<Admin />} />
-//         <Route path="/ForgetPassword" element={<ForgetPassword />} />
-//         <Route path="/DoctoreAboutPage" element={<DoctoreAboutPage />} />
-//         <Route path="/BookAppointment" element={<BookAppointment />} />
-//       </Routes>
-//       {!hideNavbar && <Footer />}
-//     </>
-//     </ClerkProvider >
-//   );
-// };
-
-// const ProtectedRoute: React.FC = () => {
-//   return (
-//     <>
-//       <SignedIn>
-//         <AdminDashboard />
-//       </SignedIn>
-//       <SignedOut>
-//         <RedirectToSignIn />
-//       </SignedOut>
-//     </>
-//   );
-// };
-
-// export default App;
-
-
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
-// , SignedIn, SignedOut, RedirectToSignIn 
+import { useAppDispatch, RootState } from "./Redux Toolkit/Store/store";
+import { useSelector } from "react-redux";
+import { FetchingUserData } from "./Redux Toolkit/Features/User";
+
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import Home from "./Pages/HomePages";
@@ -194,55 +24,74 @@ import GalleryPages from "./Pages/GalleryPages";
 import Appointment from "./Pages/Appointment";
 import Admin from "./Admin Dashboard/Admin";
 
+import NotFoundPage from "./Pages/NotFoundPage";
 
 // Component to manage Navbar and Footer visibility
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const location = useLocation();
-
-  // Pages where Navbar and Footer should be hidden
-  const hideNavbarAndFooter = ["/SigninPages", "/SignupPages", "/Admin", "/ForgetPassword"].includes(location.pathname);
-
   return (
     <>
-      {!hideNavbarAndFooter && <Navbar />}
+      <Navbar />
       {children}
-      {!hideNavbarAndFooter && <Footer />}
+      <Footer />
     </>
   );
 };
 
 const App: React.FC = () => {
-  
-  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-  console.log("PUBLISHABLE_KEY", PUBLISHABLE_KEY);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const userData = useSelector((state: RootState) => state.User);
 
+  useEffect(() => {
+    if (userData) {
+      setIsAdmin(userData.isAdmin);
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    dispatch(FetchingUserData());
+  }, [dispatch]);
+
+  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
   if (!PUBLISHABLE_KEY) {
-    throw new Error("Missing Publishable Key 111");
+    throw new Error("Missing Clerk Publishable Key");
   }
 
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
       <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/About" element={<About />} />
-            <Route path="/BlogPage" element={<BlogPage />} />
-            <Route path="/Contact" element={<Contact />} />
-            <Route path="/Doctors" element={<Doctors />} />
-            <Route path="/SigninPages" element={<SigninPages />} />
-            <Route path="/SignupPages" element={<SignupPages />} />
-            <Route path="/FacilitiesPage" element={<FacilitiesPage />} />
-            <Route path="/Speciality" element={<SpecialityPage />} />
-            <Route path="/GalleryPages" element={<GalleryPages />} />
-            <Route path="/TopDoctors" element={<TopDoctorsList />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="/Admin" element={<Admin />} />
-            <Route path="/ForgetPassword" element={<ForgetPassword />} />
-            <Route path="/DoctoreAboutPage" element={<DoctoreAboutPage />} />
-            <Route path="/BookAppointment" element={<BookAppointment />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          {isAdmin === true ? (
+            // If admin, show only the Admin page
+            <>
+              <Route path="/" element={<Admin />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </>
+          ) : (
+            // If not admin, show all other routes
+            <>
+              <Route path="*" element={<NotFoundPage />} />
+              <Route path="/" element={<Layout><Home /></Layout>} />
+              <Route path="/About" element={<Layout><About /></Layout>} />
+              <Route path="/BlogPage" element={<Layout><BlogPage /></Layout>} />
+              <Route path="/Contact" element={<Layout><Contact /></Layout>} />
+              <Route path="/Doctors" element={<Layout><Doctors /></Layout>} />
+              <Route path="/SigninPages" element={<SigninPages />} />
+              <Route path="/SignupPages" element={<SignupPages />} />
+              <Route path="/FacilitiesPage" element={<Layout><FacilitiesPage /></Layout>} />
+              <Route path="/Speciality" element={<Layout><SpecialityPage /></Layout>} />
+              <Route path="/GalleryPages" element={<Layout><GalleryPages /></Layout>} />
+              <Route path="/TopDoctors" element={<Layout><TopDoctorsList /></Layout>} />
+              <Route path="/Appointment" element={<Layout><Appointment /></Layout>} />
+              <Route path="/ForgetPassword" element={<ForgetPassword />} />
+              <Route path="/DoctoreAboutPage" element={<Layout><DoctoreAboutPage /></Layout>} />
+              <Route path="/BookAppointment" element={<Layout><BookAppointment /></Layout>} />
+
+              {/* Redirect /Admin to Home for non-admins */}
+              <Route path="/Admin" element={<Navigate to="/" />} />
+            </>
+          )}
+        </Routes>
       </Router>
     </ClerkProvider>
   );
