@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FetchinAllUserData, User } from '../Redux Toolkit/Features/User';
+import { FetchinAllUserdataToAdmin, AllUser } from '../Redux Toolkit/Features/All-User';
 import { RootState, useAppDispatch } from '../Redux Toolkit/Store/store';
 import { useSelector } from 'react-redux';
-import { AllUser } from '../Redux Toolkit/Features/All-User';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,7 +19,7 @@ const UserEdit: React.FC<UserEditProps> = ({ UserId, onCancel }) => {
     const dispatch = useAppDispatch();
     const userAll = useSelector((state: RootState) => state.AllUser.AllUser);
 
-    const { register, handleSubmit, reset } = useForm<User>();
+    const { register, handleSubmit, reset } = useForm<AllUser>();
 
     useEffect(() => {
         if (userAll.length > 0) {
@@ -35,10 +34,10 @@ const UserEdit: React.FC<UserEditProps> = ({ UserId, onCancel }) => {
     }, [UserId, userAll, reset, user]);
 
     useEffect(() => {
-        dispatch(FetchinAllUserData());
+        dispatch(FetchinAllUserdataToAdmin());
     }, [dispatch]);
 
-    const onSubmitUserEdit: SubmitHandler<User> = async (data: User) => {
+    const onSubmitUserEdit: SubmitHandler<AllUser> = async (data: AllUser) => {
         if (!token) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
