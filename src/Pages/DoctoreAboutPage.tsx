@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
+import { useUser } from "@clerk/clerk-react";
+
 const DoctoreAboutPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
 
@@ -95,7 +97,7 @@ interface AppointmentModalProps {
 const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<SpecialAppointment>();
-
+    const { user } = useUser()
     const naviget = useNavigate();
 
     if (!isOpen) {
@@ -103,9 +105,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
     }
 
     const onSubmit: SubmitHandler<SpecialAppointment> = async (data: SpecialAppointment) => {
-        // const token = localStorage.getItem("token")  
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
-        if (token) {
+
+        if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             naviget("/SigninPages")
             return;
@@ -122,10 +123,9 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
         formData.append("phonnumber", data.phonnumber || "")
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/create`, formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/create/${user.id}`, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
             });
 

@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
-
 export interface AllUser {
     _id: string,
     fullname: string,
@@ -21,15 +20,15 @@ interface AllUserStateState {
 const initialState: AllUserStateState = {
     AllUser: []
 };
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
 
 export const FetchinAllUserdataToAdmin = () => async (dispatch: AppDispatch) => {
+
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/AllData/Send`, {
-            headers: {
-                // authorization: `Bearer ${localStorage.getItem("Token")}`
-                authorization: `Bearer ${token}`
-            }
+            // headers: {
+            //     // authorization: `Bearer ${localStorage.getItem("Token")}`
+            //     authorization: `Bearer ${token}`
+            // }
         });
         dispatch(SetAllUser(response.data));
     } catch (error) {

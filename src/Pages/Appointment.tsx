@@ -17,14 +17,15 @@ interface FormData {
     message?: string;
 }
 
+import { useUser } from '@clerk/clerk-react';
+
 const Appointment: React.FC = () => {
 
+    const { user } = useUser();
     const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
     const onSubmit = async (data: FormData) => {
-        // const token = localStorage.getItem("token")  
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
-        if (!token) {
+        if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
@@ -38,10 +39,9 @@ const Appointment: React.FC = () => {
         formData.append("message", data.message || "")
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/appointmentsRouter/create`, formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/appointmentsRouter/create/${user.id}`, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
             });
 

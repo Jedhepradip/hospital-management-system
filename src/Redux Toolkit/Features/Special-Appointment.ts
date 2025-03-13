@@ -27,10 +27,10 @@ const initialState: SpecialAppointmentState = {
 
 export const OnlySpecialAppointment = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments`, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem("Token")}`
-            }
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/user-appointments`, {
+            // headers: {
+            //     authorization: `Bearer ${localStorage.getItem("Token")}`
+            // }
         });
         dispatch(SetOnlySpecialAppointment(response.data));
     } catch (error) {

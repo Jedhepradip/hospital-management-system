@@ -76,7 +76,7 @@ const App: React.FC = () => {
       }
     };
     FetchingUserData();
-  }, [user?.id])
+  }, [user, user?.id])
 
 
   return (
