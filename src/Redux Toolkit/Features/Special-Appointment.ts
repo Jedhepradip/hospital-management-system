@@ -25,9 +25,9 @@ const initialState: SpecialAppointmentState = {
     AllOnlySpecialAppointment: []
 };
 
-export const FetchinSpecialAppointment = () => async (dispatch: AppDispatch) => {
+export const FetchinSpecialAppointment = (id: string) => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/user-appointments`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/user-only-send/${id}`, {
             // headers: {
             //     authorization: `Bearer ${localStorage.getItem("Token")}`
             // }

@@ -29,7 +29,9 @@ const ProfilePage: React.FC = () => {
         if (user?.id) {
             dispatch(FetchinPersonalAppointment(user?.id));
         }
-        dispatch(FetchinSpecialAppointment());
+        if (user?.id) {
+            dispatch(FetchinSpecialAppointment(user?.id));
+        }
     }, [dispatch, user?.id]);
 
     if (!isSignedIn) {
@@ -54,7 +56,7 @@ const ProfilePage: React.FC = () => {
                     <img
                         src={user.imageUrl || "https://via.placeholder.com/100"}
                         alt="Profile"
-                        className="w-16 h-16 rounded-full border"
+                        className="md:w-16 md:h-16 w-12 h-12 rounded-full border"
                     />
                     <div>
                         <h2 className="text-xl font-bold">{user.fullName || "No Name"}</h2>
@@ -103,7 +105,7 @@ const ProfilePage: React.FC = () => {
                         <div>
                             <p className="font-medium">{apt.selectDoctor}</p>
                             <p className="text-sm text-gray-600">
-                            {new Date(apt.date).toLocaleDateString()} at {apt.time}
+                                {new Date(apt.date).toLocaleDateString()} at {apt.time}
                             </p>
                         </div>
                         <span
