@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
 import logo from "../assets/Gemini_Generated_Image_jha65qjha65qjha6.jpeg"
 import { IoLocationOutline, IoThumbsUpOutline } from "react-icons/io5";
-import { useUser, UserButton } from "@clerk/clerk-react"
+import { useUser } from "@clerk/clerk-react"
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -136,15 +137,16 @@ const Navbar = () => {
                                     <li className="mt-2 md:mt-0 md:ml-4 md:hidden block pb-5">
                                         <Link
                                             to="/SignupPages"
-                                            className="block bg-slate-100text-[18px] font-bold text-black py-2 mt-2  rounded-lg transition text-center"
+                                            className="block bg-slate-100 text-[18px] font-bold text-black py-2 mt-2  rounded-lg transition text-center"
                                         >
                                             Login
                                         </Link>
                                     </li>
                                 </>
                                     :
-                                    <div className="md:hidden block">
-                                        <UserButton />
+                                    <div className="md:hidden block mt-2 mb-3 text-2xl">
+                                        {/* <UserButton /> */}
+                                        <FaRegUserCircle />
                                     </div>
                                 }
                             </div>
@@ -161,8 +163,9 @@ const Navbar = () => {
                             </>
                                 :
                                 <>
-                                    <div className="md:block hidden mt-2">
-                                        <UserButton />
+                                    <div className="md:block hidden mt-3 text-2xl">
+                                        {/* <UserButton /> */}
+                                        <FaRegUserCircle />
                                     </div>
                                 </>
                             }
@@ -170,10 +173,6 @@ const Navbar = () => {
                     </div>
                 </nav>
             </div>
-
-            {/* </>} */}
-
-
         </>
     );
 };
