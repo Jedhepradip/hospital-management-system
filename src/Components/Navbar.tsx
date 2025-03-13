@@ -132,16 +132,22 @@ const Navbar = () => {
 
                                 </li>
 
-                                <li className="mt-2 md:mt-0 md:ml-4 md:hidden block pb-5">
-                                    <Link
-                                        to="/SignupPages"
-                                        className="block bg-slate-100text-[18px] text-white px-5 ml-5 py-2 mt-2  rounded-lg transition text-center"
-                                    >
-                                        Created Account
-                                    </Link>
-                                </li>
+                                {!user ? <>
+                                    <li className="mt-2 md:mt-0 md:ml-4 md:hidden block pb-5">
+                                        <Link
+                                            to="/SignupPages"
+                                            className="block bg-slate-100text-[18px] font-bold text-black py-2 mt-2  rounded-lg transition text-center"
+                                        >
+                                            Login
+                                        </Link>
+                                    </li>
+                                </>
+                                    :
+                                    <div className="md:hidden block">
+                                        <UserButton />
+                                    </div>
+                                }
                             </div>
-
 
                             {!user ? <>
                                 <li className="mt-2 md:mt-0 md:ml-4 md:block hidden">
@@ -155,7 +161,9 @@ const Navbar = () => {
                             </>
                                 :
                                 <>
-                                    <UserButton />
+                                    <div className="md:block hidden mt-2">
+                                        <UserButton />
+                                    </div>
                                 </>
                             }
                         </ul>

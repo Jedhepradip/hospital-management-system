@@ -25,7 +25,8 @@ import Appointment from "./Pages/Appointment";
 import Admin from "./Admin Dashboard/Admin";
 
 import NotFoundPage from "./Pages/NotFoundPage";
-// import { useUser } from "@clerk/clerk-react"
+import axios from "axios";
+import { useUser } from "@clerk/clerk-react"
 
 // Component to manage Navbar and Footer visibility
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -43,6 +44,8 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const userData = useSelector((state: RootState) => state.User);
 
+  const { user } = useUser();
+
   useEffect(() => {
     if (userData) {
       setIsAdmin(userData.isAdmin);
@@ -57,6 +60,24 @@ const App: React.FC = () => {
   if (!PUBLISHABLE_KEY) {
     throw new Error("Missing Clerk Publishable Key");
   }
+
+  useEffect(() => {
+    const FetchingUserData = async () => {
+      if (!user) {
+        return
+      }
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/user/${user?.id}`, {
+        });
+
+        setIsAdmin(response.data?.isAdmin) // Ensure response.data matches the expected structure
+      } catch (error) {
+        console.error("Error fetching all appointments:", error);
+      }
+    };
+    FetchingUserData();
+  }, [user?.id])
+
 
   return (
     <>

@@ -25,7 +25,7 @@ const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIs
 
 export const FetchinAllUserdataToAdmin = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/UserRouther/AllData/Send`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/AllData/Send`, {
             headers: {
                 // authorization: `Bearer ${localStorage.getItem("Token")}`
                 authorization: `Bearer ${token}`

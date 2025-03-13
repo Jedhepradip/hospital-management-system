@@ -31,7 +31,7 @@ const initialState: User = {
 // Async thunk for fetching user data
 export const FetchingUserData = () => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/Get-All-Appointments/${useUser}`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/use`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("Token")}`,
             },
