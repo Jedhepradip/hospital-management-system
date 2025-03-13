@@ -144,10 +144,12 @@ const Navbar = () => {
                                     </li>
                                 </>
                                     :
-                                    <div className="md:hidden block mt-2 mb-3 text-2xl">
-                                        {/* <UserButton /> */}
-                                        <FaRegUserCircle />
-                                    </div>
+                                    <Link to={"/ProfilePage"}>
+                                        <div className="md:hidden block mt-2 mb-3 text-2xl">
+                                            {/* <UserButton /> */}
+                                            <FaRegUserCircle />
+                                        </div>
+                                    </Link>
                                 }
                             </div>
 
@@ -163,10 +165,12 @@ const Navbar = () => {
                             </>
                                 :
                                 <>
-                                    <div className="md:block hidden mt-3 text-2xl">
-                                        {/* <UserButton /> */}
-                                        <FaRegUserCircle />
-                                    </div>
+                                    <Link to={"/ProfilePage"}>
+                                        <div className="md:block hidden mt-3 text-2xl">
+                                            {/* <UserButton /> */}
+                                            <FaRegUserCircle />
+                                        </div>
+                                    </Link>
                                 </>
                             }
                         </ul>

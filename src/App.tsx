@@ -23,7 +23,7 @@ import BlogPage from "./Pages/BlogPage";
 import GalleryPages from "./Pages/GalleryPages";
 import Appointment from "./Pages/Appointment";
 import Admin from "./Admin Dashboard/Admin";
-
+import ProfilePage from "./Pages/ProfilePage";
 import NotFoundPage from "./Pages/NotFoundPage";
 import axios from "axios";
 import { useUser } from "@clerk/clerk-react"
@@ -106,6 +106,7 @@ const App: React.FC = () => {
               <Route path="/TopDoctors" element={<Layout><TopDoctorsList /></Layout>} />
               <Route path="/Appointment" element={<Layout><Appointment /></Layout>} />
               <Route path="/ForgetPassword" element={<ForgetPassword />} />
+              <Route path="/ProfilePage" element={<Layout><ProfilePage /></Layout>} />
               <Route path="/DoctoreAboutPage" element={<Layout><DoctoreAboutPage /></Layout>} />
               <Route path="/BookAppointment" element={<Layout><BookAppointment /></Layout>} />
 

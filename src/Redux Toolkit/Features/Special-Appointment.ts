@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface OnlySpecialAppointment {
+export interface OnlySpecialAppointment {
     id: string,
     UserId: string;
     patientName: string;
@@ -25,7 +25,7 @@ const initialState: SpecialAppointmentState = {
     AllOnlySpecialAppointment: []
 };
 
-export const OnlySpecialAppointment = () => async (dispatch: AppDispatch) => {
+export const FetchinSpecialAppointment = () => async (dispatch: AppDispatch) => {
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/user-appointments`, {
             // headers: {

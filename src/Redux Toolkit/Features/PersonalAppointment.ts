@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
 
-interface PersonalAppointment {
+export interface PersonalAppointment {
     UserId: string;
     choosedepartment: string;
     selectDoctor: string;
@@ -24,9 +24,9 @@ const initialState: PersonalAppointmentState = {
     PersonalAppointment: []
 };
 
-export const FetchinPersonalAppointment = () => async (dispatch: AppDispatch) => {
+export const FetchinPersonalAppointment = (id: string) => async (dispatch: AppDispatch) => {
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/user-appointments`, {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-appointments/appointmentsRouter/user-appointments/${id}`, {
             // headers: {
             //     authorization: `Bearer ${localStorage.getItem("Token")}`
             // }
