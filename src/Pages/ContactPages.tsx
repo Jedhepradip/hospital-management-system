@@ -30,7 +30,7 @@ const ContactPages: React.FC = () => {
         formData.append("topic", data.topic)
         formData.append("name", data.fullName)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-contact/contactRouter/submit`, formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-contact/Contact-save`, {formData}, {
                 headers: {
                     "Content-Type": "application/json",
                 },
