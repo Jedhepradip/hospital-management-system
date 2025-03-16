@@ -60,15 +60,19 @@ const App: React.FC = () => {
   if (!PUBLISHABLE_KEY) {
     throw new Error("Missing Clerk Publishable Key");
   }
+  console.log("user pradip", user?.id);
 
   useEffect(() => {
     const FetchingUserData = async () => {
       if (!user) {
         return
       }
+      console.log("okokok");
+      
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-user/user/${user?.id}`, {
         });
+        console.log("response.data :", response.data);
 
         setIsAdmin(response.data?.isAdmin) // Ensure response.data matches the expected structure
       } catch (error) {
@@ -78,7 +82,8 @@ const App: React.FC = () => {
     FetchingUserData();
   }, [user, user?.id])
 
-
+  console.log(isAdmin);
+  
   return (
     <>
       <Router>
