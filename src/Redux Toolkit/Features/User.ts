@@ -1,8 +1,6 @@
-// User Slice
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../Store/store";
 import axios from "axios";
-import { useUser } from "@clerk/clerk-react"
 
 // Define the user state type
 export interface User {
@@ -36,9 +34,9 @@ export const FetchingUserData = () => async (dispatch: AppDispatch) => {
                 authorization: `Bearer ${localStorage.getItem("Token")}`,
             },
         });
-        dispatch(SetUser(response.data)); // Ensure response.data matches the expected structure
+        dispatch(SetUser(response.data));
     } catch (error) {
-        console.error("Error fetching all appointments:", error);
+        console.error("Error fetching user data:", error);
     }
 };
 
@@ -48,7 +46,7 @@ const UserSlice = createSlice({
     initialState,
     reducers: {
         SetUser: (state, action: PayloadAction<User>) => {
-            return action.payload; // Replace the state with new user data
+            return { ...state, ...action.payload }; // Properly update state
         },
     },
 });
