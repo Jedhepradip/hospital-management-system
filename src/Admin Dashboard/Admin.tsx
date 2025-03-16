@@ -23,17 +23,20 @@ import { AllAppointment, FetchinAllAppointment } from '../Redux Toolkit/Features
 import { DetchinAllSpecialAppointment, SpecialAppointment } from '../Redux Toolkit/Features/All-SpecialAppointment';
 import { FaChartBar, FaUsers, FaHospital, FaUserMd, FaBlog, FaSignOutAlt, FaCalendarCheck, FaCalendar } from 'react-icons/fa';
 
+import { useUser } from "@clerk/clerk-react"
+
 interface ImgComponents {
     imageUrl: string,
 }
-
-const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
+// const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY3YzY5MjExY2Q0ZTI0N2U5YjNjNjdiZCIsImVtYWlsIjoiUHJhZGlqZWRoZWRAZ2FpbC5jb20iLCJuYW1lIjoicHJhZGlwIn0.P2ovZ3fyS2Ml82puLqQbdVyg7EjY4F3iyVnG3izUosQ"
 
 type FormData = AllDoctors & AllFacility & Blog & AllAppointment & AllUser & ImgComponents
 
 const categories = ["All", "Cardiology", "Gynecology", "Neurology", "Orthopedics", "Spine Injury", "Uncategorized", "Infectious", "Medical Breakthroughs", "Life Style"];
 
 const Admin: React.FC = () => {
+
+    const { user } = useUser();
 
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [users, setUsers] = useState<AllUser[]>([]);
@@ -96,7 +99,7 @@ const Admin: React.FC = () => {
 
     const onSubmitDoctor: SubmitHandler<AllDoctors> = async (data) => {
         // const token = localStorage.getItem("token")
-        if (!token) {
+        if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
@@ -111,7 +114,6 @@ const Admin: React.FC = () => {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Doctors/DoctorsRouter/register`, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
             });
 
@@ -137,7 +139,7 @@ const Admin: React.FC = () => {
     };
 
     const onSubmitFacility: SubmitHandler<AllFacility> = async (data: AllFacility) => {
-        if (!token) {
+        if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
@@ -149,7 +151,6 @@ const Admin: React.FC = () => {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Facility/FacilityRouter/create`, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
             });
 
@@ -178,7 +179,7 @@ const Admin: React.FC = () => {
 
     const onSubmitBlog: SubmitHandler<Blog> = async (data: Blog) => {
         // const token = localStorage.getItem("token")
-        if (!token) {
+        if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
@@ -191,10 +192,9 @@ const Admin: React.FC = () => {
         formData.append("title", data.title)
         formData.append("readMoreLink", data.readMoreLink)
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/create   `, formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-blog/Blogrouter/create`, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
             });
 
@@ -223,7 +223,7 @@ const Admin: React.FC = () => {
 
     const onSubmitImage: SubmitHandler<ImgComponents> = async (data) => {
         // const token = localStorage.getItem("token")
-        if (!token) {
+        if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
@@ -234,7 +234,6 @@ const Admin: React.FC = () => {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api-Gallery/Galleryrouter/create   `, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: `Bearer ${token}`, // Send Bearer Token
                 },
             });
 
@@ -272,17 +271,13 @@ const Admin: React.FC = () => {
     }, [dispatch])
 
     const handleDelete = async (id: string, apiPath: string) => {
-        if (!token) {
+        if (!user) {
             toast.error("Failed to delete item. Please login first.", { position: "top-right", autoClose: 3000 });
             return;
         }
 
         try {
-            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}${apiPath}/delete/${id}`, {
-                headers: {
-                    authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}${apiPath}/delete/${id}`, {});
 
             const responseData = response.data;
 
@@ -307,18 +302,14 @@ const Admin: React.FC = () => {
 
     const handleStatusChangeappointment = async (id: string, status: string) => {
         try {
-            if (!token) {
+            if (!user) {
                 toast.error("Unauthorized! Please log in again.");
                 return;
             }
 
             const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api-appointments/appointmentsRouter/update/${id}`,
-                { status },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+                { status });
 
             const responseData = response.data; // Fixed typo
 
@@ -370,18 +361,14 @@ const Admin: React.FC = () => {
 
     const handleStatusChangeSpcileappointment = async (id: string, status: string) => {
         try {
-            if (!token) {
+            if (!user) {
                 toast.error("Unauthorized! Please log in again.");
                 return;
             }
 
             const response = await axios.put(
                 `${import.meta.env.VITE_BACKEND_URL}/api-Specile/SpecileAppointments/statue/update/${id}`,
-                { status },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+                { status });
             const responseData = response.data; // Fixed typo
             if (response.status === 200 || response.status === 201) {
                 toast.success(responseData.message, { position: "top-right", autoClose: 3000 });

@@ -23,7 +23,9 @@ const DoctoreAboutPage: React.FC = () => {
     // const [selectedSpecialty, setSelectedSpecialty] = useState("");
     const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const dispatch = useAppDispatch();
+
     const alldcotors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
+
     useEffect(() => {
         dispatch(DetchinAllDoctors())
     }, [dispatch])
@@ -33,8 +35,11 @@ const DoctoreAboutPage: React.FC = () => {
             setalldoctors(alldcotors)
         }
     }, [alldcotors])
+    
+    console.log("filterdoctore",id);    
 
     const filterdoctore = doctors.find((doc) => doc._id === id);
+    
     const ReativeDoctore = doctors.filter((doct) => doct.specialization === filterdoctore?.specialization);
 
     return (

@@ -35,7 +35,7 @@ const TopDoctorsList: React.FC = () => {
             <p className="text-center text-gray-600 mb-8">
                 Simply browse through our extensive list of trusted doctors.
             </p>
-            
+
             <motion.div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
                 initial={{ opacity: 0, y: 50 }}
@@ -54,7 +54,7 @@ const TopDoctorsList: React.FC = () => {
                     ))
                     : doctors.map((doctor, index) => (
                         <NavLink
-                            to={`/DoctoreAboutPage?doctorName=${encodeURIComponent(doctor.name)}`}
+                            to={`/DoctoreAboutPage/${doctor._id}`}
                             key={index}
                         >
                             <motion.div
@@ -82,7 +82,7 @@ const TopDoctorsList: React.FC = () => {
                         </NavLink>
                     ))}
             </motion.div>
-            
+
         </div>
     );
 };

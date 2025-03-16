@@ -105,7 +105,7 @@ const App: React.FC = () => {
               <Route path="/Appointment" element={<Layout><Appointment /></Layout>} />
               <Route path="/ForgetPassword" element={<ForgetPassword />} />
               <Route path="/ProfilePage" element={<Layout><ProfilePage /></Layout>} />
-              <Route path="/DoctoreAboutPage" element={<Layout><DoctoreAboutPage /></Layout>} />
+              <Route path="/DoctoreAboutPage/:id" element={<Layout><DoctoreAboutPage /></Layout>} />
               <Route path="/BookAppointment" element={<Layout><BookAppointment /></Layout>} />
 
               {/* Redirect /Admin to Home for non-admins */}

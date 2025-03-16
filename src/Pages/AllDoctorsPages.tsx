@@ -177,9 +177,7 @@ const AllDoctorsPages: React.FC = () => {
               .map((doctor) => (
                 <NavLink
                   key={doctor._id}
-                  to={`/DoctoreAboutPage?doctorID=${encodeURIComponent(
-                    doctor?._id
-                  )}`}
+                  to={`/DoctoreAboutPage/${doctor._id}`}
                 >
                   <div className="p-5 rounded-2xl transition duration-300 border border-black">
                     <img
