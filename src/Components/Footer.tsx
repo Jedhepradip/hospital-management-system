@@ -70,14 +70,25 @@ export default function Footer() {
                 </div>
 
                 {/* Social Media & Footer Bottom Section */}
-                <div className="flex flex-col md:flex-row items-center justify-between mt-6">
+                <div className="flex flex-col md:flex-row items-center justify-between mt-6 md:px-20">
                     {/* Social Media Icons */}
                     <div className="flex space-x-4">
-                        <FaFacebook className="text-blue-600 text-2xl cursor-pointer hover:text-blue-800" />
-                        <FaTwitter className="text-blue-400 text-2xl cursor-pointer hover:text-blue-600" />
-                        <FaLinkedin className="text-blue-700 text-2xl cursor-pointer hover:text-blue-900" />
-                        <FaInstagram className="text-pink-500 text-2xl cursor-pointer hover:text-pink-700" />
-                        <FaYoutube className="text-red-600 text-2xl cursor-pointer hover:text-red-800" />
+
+                        <a href="https://www.facebook.com/">
+                            <FaFacebook className="text-blue-600 text-2xl cursor-pointer hover:text-blue-800" />
+                        </a>
+                        <a href="https://www.facebook.com/">
+                            <FaTwitter className="text-blue-400 text-2xl cursor-pointer hover:text-blue-600" />
+                        </a>
+                        <a href="https://www.linkedin.com/">
+                            <FaLinkedin className="text-blue-700 text-2xl cursor-pointer hover:text-blue-900" />
+                        </a>
+                        <a href="https://www.instagram.com/">
+                            <FaInstagram className="text-pink-500 text-2xl cursor-pointer hover:text-pink-700" />
+                        </a>
+                        <a href="https://www.youtube.com/">
+                            <FaYoutube className="text-red-600 text-2xl cursor-pointer hover:text-red-800" />
+                        </a>
                     </div>
 
                     {/* Footer Bottom */}

@@ -20,7 +20,7 @@ const DoctoreAboutPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
 
     const [isModalOpen, setModalOpen] = useState(false);
-    // const [selectedSpecialty, setSelectedSpecialty] = useState("");
+    const [doctorID, SetId] = useState<string | undefined>('');
     const [doctors, setalldoctors] = useState<AllDoctors[]>([])
     const dispatch = useAppDispatch();
 
@@ -35,11 +35,14 @@ const DoctoreAboutPage: React.FC = () => {
             setalldoctors(alldcotors)
         }
     }, [alldcotors])
-    
-    console.log("filterdoctore",id);    
+
+    const sedAllData = (id: string | undefined) => {
+        SetId(id)
+        setModalOpen(true)
+    }
 
     const filterdoctore = doctors.find((doc) => doc._id === id);
-    
+
     const ReativeDoctore = doctors.filter((doct) => doct.specialization === filterdoctore?.specialization);
 
     return (
@@ -61,7 +64,7 @@ const DoctoreAboutPage: React.FC = () => {
                         <motion.button
                             className="mt-6 bg-blue-900 text-white px-2 py-3 w-[40%] text-sm rounded-lg hover:bg-blue-600 transition-all duration-300"
                             whileTap={{ scale: 0.9 }}
-                            onClick={() => setModalOpen(true)} // Open modal
+                            onClick={() => sedAllData(filterdoctore?._id)} // Open modal
                         >
                             Book Appointment
                         </motion.button>
@@ -89,28 +92,38 @@ const DoctoreAboutPage: React.FC = () => {
             </div>
 
             {/* Appointment Modal Component */}
-            <AppointmentModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+            <AppointmentModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} doctorID={doctorID} />
         </div>
     );
 };
 
 interface AppointmentModalProps {
     isOpen: boolean;
+    doctorID: string | undefined
     onClose: () => void;
 }
 
-const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) => {
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose, doctorID }) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm<SpecialAppointment>();
     const { user } = useUser()
     const naviget = useNavigate();
 
+    const dispatch = useAppDispatch();
+
+    const doctors = useSelector((state: RootState) => state.AllDoctors.AllDoctors);
+
+    useEffect(() => {
+        dispatch(DetchinAllDoctors())
+    }, [dispatch])
+
     if (!isOpen) {
         return null
     }
 
-    const onSubmit: SubmitHandler<SpecialAppointment> = async (data: SpecialAppointment) => {
+    const filterdoctore = doctors.find((doc) => doc._id === doctorID);
 
+    const onSubmit: SubmitHandler<SpecialAppointment> = async (data: SpecialAppointment) => {
         if (!user) {
             toast.error("Failed to book appointment. Please login first.", { position: "top-right", autoClose: 3000 });
             naviget("/SigninPages")
@@ -194,16 +207,13 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
                         <option value="Neurology">Neurology</option>
                         <option value="Orthopedics">Orthopedics</option>
                     </select>
+
                     {errors.department && <p className="text-red-500 text-sm col-span-2">{errors.department.message}</p>}
 
                     {/* Doctor Selection */}
-                    <select {...register("doctor", { required: "Doctor selection is required" })}
-                        className="w-full p-3 border border-gray-300">
-                        <option value="">Select Doctor</option>
-                        <option value="Dr. John Doe">Dr. John Doe</option>
-                        <option value="Dr. Lisa Smith">Dr. Lisa Smith</option>
-                        <option value="Dr. Michael Brown">Dr. Michael Brown</option>
-                    </select>
+                    <input {...register("doctor", { required: "Doctor selection is required" })}
+                        className="w-full p-3 border border-gray-300" value={filterdoctore?.name} />
+
                     {errors.doctor && <p className="text-red-500 text-sm col-span-2">{errors.doctor.message}</p>}
 
                     {/* Date */}
