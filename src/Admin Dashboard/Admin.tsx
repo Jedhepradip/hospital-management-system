@@ -771,7 +771,7 @@ const Admin: React.FC = () => {
                             </>
                             :
                             <>
-                                <div className="p-6 bg-gray-100 min-h-screen">
+                                {/* <div className="p-6 bg-gray-100 ">
                                     <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Blog Post</h3>
                                     <form
                                         onSubmit={handleSubmit(onSubmitBlog)}
@@ -886,7 +886,139 @@ const Admin: React.FC = () => {
                                             <p className="text-gray-500 text-center">No blog posts added yet.</p>
                                         )}
                                     </div>
+                                </div> */}
+
+                                <div className="p-6 bg-gray-100">
+                                    <h3 className="text-xl font-semibold mb-4 text-gray-700">Add Blog Post</h3>
+                                    <form
+                                        onSubmit={handleSubmit(onSubmitBlog)}
+                                        className="bg-white shadow-md p-6 rounded-lg mb-6 space-y-4"
+                                    >
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div className="w-full">
+                                                <select
+                                                    {...register("category", { required: "Category is required" })}
+                                                    className="border p-4 w-full rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                                >
+                                                    <option value="">Select Category</option>
+                                                    {categories.map((category, index) => (
+                                                        <option key={index} value={category}>{category}</option>
+                                                    ))}
+                                                </select>
+                                                {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+                                            </div>
+                                            <div className="w-full">
+                                                <input
+                                                    type="date"
+                                                    {...register("date", { required: true })}
+                                                    className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+                                                />
+                                                {errors.date && <p className="text-red-500 text-sm">Date is required</p>}
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div className="w-full">
+                                                <input
+                                                    type="text"
+                                                    {...register("hospital", { required: true })}
+                                                    placeholder="Hospital"
+                                                    className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+                                                />
+                                                {errors.hospital && <p className="text-red-500 text-sm">Hospital name is required</p>}
+                                            </div>
+                                            <div className="w-full">
+                                                <input
+                                                    type="text"
+                                                    {...register("title", { required: true })}
+                                                    placeholder="Title"
+                                                    className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+                                                />
+                                                {errors.title && <p className="text-red-500 text-sm">Title is required</p>}
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div className="w-full">
+                                                <input
+                                                    type="url"
+                                                    {...register("imageUrl", { required: true })}
+                                                    placeholder="Image URL"
+                                                    className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+                                                />
+                                                {errors.imageUrl && <p className="text-red-500 text-sm">Image URL is required</p>}
+                                            </div>
+                                            <div className="w-full">
+                                                <input
+                                                    type="text"
+                                                    {...register("readMoreLink")}
+                                                    placeholder="Read More Link"
+                                                    className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-300"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <textarea
+                                            {...register("description", { required: true })}
+                                            placeholder="Description"
+                                            className="border p-3 rounded-lg w-full mt-4 focus:ring-2 focus:ring-blue-300"
+                                        ></textarea>
+                                        {errors.description && <p className="text-red-500 text-sm">Description is required</p>}
+
+                                        <button
+                                            type="submit"
+                                            className="bg-blue-950 text-white p-3 mt-4 w-full hover:bg-blue-900 transition text-sm md:text-base rounded-lg"
+                                        >
+                                            Add Blog
+                                        </button>
+                                    </form>
+
+                                    <h3 className="text-xl font-semibold mb-4 text-gray-700">Blog Posts List</h3>
+                                    <div className="space-y-4 bg-gray-100">
+                                        {blogs.length > 0 ? (
+                                            blogs.map((blog) => (
+                                                <div
+                                                    key={blog._id}
+                                                    className="flex flex-col sm:flex-row items-center bg-white p-4 shadow-md rounded-lg gap-4"
+                                                >
+                                                    {blog.imageUrl && (
+                                                        <img
+                                                            src={blog.imageUrl}
+                                                            alt={blog.title}
+                                                            className="w-24 h-24 object-cover rounded-lg sm:w-32 sm:h-32"
+                                                        />
+                                                    )}
+                                                    <div className="flex-1 text-center sm:text-left">
+                                                        <h4 className="text-lg font-semibold text-gray-800">{blog.title}</h4>
+                                                        <p className="text-gray-600 text-sm">🏥 <b>Hospital:</b> {blog.hospital}</p>
+                                                        <p className="text-gray-600 text-sm">📅 <b>Date:</b> {blog.date}</p>
+                                                        <p className="text-gray-600 text-sm">📌 <b>Category:</b> {blog.category}</p>
+                                                        <p className="text-gray-600 text-sm truncate">
+                                                            📝 <b>Description:</b> {blog.description.split(' ').slice(0, 9).join(' ')}{blog.description.split(' ').length > 10 ? '...' : ''}
+                                                        </p>
+                                                    </div>
+                                                    <div className="space-x-2">
+                                                        <button
+                                                            onClick={() => handleEditClick(blog._id)}
+                                                            className="text-blue-500 hover:text-blue-700 transition"
+                                                        >
+                                                            <FiEdit2 />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteBlog(blog?._id)}
+                                                            className="text-red-500 hover:text-red-700 transition"
+                                                        >
+                                                            <FiTrash2 />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-gray-500 text-center">No blog posts added yet.</p>
+                                        )}
+                                    </div>
                                 </div>
+
                             </>
                         }
                     </>
