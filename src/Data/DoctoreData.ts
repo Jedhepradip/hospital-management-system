@@ -180,10 +180,7 @@ export const doctors = [
         "about": "Dr. Scott provides top-notch reproductive healthcare for women, specializing in hormonal imbalances and infertility treatments.",
         "appointment_fee": "$30"
     }
-];
-
-
-
+]
 
 
 // import Cardiology1 from "../assets/Blog images/Blog1.webp"
