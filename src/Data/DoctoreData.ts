@@ -108,6 +108,7 @@ export const doctors = [
         "about": "Dr. Lee is an expert in treating neurological disorders, focusing on epilepsy, Parkinson's disease, and multiple sclerosis management.",
         "appointment_fee": "$55"
     },
+    
     {
         "name": "Dr. Sophia Patel",
         "specialization": "Gastroenterologist",
