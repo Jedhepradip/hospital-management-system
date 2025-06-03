@@ -19,6 +19,7 @@ import Doctorimg18 from '../assets/DoctorImg18.png';
 import Doctorimg19 from '../assets/DoctorImg19.png';
 import Doctorimg20 from '../assets/DoctorImg20.png';
 
+
 export const doctors = [
     {
         "name": "Dr. Ryan Martinez",
