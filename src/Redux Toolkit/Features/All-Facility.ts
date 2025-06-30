@@ -67,9 +67,9 @@ export const DetchinAllFacility = () => async (dispatch: AppDispatch) => {
     dispatch(setLoading(true)); // Set loading before fetching
     try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api-Facility/FacilityRouter/Facility/All`);
-        if (response.status === 200) {
+        // if (response.status === 200) {
             dispatch(SetAllFacility(response.data));
-        }
+        // }
         dispatch(setLoading(false));
     } catch (error) {
         console.error("Error fetching all facilities:", error);
