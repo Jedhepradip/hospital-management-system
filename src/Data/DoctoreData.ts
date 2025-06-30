@@ -19,6 +19,7 @@ import Doctorimg18 from '../assets/DoctorImg18.png';
 import Doctorimg19 from '../assets/DoctorImg19.png';
 import Doctorimg20 from '../assets/DoctorImg20.png';
 
+
 export const doctors = [
     {
         "name": "Dr. Ryan Martinez",
@@ -108,6 +109,7 @@ export const doctors = [
         "about": "Dr. Lee is an expert in treating neurological disorders, focusing on epilepsy, Parkinson's disease, and multiple sclerosis management.",
         "appointment_fee": "$55"
     },
+    
     {
         "name": "Dr. Sophia Patel",
         "specialization": "Gastroenterologist",
@@ -180,10 +182,7 @@ export const doctors = [
         "about": "Dr. Scott provides top-notch reproductive healthcare for women, specializing in hormonal imbalances and infertility treatments.",
         "appointment_fee": "$30"
     }
-];
-
-
-
+]
 
 
 // import Cardiology1 from "../assets/Blog images/Blog1.webp"
